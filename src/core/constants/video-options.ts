@@ -1,3 +1,6 @@
+export const DEFAULT_THUMBNAIL_WIDTH = 320;
+export const THUMBNAIL_JPEG_QUALITY = '0.8';
+
 /**
  * 视频导出/编辑选项常量
  */

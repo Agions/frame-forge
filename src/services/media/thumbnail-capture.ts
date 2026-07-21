@@ -1,10 +1,9 @@
 /**
  * 视频缩略图生成 (DOM Canvas)
- * =============================
- * 把 video 帧绘制到 canvas 并转 dataURL。
- * 单一职责：canvas 截帧。无业务编排。
  */
-import { DEFAULT_THUMBNAIL_WIDTH, THUMBNAIL_JPEG_QUALITY } from './video-constants';
+import { DEFAULT_THUMBNAIL_WIDTH } from '@/core/constants/video-options';
+
+const THUMBNAIL_JPEG_QUALITY = 0.8;
 
 /**
  * 在指定时间戳截取视频帧，返回 JPEG dataURL。

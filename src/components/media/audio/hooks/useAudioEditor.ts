@@ -40,7 +40,7 @@ import {
   audioEditorReducer,
   initialAudioEditorState,
   createAudioEditorSetters,
-} from './useAudioEditor-reducer';
+} from './useAudioEditorReducer';
 import { useRecording } from './useRecording';
 
 interface UseAudioEditorOptions {

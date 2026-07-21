@@ -1,18 +1,12 @@
 /**
  * ProjectEditProvider — Page-level state container for the project edit workflow.
  *
- * State management + actions extracted to use-project-edit-actions.ts.
+ * State management + actions extracted to useProjectEditActions.ts.
  * This file is now lean: just wires state setters to the actions hook
  * and exposes the context value.
  */
 
-import {
-  createContext,
-  useContext,
-  useMemo,
-  useState,
-  useTransition,
-} from 'react';
+import { createContext, useContext, useMemo, useState, useTransition } from 'react';
 
 import type { ScriptImportMetadata } from '@/components/ai';
 import { useProject } from '@/core/hooks/useProject';
@@ -21,7 +15,7 @@ import type { Character, CompositionProject, StoryAnalysis } from '@/shared/type
 import type { AudioTrackConfig } from '@/shared/types/audio';
 
 import { initialProjectEditState, type ProjectEditContextValue } from './project-edit-state';
-import { useProjectEditActions } from './use-project-edit-actions';
+import { useProjectEditActions } from './useProjectEditActions';
 
 export type { ProjectEditContextValue } from './project-edit-state';
 

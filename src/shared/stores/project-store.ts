@@ -9,8 +9,8 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import type { ProjectData } from '@/shared/types/project';
 
 import { createDebouncedStorage } from './middlewares/persistWithDebounce';
-import { createCurrentProjectSlice } from './slices/currentProject-slice';
-import { createProjectSlice } from './slices/project-slice';
+import { createCurrentProjectSlice } from './slices/currentProjectSlice';
+import { createProjectSlice } from './slices/projectSlice';
 
 export interface ProjectState {
   // 项目列表

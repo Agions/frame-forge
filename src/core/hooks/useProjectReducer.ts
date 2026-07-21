@@ -80,7 +80,10 @@ export function createProjectSetters(dispatch: (action: ProjectAction) => void):
     setIsLoading: createFieldUpdater(dispatch as (action: unknown) => void, 'isLoading'),
     setIsSaving: createFieldUpdater(dispatch as (action: unknown) => void, 'isSaving'),
     setError: createFieldUpdater(dispatch as (action: unknown) => void, 'error'),
-    setHasUnsavedChanges: createFieldUpdater(dispatch as (action: unknown) => void, 'hasUnsavedChanges'),
+    setHasUnsavedChanges: createFieldUpdater(
+      dispatch as (action: unknown) => void,
+      'hasUnsavedChanges'
+    ),
     setCurrentStep: createFieldUpdater(dispatch as (action: unknown) => void, 'currentStep'),
   };
 }

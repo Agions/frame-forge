@@ -87,7 +87,10 @@ export function createVideoSetters(dispatch: (action: VideoAction) => void): Vid
     setIsUploading: createFieldUpdater(dispatch as (action: unknown) => void, 'isUploading'),
     setUploadProgress: createFieldUpdater(dispatch as (action: unknown) => void, 'uploadProgress'),
     setIsAnalyzing: createFieldUpdater(dispatch as (action: unknown) => void, 'isAnalyzing'),
-    setAnalysisProgress: createFieldUpdater(dispatch as (action: unknown) => void, 'analysisProgress'),
+    setAnalysisProgress: createFieldUpdater(
+      dispatch as (action: unknown) => void,
+      'analysisProgress'
+    ),
     setTaskStatus: createFieldUpdater(dispatch as (action: unknown) => void, 'taskStatus'),
     setError: createFieldUpdater(dispatch as (action: unknown) => void, 'error'),
   };

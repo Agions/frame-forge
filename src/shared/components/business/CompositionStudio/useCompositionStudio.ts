@@ -13,7 +13,7 @@ import {
   compositionStudioReducer,
   initialCompositionStudioState,
   createCompositionStudioSetters,
-} from './useCompositionStudio-reducer';
+} from './useCompositionStudioReducer';
 
 const DEFAULT_TRANSITION: TransitionConfig = {
   effect: 'crossfade',

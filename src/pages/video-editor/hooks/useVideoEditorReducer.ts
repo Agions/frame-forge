@@ -12,7 +12,7 @@
  * 对外 API 不变: 15 setXxx 名字 + signature 保持兼容, 调用方 0 改动.
  */
 
-import type { OutputFormat, VideoQuality, VideoSegment } from './video-editor-types';
+import type { OutputFormat, VideoQuality, VideoSegment } from './videoEditorTypes';
 
 // ─── 状态类型 ──────────────────────────────────────────────────────────────
 

@@ -1,20 +1,8 @@
 /**
- * Video services: metadata, composition, ffmpeg-wasm wrapper,
- * scene analysis, subtitle, visual consistency scoring.
- *
- * Public API:
- *   - video-service, video-analysis-service, video-compositor-service
- *   - scene-analyzer, visual-consistency-scorer
- *   - ffmpeg-wasm (web ffmpeg bridge)
- *   - subtitle-service
- *   - video-composition-types (shared types)
- *
- * Note: ffmpeg-wasm and video-composition-types are folders/modules and
- * must be re-exported with explicit names to avoid type name collisions
- * with subtitle-service and ffmpeg-wasm-service.
+ * Video services: composition, ffmpeg-wasm wrapper, scene analysis,
+ * subtitle, visual consistency scoring.
  */
 
-export * from './video-service';
 export * from './video-analysis-service';
 export * from './video-compositor-service';
 export * from './scene-analyzer-service';

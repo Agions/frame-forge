@@ -2,8 +2,8 @@
  * ProjectDetail 状态管理 Hook（facade）
  *
  * 拆分为：
- * - project-detail-computed.ts (49行): 计算属性
- * - project-detail-actions.ts (210行): 操作方法
+ * - projectDetailComputed.ts (49行): 计算属性
+ * - projectDetailActions.ts (210行): 操作方法
  *
  * 本文件保留状态初始化 + effect + 组合编排。
  */
@@ -25,13 +25,13 @@ import {
   useHandleExportScript,
   useHandleScriptChange,
   usePersistProjectPatch,
-} from './project-detail-actions';
+} from './projectDetailActions';
 import {
   useExportQualityGate,
   useEvaluationSummary,
   useSelectedFrame,
   useStoryboardFrames,
-} from './project-detail-computed';
+} from './projectDetailComputed';
 
 export interface UseProjectDetailOptions {
   projectId: string;

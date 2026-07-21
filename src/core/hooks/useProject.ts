@@ -2,21 +2,21 @@
  * 项目管理 Hook（reducer 实现）
  *
  * 内部用 useReducer + localStorage 完成项目 CRUD。
- * 状态机定义在 useProject-reducer.ts。
+ * 状态机定义在 useProjectReducer.ts。
  */
 
 import { useReducer, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { ProjectData, VideoInfo, Script, ProjectSettings, TaskStatus } from '@/shared/types';
 import { STORAGE_KEYS } from '@/core/constants/app-config';
+import type { ProjectData, VideoInfo, Script, ProjectSettings, TaskStatus } from '@/shared/types';
 
 import {
   projectReducer,
   initialProjectState,
   createProjectSetters,
   type ProjectState,
-} from './useProject-reducer';
+} from './useProjectReducer';
 
 function loadProjects(): ProjectData[] {
   try {

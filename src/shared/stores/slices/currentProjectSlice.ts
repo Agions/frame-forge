@@ -1,5 +1,5 @@
 /**
- * currentProject-slice.ts — 当前项目切片
+ * currentProjectSlice.ts — 当前项目切片
  *
  * 【v3.3 代码审查 — 类型收窄】
  * 原 SetState = (...args: any[]) => void + (project: any) 削弱类型安全。

@@ -18,13 +18,13 @@ import {
   storyAnalysisService,
   tauriService,
 } from '@/core/services';
+import type { QualityGateIssue } from '@/core/services';
 import { logger } from '@/core/utils/logger';
 import { toast } from '@/shared/components/ui/toast';
 import { type StoryboardState } from '@/shared/stores/storyboard-store';
 import type { Character, CompositionProject, StoryAnalysis } from '@/shared/types';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
-import type { QualityGateIssue } from '@/core/services';
 import type { AudioTrackConfig } from '@/shared/types/audio';
+import type { StoryboardFrame } from '@/shared/types/storyboard';
 
 import { initialProjectEditState, type ProjectEditActions } from './project-edit-state';
 
@@ -59,7 +59,12 @@ export interface UseProjectEditActionsParams {
   audioConfig: AudioTrackConfig;
   characters: Character[];
   composition: CompositionProject | null;
-  projectMetadata: { name: string; description: string; exportPreset: string; exportSettings: Record<string, unknown> };
+  projectMetadata: {
+    name: string;
+    description: string;
+    exportPreset: string;
+    exportSettings: Record<string, unknown>;
+  };
   // Transition helper for navigation
   startTransition: (cb: () => void) => void;
 }

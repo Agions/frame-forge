@@ -2,16 +2,16 @@
  * useVideoEditor — VideoEditorPage Container Hook（facade）
  *
  * 拆分为：
- * - video-editor-types.ts: 类型定义
- * - video-editor-export.ts: 导出逻辑
+ * - videoEditorTypes.ts: 类型定义
+ * - videoEditorExport.ts: 导出逻辑
  * - 历史记录管理内联（与 segments 状态强耦联）
  */
 import { open } from '@tauri-apps/plugin-dialog';
 import { useReducer, useCallback, useEffect, useRef } from 'react';
-import { toast } from '@/shared/components/ui/toast';
 
 import { tauriService } from '@/core/services';
 import { logger } from '@/core/utils/logger';
+import { toast } from '@/shared/components/ui/toast';
 import { delay, formatTime } from '@/shared/utils';
 import { handleAsyncError } from '@/shared/utils/async';
 
@@ -19,12 +19,12 @@ import {
   videoEditorReducer,
   initialVideoEditorState,
   createVideoEditorSetters,
-} from './useVideoEditor-reducer';
-import { useVideoExport } from './video-editor-export';
-import type { VideoSegment } from './video-editor-types';
+} from './useVideoEditorReducer';
+import { useVideoExport } from './videoEditorExport';
+import type { VideoSegment } from './videoEditorTypes';
 
 // Re-export types 保持向后兼容
-export type { VideoSegment, OutputFormat, VideoQuality } from './video-editor-types';
+export type { VideoSegment, OutputFormat, VideoQuality } from './videoEditorTypes';
 
 export function useVideoEditor(projectId?: string) {
   // ── 15 个 useState 已迁移到 useReducer 状态机 (2026-06-11) ──

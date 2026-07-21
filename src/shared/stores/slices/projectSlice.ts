@@ -1,5 +1,5 @@
 /**
- * project-slice.ts — 项目列表领域切片
+ * projectSlice.ts — 项目列表领域切片
  * 职责：项目列表 CRUD + 最近项目派生
  */
 

@@ -16,7 +16,7 @@ import {
   aiAssistantReducer,
   initialAIAssistantState,
   createAIAssistantSetters,
-} from './useAIAssistant-reducer';
+} from './useAIAssistantReducer';
 
 export function useAIAssistant(): UseAIAssistantReturn {
   // ── 18 个 useState 已迁移到 useReducer 状态机 (2026-06-11) ──

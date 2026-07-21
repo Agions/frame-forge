@@ -1,15 +1,10 @@
 /**
- * Error Boundary — 增强版全局错误边界
- * 增强现有 ErrorBoundary：
- * 1. 错误遥测上报
- * 2. 组件级别 Error Boundary 工厂 (HOC)
- * 3. 局部错误捕获 Hook
+ * Error Boundary — 全局错误边界
  */
 
-import { Component, ErrorInfo, type ReactElement, ReactNode } from 'react';
+import { Component, type ReactElement, ReactNode } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { telemetry } from '@/infrastructure/telemetry/telemetry';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -32,16 +27,8 @@ class GlobalErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySta
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  componentDidCatch(error: Error): void {
     const name = this.props.name ?? 'GlobalErrorBoundary';
-
-    telemetry.trackError({
-      error,
-      metadata: {
-        boundaryName: name,
-        componentStack: errorInfo.componentStack,
-      },
-    });
 
     logger.error('[ErrorBoundary] Caught error', {
       boundaryName: name,
