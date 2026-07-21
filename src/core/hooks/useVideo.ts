@@ -6,7 +6,7 @@
 import { useReducer, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { captureVideoFrameAsDataURL } from '@/services/media/thumbnail-capture';
+import { captureVideoFrameAsDataURL } from '@/core/utils/video-thumbnail';
 import type { VideoInfo, VideoAnalysis, TaskStatus } from '@/shared/types';
 import { formatDurationShort } from '@/shared/utils';
 import { delay } from '@/shared/utils/timing';

@@ -24,13 +24,13 @@ export class PromptBuilderService {
       humorous: '幽默风趣',
       emotional: '情感共鸣',
       technical: '技术讲解',
-      promotional: '营销推广'
+      promotional: '营销推广',
     };
 
     const lengthMap: Record<string, { time: string; words: string }> = {
       short: { time: '1-3分钟', words: '300-500字' },
       medium: { time: '3-5分钟', words: '500-800字' },
-      long: { time: '5-10分钟', words: '800-1500字' }
+      long: { time: '5-10分钟', words: '800-1500字' },
     };
 
     const length = lengthMap[params.length];
@@ -93,7 +93,7 @@ ${params.videoDuration ? `视频时长：${Math.round(params.videoDuration / 60)
       shorten: '缩短内容，保持核心信息',
       lengthen: '扩展内容，增加细节描述',
       simplify: '简化语言，让内容更通俗易懂',
-      professional: '提升专业性，增加行业术语'
+      professional: '提升专业性，增加行业术语',
     };
 
     return `请对以下脚本进行优化：

@@ -19,7 +19,6 @@
 import { mockStrategy } from '@/core/ai/providers';
 import { getModelById } from '@/core/config/models-config';
 import { LLM_MODELS, DEFAULT_LLM_MODEL, MODEL_RECOMMENDATIONS } from '@/core/constants';
-import { promptBuilderService } from '@/core/domains/ai/services/prompt-builder-service';
 import { logger } from '@/core/utils/logger';
 import type { Script } from '@/shared/types';
 
@@ -32,6 +31,13 @@ import {
   generateMockScenes,
   parseScriptSegments,
 } from './ai-mock-data';
+import type {
+  AIResponse,
+  AIModel,
+  AIModelSettings,
+  VideoAnalysis,
+  MockConfig,
+} from './ai-service-types';
 import { streamGenerateWithFallback } from './ai-stream';
 
 // Re-export shared types from centralized types file
@@ -48,13 +54,7 @@ export type {
   Keyframe,
 } from './ai-service-types';
 
-import type {
-  AIResponse,
-  AIModel,
-  AIModelSettings,
-  VideoAnalysis,
-  MockConfig,
-} from './ai-service-types';
+import { promptBuilderService } from './prompt-builder-service';
 
 class AIService {
   // 启用/禁用 Mock 模式
