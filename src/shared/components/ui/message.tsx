@@ -1,17 +1,9 @@
-"use client"
+/**
+ * Shim for `@/shared/components/ui/message`.
+ *
+ * The canonical location is now `@/components/ui/message`. This shim exists
+ * only to keep existing deep imports working while callers are migrated, and
+ * is itself a cleanup candidate for a later task.
+ */
 
-import * as React from "react"
-import { toast } from '@/shared/components/ui/toast';
-
-// ============================================================
-// message API (wraps sonner toast)
-// ============================================================
-const message = {
-  success: (content: React.ReactNode) => toast.success(String(content)),
-  error: (content: React.ReactNode) => toast.error(String(content)),
-  warning: (content: React.ReactNode) => toast.warning(String(content)),
-  info: (content: React.ReactNode) => toast.info(String(content)),
-  loading: (content: React.ReactNode) => toast.loading(String(content)),
-};
-
-export { message }
+export * from '@/components/ui/message';
