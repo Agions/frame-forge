@@ -1,11 +1,5 @@
-/**
- * Zustand Store 统一导出
- */
-
-export { useAppStore } from './app-store';
-export { useProjectStore } from './project-store';
-export { useSettingsStore } from './settings-store';
-export { useStoryboard } from './storyboard-store';
-
-export type { AppState } from './app-store';
-export type { ProjectState } from './project-store';
+// Round-2 过渡：旧路径已迁移到 @/stores/*
+export * from '@/stores/app/app-store';
+export * from '@/stores/project/project-store';
+export * from '@/stores/settings/settings-store';
+export * from '@/stores/storyboard/storyboard-store';
