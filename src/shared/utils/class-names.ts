@@ -1,6 +1,2 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+// Round-2 过渡 shim：原文件已迁移到 @/core/utils/class-names
+export * from '@/core/utils/class-names';

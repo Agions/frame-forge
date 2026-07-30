@@ -1,53 +1,16 @@
-/**
- * Story Weaver Shared Utils - Barrel Export
- * Re-exports all utilities from modular files for backward compatibility
- */
-
-// General Utilities (was re-exported via ./general; now direct)
-export { debounce, throttle, delay, retry, PROCESSING_DELAY_MS, retryRequest } from './timing';
-export type { RetryOptions } from './timing';
-export {
-  deepClone,
-  generateId,
-  generatePrefixedId,
-  generateSceneId,
-  generateFrameId,
-  generateCharId,
-  generateCompId,
-  generateProjectId,
-  generateItemId,
-  safeJSONParse,
-  computeHash,
-  getErrorMessage,
-} from './data';
-export {
-  truncateText,
-  capitalize,
-  camelToKebab,
-  kebabToCamel,
-  isValidEmail,
-  isValidURL,
-} from './string';
-export { chunkArray, uniqueArray, sortBy } from './collection';
-
-// Environment
-export * from './environment';
-
-// Logger
-export * from './logger';
-
-// Formatting
-export * from './format';
-
-// Request
-export * from './request';
-
-// Async Error Handling
-export * from './async';
-
-// Format UI Utilities (selective re-export to avoid name conflicts)
-export { formatDate, formatDateShort, getStatusConfig, STATUS_CONFIG } from './format-ui';
-export type { ProjectStatus, StatusConfig } from './format-ui';
-
-// Re-export types that may be needed
-export type { FormatTimeOptions } from './format';
+// Round-2 过渡：旧路径已迁移到 @/core/utils/*
+// 注：@/core/utils/timing 已经把 retry 别名为 retryRequest 并导出；
+// 不能再用 export * from '@/core/utils/request'，否则 retryRequest 会重复。
+// 这里沿用 core/utils/index.ts 的策略：只重导出 RequestCache 与 requestCache。
+export * from '@/core/utils/format';
+export * from '@/core/utils/format-ui';
+export * from '@/core/utils/async';
+export * from '@/core/utils/data';
+export * from '@/core/utils/environment';
+export { RequestCache, requestCache } from '@/core/utils/request';
+export type { RetryOptions } from '@/core/utils/request';
+export * from '@/core/utils/string';
+export * from '@/core/utils/collection';
+export * from '@/core/utils/class-names';
+export * from '@/core/utils/timing';
+export * from '@/core/utils/shared-logger';
