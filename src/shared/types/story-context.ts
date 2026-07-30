@@ -1,10 +1,4 @@
 /**
- * Story Context — type re-exports
- *
- * Source of truth for StoryboardFrame: @/shared/types/storyboard
- *
- * Note: PipelineStepId / StepCheckpoint 已移除 — 它们定义在 core/pipeline，
- * 不属于 shared 层。如需要请直接 import from '@/core/pipeline/pipeline-types'。
+ * Round-2 transitional shim — moved to `@/core/storyboard/types/story-context`.
  */
-
-export type { StoryboardFrame } from './storyboard';
+export * from '@/core/storyboard/types/story-context';

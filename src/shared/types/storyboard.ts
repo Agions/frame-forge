@@ -1,13 +1,4 @@
 /**
- * 分镜领域类型 — 唯一 source of truth
+ * Round-2 transitional shim — moved to `@/core/storyboard/types/storyboard`.
  */
-export interface StoryboardFrame {
-  id: string;
-  title: string;
-  sceneDescription: string;
-  composition: string;
-  cameraType: string;
-  dialogue: string;
-  duration: number;
-  imageUrl?: string;
-}
+export * from '@/core/storyboard/types/storyboard';
