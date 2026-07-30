@@ -10,13 +10,13 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type { ScriptImportMetadata } from '@/components/ai';
-import type { EvaluationScores, FrameComment, StoryboardVersion } from '@/core/services';
+import { toast } from '@/components/ui/toast';
+import type { ProjectData } from '@/core/project/types/project';
+import type { Script, VideoSegment } from '@/core/script/types/script';
 import { collaborationService } from '@/core/services';
-import { toast } from '@/shared/components/ui/toast';
-import { useProjectStore } from '@/shared/stores';
-import type { ProjectData } from '@/shared/types';
-import type { Script, VideoSegment } from '@/shared/types/script';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import type { EvaluationScores, FrameComment, StoryboardVersion } from '@/core/services';
+import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
+import { useProjectStore } from '@/stores';
 
 import {
   useHandleApplyRenderedFrame,

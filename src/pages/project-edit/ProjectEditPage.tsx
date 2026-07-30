@@ -2,11 +2,11 @@ import { ArrowLeft, Save, FileText, AlertTriangle } from 'lucide-react';
 import { Suspense, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { useProject } from '@/core/hooks/useProject';
-import CostDashboard from '@/shared/components/business/CostDashboard';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
+import CostDashboard from '@/features/cost/components/CostDashboard';
 
 import { StepContentSwitcher } from './components/StepContentSwitcher';
 import { StepNavigation } from './components/StepNavigation';
@@ -136,7 +136,11 @@ const ProjectEdit = () => {
         </Suspense>
 
         {/* 步骤导航 */}
-        <StepNavigation currentStep={currentStep} onStepChange={setCurrentStep} projectId={project?.id} />
+        <StepNavigation
+          currentStep={currentStep}
+          onStepChange={setCurrentStep}
+          projectId={project?.id}
+        />
 
         {/* 步骤内容 */}
         <div className={styles.stepsContent}>

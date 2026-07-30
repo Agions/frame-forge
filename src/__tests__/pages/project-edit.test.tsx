@@ -16,7 +16,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('@/components/ai/ScriptEditor/ScriptEditor', () => () => <div>ScriptEditor</div>);
-jest.mock('@/shared/components/business/CostDashboard', () => () => (
+jest.mock('@/features/cost/components/CostDashboard', () => () => (
   <div data-testid="mock-cost-dashboard">CostDashboard</div>
 ));
 jest.mock(

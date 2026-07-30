@@ -9,40 +9,43 @@ import { User } from 'lucide-react';
 import { lazy, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useProject } from '@/core/hooks/useProject';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import type { StoryboardVersion } from '@/shared/types/project';
-
-import { useStepCharacterContext } from '../context/selectors';
-import { useVersionControlContext } from '../context/selectors';
-import styles from '../ProjectEdit.module.less';
-
 import { StepActions } from '@/components/pipeline/StepActions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useProject } from '@/core/hooks/useProject';
+import type { StoryboardVersion } from '@/core/project/types/project';
+
+import { useStepCharacterContext, useVersionControlContext } from '../context/selectors';
+import styles from '../ProjectEdit.module.less';
 
 const CharacterDesigner = lazy(() =>
   import('@/components/ai').then((m) => ({ default: m.CharacterDesigner }))
 );
 
 export interface StepCharacterProps {
-  characters?: import('@/shared/types').Character[];
+  characters?: import('@/core/script/types/novel').Character[];
   projectId?: string;
-  onChange?: (characters: import('@/shared/types').Character[]) => void;
+  onChange?: (characters: import('@/core/script/types/novel').Character[]) => void;
   onPrev?: () => void;
   onNext?: () => void;
 }
 
 function StepCharacter() {
   const { characters, onChange } = useStepCharacterContext();
-  const { saveVersionByType, listVersionsByType, rollbackVersionByType } = useVersionControlContext();
+  const { saveVersionByType, listVersionsByType, rollbackVersionByType } =
+    useVersionControlContext();
   const { projectId } = useParams();
   const { setCurrentStep } = useProject();
   const [versionLabel, setVersionLabel] = useState('');
   const [charVersions, setCharVersions] = useState<StoryboardVersion[]>([]);
 
   const handleSaveVersion = () => {
-    saveVersionByType('character', characters, versionLabel || `角色-${new Date().toLocaleString()}`);
+    saveVersionByType(
+      'character',
+      characters,
+      versionLabel || `角色-${new Date().toLocaleString()}`
+    );
     setCharVersions(listVersionsByType('character') as StoryboardVersion[]);
     setVersionLabel('');
   };

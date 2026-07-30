@@ -13,10 +13,10 @@ import { lazy } from 'react';
 import StepLayout from '@/components/common/StepLayout/StepLayout';
 import { GenerationResult } from '@/components/pipeline/GenerationResult';
 import { StepActions } from '@/components/pipeline/StepActions';
+import { Alert } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { TextArea } from '@/components/ui/textarea';
 import { useProject } from '@/core/hooks/useProject';
-import { Alert } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
-import { TextArea } from '@/shared/components/ui/textarea';
 
 import { useStepAnalysisContext } from '../context/selectors';
 

@@ -8,20 +8,19 @@ import { PlayCircle } from 'lucide-react';
 import { lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { StepActions } from '@/components/pipeline/StepActions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useProject } from '@/core/hooks/useProject';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 import { useStepCompositionContext } from '../context/selectors';
 import styles from '../ProjectEdit.module.less';
 
-import { StepActions } from '@/components/pipeline/StepActions';
-
-const CompositionStudio = lazy(() => import('@/shared/components/business/CompositionStudio'));
+const CompositionStudio = lazy(() => import('@/features/composition/components/CompositionStudio'));
 
 export interface StepCompositionProps {
-  storyboardFrames?: import('@/shared/types/storyboard').StoryboardFrame[];
+  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
   projectId?: string;
-  onCompositionChange?: (comp: import('@/shared/types').CompositionProject) => void;
+  onCompositionChange?: (comp: import('@/core/audio/types/composition').CompositionProject) => void;
   onPrev?: () => void;
   onNext?: () => void;
 }

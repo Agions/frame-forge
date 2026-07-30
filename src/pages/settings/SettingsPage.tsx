@@ -6,28 +6,28 @@ import { Settings as SettingsIcon, User, Bell, Key, Info, Edit, Lightbulb } from
 import { useState, useMemo } from 'react';
 
 import { useTheme } from '@/app/providers/ThemeContext';
-import { MODEL_PROVIDERS, getModelsByProvider } from '@/core/config/models-config';
-import { logger } from '@/core/utils/logger';
-import { Alert, AlertDescription } from '@/shared/components/ui/alert';
-import { Avatar, AvatarFallback } from '@/shared/components/ui/avatar';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/shared/components/ui/radio-group';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Separator } from '@/shared/components/ui/separator';
-import { Switch } from '@/shared/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { toast } from '@/shared/components/ui/toast';
-import type { ModelProvider } from '@/shared/types';
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from '@/components/ui/toast';
+import type { ModelProvider } from '@/core/ai/types/ai-core';
+import { MODEL_PROVIDERS, getModelsByProvider } from '@/core/config/models-config';
+import { logger } from '@/core/utils/logger';
 
 import styles from './Settings.module.less';
 

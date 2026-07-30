@@ -5,8 +5,8 @@ import { invoke } from '@tauri-apps/api/core';
 import { save } from '@tauri-apps/plugin-dialog';
 import { useCallback, useState } from 'react';
 
+import { toast } from '@/components/ui/toast';
 import { logger } from '@/core/utils/logger';
-import { toast } from '@/shared/components/ui/toast';
 
 import type { OutputFormat, VideoQuality, VideoSegment } from './videoEditorTypes';
 

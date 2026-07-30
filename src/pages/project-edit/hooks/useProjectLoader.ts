@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import type { ScriptImportMetadata } from '@/components/ai';
+import type { AudioTrackConfig } from '@/core/audio/types/audio';
+import type { CompositionProject } from '@/core/audio/types/composition';
+import type { ProjectData } from '@/core/project/types/project';
+import type { StoryAnalysis, Character } from '@/core/script/types/novel';
 import { tauriService } from '@/core/services';
-import type { StoryAnalysis, Character, CompositionProject, ProjectData } from '@/shared/types';
-import type { AudioTrackConfig } from '@/shared/types/audio';
 
 /** Page-local extension of canonical ProjectData with strongly-typed fields. */
 export interface ProjectEditData extends ProjectData {

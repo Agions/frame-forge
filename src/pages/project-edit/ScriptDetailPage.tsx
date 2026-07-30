@@ -3,17 +3,17 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import ScriptEditor from '@/components/ai/ScriptEditor/ScriptEditor';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { Separator } from '@/components/ui/separator';
+import { toast } from '@/components/ui/toast';
+import type { ProjectData } from '@/core/project/types/project';
+import type { Script, ScriptSegment, VideoSegment } from '@/core/script/types/script';
 import { tauriService } from '@/core/services';
 import { logger } from '@/core/utils/logger';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { ConfirmDialog } from '@/shared/components/ui/confirm-dialog';
-import { Separator } from '@/shared/components/ui/separator';
-import { toast } from '@/shared/components/ui/toast';
-import { useProjectStore } from '@/shared/stores';
-import type { ProjectData } from '@/shared/types';
-import type { Script, ScriptSegment, VideoSegment } from '@/shared/types/script';
+import { useProjectStore } from '@/stores';
 
 import styles from './ScriptDetail.module.less';
 

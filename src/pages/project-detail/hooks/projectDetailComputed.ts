@@ -3,10 +3,10 @@
  */
 import { useMemo } from 'react';
 
+import type { ProjectData } from '@/core/project/types/project';
 import type { EvaluationScores } from '@/core/services';
 import { qualityGateService } from '@/core/services';
-import type { ProjectData } from '@/shared/types';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
 
 /** 从项目数据派生分镜帧列表 */
 export function useStoryboardFrames(project: ProjectData | null): StoryboardFrame[] {

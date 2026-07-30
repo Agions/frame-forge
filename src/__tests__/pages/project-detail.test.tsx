@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import ProjectDetail from '@/pages/project-detail/ProjectDetailPage';
-import { useProjectStore } from '@/shared/stores';
+import { useProjectStore } from '@/stores';
 
 const mockNavigate = jest.fn();
 const mockUpdateProject = jest.fn();
@@ -16,7 +16,7 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ id: 'p-detail-1' }),
 }));
 
-jest.mock('@/shared/stores', () => ({
+jest.mock('@/stores', () => ({
   useProjectStore: jest.fn(),
 }));
 
@@ -54,19 +54,19 @@ jest.mock('@tauri-apps/api', () => ({
   invoke: (...args: unknown[]) => mockInvoke(...args),
 }));
 
-jest.mock('@/shared/components/business/CostDashboard', () => () => (
+jest.mock('@/features/cost/components/CostDashboard', () => () => (
   <div data-testid="mock-cost-dashboard">CostDashboard</div>
 ));
 jest.mock('@/components/ai/ScriptEditor/ScriptEditor', () => () => (
   <div data-testid="mock-script-editor">ScriptEditor</div>
 ));
-jest.mock('@/shared/components/business/RenderCenter', () => () => (
+jest.mock('@/features/rendering/components/RenderCenter', () => () => (
   <div data-testid="mock-render-center">RenderCenter</div>
 ));
-jest.mock('@/features/character/components/CharacterDesigner', () => () => (
+jest.mock('@/features/character-consistency/index', () => () => (
   <div data-testid="mock-character-designer">CharacterDesigner</div>
 ));
-jest.mock('@/shared/components/business/CompositionStudio', () => () => (
+jest.mock('@/features/composition/components/CompositionStudio', () => () => (
   <div data-testid="mock-composition-studio">CompositionStudio</div>
 ));
 jest.mock('@/features/audio/components/AudioEditor', () => () => (

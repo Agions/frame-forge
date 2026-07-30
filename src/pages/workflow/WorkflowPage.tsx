@@ -5,9 +5,9 @@
 import { Zap, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { toast } from '@/components/ui/toast';
 
 import styles from './WorkflowPage.module.less';
 

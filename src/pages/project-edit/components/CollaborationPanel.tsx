@@ -6,19 +6,19 @@
  * 不再依赖父组件层层传递 props。
  */
 
-import type { FrameComment } from '@/core/services';
-import { collaborationService } from '@/core/services';
-import { Alert } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
+import { Alert } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+} from '@/components/ui/select';
+import { collaborationService } from '@/core/services';
+import type { FrameComment } from '@/core/services';
+import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
 
 import { useProjectEdit } from '../context/ProjectEditContext';
 import { useCollaborationContext } from '../context/selectors';

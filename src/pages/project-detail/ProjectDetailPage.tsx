@@ -23,16 +23,16 @@ import { AudioEditorPanel } from '@/components/media/audio';
 import { StoryboardCollaborationPanel } from '@/components/pipeline/StoryboardCollaborationPanel';
 import { CostPanel } from '@/components/project/CostPanel';
 import { ExportPanel } from '@/components/project/ExportPanel';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import Empty from '@/shared/components/ui/empty';
-import { Modal } from '@/shared/components/ui/modal';
-import { Space } from '@/shared/components/ui/space';
-import { Spin } from '@/shared/components/ui/spin';
-import { Tabs, TabPane } from '@/shared/components/ui/tabs';
-import { Title, Text, Paragraph } from '@/shared/components/ui/typography';
-import type { Character } from '@/shared/types/novel';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import Empty from '@/components/ui/empty';
+import { Modal } from '@/components/ui/modal';
+import { Space } from '@/components/ui/space';
+import { Spin } from '@/components/ui/spin';
+import { Tabs, TabPane } from '@/components/ui/tabs';
+import { Title, Text, Paragraph } from '@/components/ui/typography';
+import type { Character } from '@/core/script/types/novel';
+import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
 
 import { useProjectDetail } from './hooks/useProjectDetail';
 import styles from './ProjectDetail.module.less';
@@ -56,12 +56,12 @@ const EmptyScriptHint: React.FC<{
 
 // Lazy-loaded sub-components
 const importScriptEditor = () => import('@/components/ai/ScriptEditor/ScriptEditor');
-const importRenderCenter = () => import('@/shared/components/business/RenderCenter');
+const importRenderCenter = () => import('@/features/rendering/components/RenderCenter');
 const importCharacterDesigner = () =>
   import('@/components/ai').then((m) => ({ default: m.CharacterDesigner }));
-const importCompositionStudio = () => import('@/shared/components/business/CompositionStudio');
+const importCompositionStudio = () => import('@/features/composition/components/CompositionStudio');
 const importAudioEditor = () => import('@/components/media/audio');
-const importCostDashboard = () => import('@/shared/components/business/CostDashboard');
+const importCostDashboard = () => import('@/features/cost/components/CostDashboard');
 
 const ScriptEditor = lazy(importScriptEditor);
 const RenderCenter = lazy(importRenderCenter);
@@ -150,7 +150,7 @@ const ProjectDetail = () => {
     if (!confirmed) return;
 
     deleteProject(id);
-    const { toast } = await import('@/shared/components/ui/toast');
+    const { toast } = await import('@/components/ui/toast');
     toast.success('项目已删除');
     navigate('/projects');
   };

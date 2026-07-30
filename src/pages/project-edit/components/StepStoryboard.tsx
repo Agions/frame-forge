@@ -8,26 +8,26 @@
 import { Image } from 'lucide-react';
 import { lazy } from 'react';
 
+import { StepActions } from '@/components/pipeline/StepActions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/toast';
 import { useProject } from '@/core/hooks/useProject';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
 
 import { useProjectEdit } from '../context/ProjectEditContext';
 import { useStepStoryboardContext } from '../context/selectors';
 import styles from '../ProjectEdit.module.less';
 
 import CollaborationPanel from './CollaborationPanel';
-import { StepActions } from '@/components/pipeline/StepActions';
 
 const StoryboardEditor = lazy(
   () => import('@/components/pipeline/StoryboardEditor/StoryboardEditor')
 );
 
 export interface StepStoryboardProps {
-  storyboardFrames?: import('@/shared/types/storyboard').StoryboardFrame[];
-  storyAnalysis?: import('@/shared/types').StoryAnalysis | null;
-  selectedFrame?: import('@/shared/types/storyboard').StoryboardFrame | null;
+  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
+  storyAnalysis?: import('@/core/script/types/novel').StoryAnalysis | null;
+  selectedFrame?: import('@/core/storyboard/types/storyboard').StoryboardFrame | null;
   focusFrameId?: string;
   commentDraft?: string;
   versionLabel?: string;
@@ -36,8 +36,10 @@ export interface StepStoryboardProps {
   versionDiff?: import('@/core/services/domain/collaboration-service').VersionDiffSummary | null;
   storyboardVersions?: import('@/core/services/domain/collaboration-service').StoryboardVersion[];
   projectId?: string;
-  onFramesChange?: (frames: import('@/shared/types/storyboard').StoryboardFrame[]) => void;
-  onFrameSelect?: (frame: import('@/shared/types/storyboard').StoryboardFrame | null) => void;
+  onFramesChange?: (frames: import('@/core/storyboard/types/storyboard').StoryboardFrame[]) => void;
+  onFrameSelect?: (
+    frame: import('@/core/storyboard/types/storyboard').StoryboardFrame | null
+  ) => void;
   onBuildDraft?: () => void;
   onAddComment?: () => void;
   onSaveVersion?: () => void;

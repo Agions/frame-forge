@@ -9,13 +9,13 @@ import { Download, RotateCcw, Trash2, Send } from 'lucide-react';
 import { lazy, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/toast';
 import { useProject } from '@/core/hooks/useProject';
 import { secureStorage } from '@/core/services/project/secure-storage-service';
 import { assetLibraryService } from '@/features/asset-library';
 import { videoExportService } from '@/features/video-export';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
 
 import { useStepExportContext } from '../context/selectors';
 import styles from '../ProjectEdit.module.less';
@@ -36,7 +36,7 @@ const CHECKPOINTABLE_STEPS = [
   'step-export',
 ] as const;
 
-type CheckpointStepId = typeof CHECKPOINTABLE_STEPS[number];
+type CheckpointStepId = (typeof CHECKPOINTABLE_STEPS)[number];
 
 interface CheckpointInfo {
   stepId: CheckpointStepId;
@@ -97,7 +97,9 @@ function StepExport() {
     Promise.all(
       CHECKPOINTABLE_STEPS.map(async (stepId) => {
         const cp = await secureStorage.loadCheckpoint(stepId);
-        return cp ? { stepId, completed: cp.completed, timestamp: cp.timestamp } as CheckpointInfo : null;
+        return cp
+          ? ({ stepId, completed: cp.completed, timestamp: cp.timestamp } as CheckpointInfo)
+          : null;
       })
     ).then((results) => {
       setCheckpoints(results.filter((r): r is CheckpointInfo => r !== null));
@@ -115,16 +117,17 @@ function StepExport() {
   const handleResumeFromCheckpoint = () => {
     if (checkpoints.length === 0) return;
     const lastCompleted = [...checkpoints].sort((a, b) => b.timestamp - a.timestamp)[0];
-    const stepIndex = CHECKPOINTABLE_STEPS.indexOf(lastCompleted.stepId as typeof CHECKPOINTABLE_STEPS[number]);
+    const stepIndex = CHECKPOINTABLE_STEPS.indexOf(
+      lastCompleted.stepId as (typeof CHECKPOINTABLE_STEPS)[number]
+    );
     if (stepIndex >= 0 && stepIndex < CHECKPOINTABLE_STEPS.length - 1) {
       setCurrentStep(stepIndex + 1);
       toast.success(`已恢复到步骤 ${stepIndex + 1}，将从断点继续执行`);
     }
   };
 
-  const lastCheckpoint = checkpoints.length > 0
-    ? [...checkpoints].sort((a, b) => b.timestamp - a.timestamp)[0]
-    : null;
+  const lastCheckpoint =
+    checkpoints.length > 0 ? [...checkpoints].sort((a, b) => b.timestamp - a.timestamp)[0] : null;
 
   // 发布处理
   const handlePublish = async () => {
@@ -188,10 +191,12 @@ function StepExport() {
                   检测到执行断点
                 </h4>
                 <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                  最后完成步骤: {lastCheckpoint.stepId} ({new Date(lastCheckpoint.timestamp).toLocaleString()})
+                  最后完成步骤: {lastCheckpoint.stepId} (
+                  {new Date(lastCheckpoint.timestamp).toLocaleString()})
                 </p>
                 <p className="text-xs text-blue-600 dark:text-blue-400">
-                  已完成 {checkpoints.filter((c) => c.completed).length} / {CHECKPOINTABLE_STEPS.length} 个步骤
+                  已完成 {checkpoints.filter((c) => c.completed).length} /{' '}
+                  {CHECKPOINTABLE_STEPS.length} 个步骤
                 </p>
               </div>
               <div className="flex gap-2">
@@ -289,9 +294,7 @@ function StepExport() {
         {/* 发布区域 */}
         <div className="mt-4 p-3 border border-dashed rounded-md">
           <h4 className="text-sm font-medium mb-2">发布</h4>
-          <p className="text-xs text-muted-foreground mb-2">
-            选择平台并发布成品视频。
-          </p>
+          <p className="text-xs text-muted-foreground mb-2">选择平台并发布成品视频。</p>
           <div className="flex flex-wrap gap-2 mb-2">
             {(Object.keys(PLATFORM_LABELS) as PublishPlatform[]).map((platform) => (
               <Button
@@ -307,7 +310,10 @@ function StepExport() {
           {publishResults.length > 0 && (
             <div className="mt-2 space-y-1">
               {publishResults.map((result, i) => (
-                <p key={i} className={`text-xs ${result.success ? 'text-green-600' : 'text-red-600'}`}>
+                <p
+                  key={i}
+                  className={`text-xs ${result.success ? 'text-green-600' : 'text-red-600'}`}
+                >
                   {PLATFORM_LABELS[result.platform as PublishPlatform] || result.platform}:
                   {result.success ? ` 发布成功 (${result.url})` : ` 失败: ${result.error}`}
                 </p>

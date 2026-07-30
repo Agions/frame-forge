@@ -2,9 +2,9 @@
  * 质量闸门提示组件
  */
 
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import type { QualityGateIssue } from '@/core/services';
-import { Alert, AlertDescription } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
 
 export interface QualityGateAlertProps {
   issues: QualityGateIssue[];

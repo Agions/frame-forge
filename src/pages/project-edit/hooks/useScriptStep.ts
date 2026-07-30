@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { VideoSegment } from '@/shared/types/script';
+import type { VideoSegment } from '@/core/script/types/script';
 
 export interface UseScriptStepResult {
   scriptText: string;

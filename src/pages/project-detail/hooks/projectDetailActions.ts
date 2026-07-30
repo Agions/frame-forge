@@ -7,19 +7,19 @@
 import { useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { EvaluationScores } from '@/core/services';
+import { toast } from '@/components/ui/toast';
+import type { ProjectData } from '@/core/project/types/project';
+import type { Script, ScriptSegment, VideoSegment } from '@/core/script/types/script';
 import {
   collaborationService,
   costService,
   reviewExportService,
   tauriService,
 } from '@/core/services';
+import type { EvaluationScores } from '@/core/services';
+import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
+import { handleAsyncError } from '@/core/utils/async';
 import { logger } from '@/core/utils/logger';
-import { toast } from '@/shared/components/ui/toast';
-import type { ProjectData } from '@/shared/types';
-import type { Script, ScriptSegment, VideoSegment } from '@/shared/types/script';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
-import { handleAsyncError } from '@/shared/utils/async';
 
 // ─── 持久化 ───
 

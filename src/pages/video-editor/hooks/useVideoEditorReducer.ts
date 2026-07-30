@@ -86,7 +86,7 @@ export function videoEditorReducer(
 
 // ─── Setter 工厂 ───────────────────────────────────────────────────────────
 
-import { createFieldUpdater, type FieldUpdater as Updater } from '@/shared/utils/reducer-helpers';
+import { createFieldUpdater, type FieldUpdater as Updater } from '@/core/utils/reducer-helpers';
 
 // ─── 15 setter wrap ────────────────────────────────────────────────────────
 

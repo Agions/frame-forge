@@ -9,10 +9,11 @@
 import { createContext, useContext, useMemo, useState, useTransition } from 'react';
 
 import type { ScriptImportMetadata } from '@/components/ai';
+import type { AudioTrackConfig } from '@/core/audio/types/audio';
+import type { CompositionProject } from '@/core/audio/types/composition';
 import { useProject } from '@/core/hooks/useProject';
-import { useStoryboard } from '@/shared/stores/storyboard-store';
-import type { Character, CompositionProject, StoryAnalysis } from '@/shared/types';
-import type { AudioTrackConfig } from '@/shared/types/audio';
+import type { Character, StoryAnalysis } from '@/core/script/types/novel';
+import { useStoryboard } from '@/stores/storyboard/storyboard-store';
 
 import { initialProjectEditState, type ProjectEditContextValue } from './project-edit-state';
 import { useProjectEditActions } from './useProjectEditActions';

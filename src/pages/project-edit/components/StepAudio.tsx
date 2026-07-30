@@ -7,15 +7,14 @@
 import { Volume2 } from 'lucide-react';
 import { lazy } from 'react';
 
-import type { AudioTrackConfig } from '@/components/media/audio/AudioEditor';
+import { StepActions } from '@/components/pipeline/StepActions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { AudioTrackConfig } from '@/core/audio/types/audio';
 import { useProject } from '@/core/hooks/useProject';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 import { useStepAudioContext } from '../context/selectors';
 import styles from '../ProjectEdit.module.less';
-
-import { StepActions } from '@/components/pipeline/StepActions';
 
 const AudioEditor = lazy(() => import('@/components/media/audio/AudioEditor'));
 
@@ -24,7 +23,7 @@ export interface StepAudioProps {
   audioEditorKey?: string;
   audioGenerating?: boolean;
   scriptText?: string;
-  storyboardFrames?: import('@/shared/types/storyboard').StoryboardFrame[];
+  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
   onConfigChange?: (config: AudioTrackConfig) => void;
   onGenerateVoices?: () => void;
   onPrev?: () => void;

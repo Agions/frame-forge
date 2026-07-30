@@ -8,18 +8,16 @@
 import { Edit } from 'lucide-react';
 import { lazy, useMemo, useState } from 'react';
 
-import { useProject } from '@/core/hooks/useProject';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import type { VideoSegment } from '@/shared/types/script';
-import type { StoryboardVersion } from '@/shared/types/project';
-
-import { useStepScriptContext } from '../context/selectors';
-import { useVersionControlContext } from '../context/selectors';
-import styles from '../ProjectEdit.module.less';
-
 import { StepActions } from '@/components/pipeline/StepActions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useProject } from '@/core/hooks/useProject';
+import type { StoryboardVersion } from '@/core/project/types/project';
+import type { VideoSegment } from '@/core/script/types/script';
+
+import { useStepScriptContext, useVersionControlContext } from '../context/selectors';
+import styles from '../ProjectEdit.module.less';
 
 const ScriptEditor = lazy(() => import('@/components/ai/ScriptEditor/ScriptEditor'));
 
@@ -32,7 +30,8 @@ export interface StepScriptProps {
 
 function StepScript() {
   const { scriptText, onSaveScript } = useStepScriptContext();
-  const { saveVersionByType, listVersionsByType, rollbackVersionByType } = useVersionControlContext();
+  const { saveVersionByType, listVersionsByType, rollbackVersionByType } =
+    useVersionControlContext();
   const { setCurrentStep } = useProject();
   const [segments, setSegments] = useState<VideoSegment[]>([]);
   const [versionLabel, setVersionLabel] = useState('');
@@ -46,7 +45,11 @@ function StepScript() {
   }, [onSaveScript]);
 
   const handleSaveVersion = () => {
-    saveVersionByType('script', { scriptText, segments }, versionLabel || `剧本-${new Date().toLocaleString()}`);
+    saveVersionByType(
+      'script',
+      { scriptText, segments },
+      versionLabel || `剧本-${new Date().toLocaleString()}`
+    );
     setScriptVersions(listVersionsByType('script') as StoryboardVersion[]);
     setVersionLabel('');
   };
@@ -99,10 +102,7 @@ function StepScript() {
 
         <ScriptEditor segments={segments} onSegmentsChange={handleSegmentsChange} videoPath="" />
 
-        <StepActions
-          onPrev={() => setCurrentStep(1)}
-          onNext={() => setCurrentStep(3)}
-        />
+        <StepActions onPrev={() => setCurrentStep(1)} onNext={() => setCurrentStep(3)} />
       </CardContent>
     </Card>
   );

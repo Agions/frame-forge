@@ -10,10 +10,10 @@
  */
 import { useParams } from 'react-router-dom';
 
-import { Card } from '@/shared/components/ui/card';
-import { Row, Col } from '@/shared/components/ui/grid';
-import { Tabs, TabPane } from '@/shared/components/ui/tabs';
-import { Title } from '@/shared/components/ui/typography';
+import { Card } from '@/components/ui/card';
+import { Row, Col } from '@/components/ui/grid';
+import { Tabs, TabPane } from '@/components/ui/tabs';
+import { Title } from '@/components/ui/typography';
 
 import { useVideoEditor } from './hooks/useVideoEditor';
 import styles from './VideoEditorPage.module.less';

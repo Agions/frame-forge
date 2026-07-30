@@ -8,18 +8,17 @@ import { CheckCircle } from 'lucide-react';
 import { lazy } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { StepActions } from '@/components/pipeline/StepActions';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useProject } from '@/core/hooks/useProject';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
 
 import { useStepRenderContext } from '../context/selectors';
 import styles from '../ProjectEdit.module.less';
 
-import { StepActions } from '@/components/pipeline/StepActions';
-
-const RenderCenter = lazy(() => import('@/shared/components/business/RenderCenter'));
+const RenderCenter = lazy(() => import('@/features/rendering/components/RenderCenter'));
 
 export interface StepRenderProps {
-  storyboardFrames?: import('@/shared/types/storyboard').StoryboardFrame[];
+  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
   projectId?: string;
   onApplyRenderedFrame?: (frameId: string, imageUrl: string) => void;
   onPrev?: () => void;

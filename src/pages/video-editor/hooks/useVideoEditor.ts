@@ -9,11 +9,12 @@
 import { open } from '@tauri-apps/plugin-dialog';
 import { useReducer, useCallback, useEffect, useRef } from 'react';
 
+import { toast } from '@/components/ui/toast';
 import { tauriService } from '@/core/services';
+import { handleAsyncError } from '@/core/utils/async';
+import { formatTime } from '@/core/utils/format';
 import { logger } from '@/core/utils/logger';
-import { toast } from '@/shared/components/ui/toast';
-import { delay, formatTime } from '@/shared/utils';
-import { handleAsyncError } from '@/shared/utils/async';
+import { delay } from '@/core/utils/timing';
 
 import {
   videoEditorReducer,
