@@ -1,0 +1,9 @@
+
+> story-weaver@2.2.4 madge:circular /Users/zfkc/Desktop/04-AI/story-weaver
+> madge --circular --extensions ts,tsx --exclude '^(src/__tests|src/__mocks)' src
+
+- Finding files
+Processed 551 files (2.4s) (172 warnings)
+
+✔ No circular dependency found!
+

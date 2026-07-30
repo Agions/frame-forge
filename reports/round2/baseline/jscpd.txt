@@ -1,0 +1,6 @@
+[32mJSON report saved to reports/round2/baseline/jscpd-out/jscpd-report.json[39m
+[90mtime: 79.460ms[39m
+
+[90m💡 Auto-refactor with AI: [1m[39mnpx skills add https://github.com/kucherenko/jscpd --skill dry-refactoring[90m[22m
+[90m🎩 New: Gangsta Agents — discipline your AI coding → gangsta.page[39m
+[90m💖 Support jscpd project → https://opencollective.com/jscpd[39m
