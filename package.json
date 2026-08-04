@@ -107,6 +107,7 @@
     "jest-environment-jsdom": "^30.2.0",
     "jscpd": "^5.0.12",
     "knip": "^6.26.0",
+    "less": "^4.8.1",
     "lint-staged": "^17.0.1",
     "madge": "^8.0.0",
     "pnpm": "^10.34.1",
