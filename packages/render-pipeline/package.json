@@ -1,0 +1,12 @@
+{
+  "name": "@mangav/render-pipeline",
+  "version": "3.0.0",
+  "description": "MangaV 硬件加速渲染管线与控制台",
+  "main": "./src/index.tsx",
+  "module": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "license": "MIT",
+  "dependencies": {
+    "@mangav/core": "workspace:*"
+  }
+}

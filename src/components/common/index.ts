@@ -8,5 +8,4 @@ export type { EmptyStateProps } from './EmptyState/EmptyState';
 export { LoadingState } from './LoadingState/LoadingState';
 export type { LoadingStateProps } from './LoadingState/LoadingState';
 
-export { StepLayout } from './StepLayout/StepLayout';
-export type { StepLayoutProps } from './StepLayout/StepLayout';
+export { default as StepLayout } from '@/features/storyboard/components/StepLayout';

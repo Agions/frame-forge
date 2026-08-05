@@ -1,0 +1,9 @@
+{
+  "name": "@mangav/ui",
+  "version": "3.0.0",
+  "description": "MangaV 基础设计系统与 UI 通用组件库",
+  "main": "./src/index.tsx",
+  "module": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "license": "MIT"
+}

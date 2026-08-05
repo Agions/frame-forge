@@ -1,0 +1,9 @@
+{
+  "name": "@mangav/core",
+  "version": "3.0.0",
+  "description": "MangaV 核心领域模型与 WorkflowEngine 状态机",
+  "main": "./src/index.tsx",
+  "module": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "license": "MIT"
+}

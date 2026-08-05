@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
+import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
+import NovelImporter from '@/features/storyboard/components/NovelImporter';
 import { Alert } from '@/shared/components/ui/alert';
 import { Card } from '@/shared/components/ui/card';
 import { Space } from '@/shared/components/ui/space';
 
-import type { ScriptImportMetadata } from '../NovelImporter/NovelImporter';
-import NovelImporter from '../NovelImporter/NovelImporter';
 import ScriptGenerator from '../ScriptGenerator/ScriptGenerator';
 
 import styles from './ScriptGeneratorView.module.less';

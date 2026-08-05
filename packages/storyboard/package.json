@@ -1,0 +1,12 @@
+{
+  "name": "@mangav/storyboard",
+  "version": "3.0.0",
+  "description": "MangaV 剧本分镜编辑器组件与 Hooks",
+  "main": "./src/index.tsx",
+  "module": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "license": "MIT",
+  "dependencies": {
+    "@mangav/core": "workspace:*"
+  }
+}

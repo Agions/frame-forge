@@ -108,7 +108,7 @@ export function createSimpleExportStep(config?: {
       ? (event) => config.onProgress?.(event.progress, event.message)
       : undefined,
   });
-  return step as PipelineStep;
+  return step as unknown as PipelineStep;
 }
 
 /**
