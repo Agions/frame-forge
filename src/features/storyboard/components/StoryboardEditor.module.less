@@ -1,0 +1,412 @@
+/* StoryboardEditor Studio Design System */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 170px);
+  min-height: 680px;
+  background: var(--background, #0f172a);
+  color: var(--foreground, #f8fafc);
+  border-radius: 16px;
+  border: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+  box-shadow: var(--shadow-lg, 0 16px 40px rgba(0, 0, 0, 0.4));
+  overflow: hidden;
+}
+
+/* 顶部工作台状态与控制栏 */
+.workbenchHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--card, #1e293b);
+  border-bottom: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+  gap: 16px;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #818cf8;
+}
+
+.headerTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--foreground, #f8fafc);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.headerSubtitle {
+  font-size: 12px;
+  color: var(--muted-foreground, #94a3b8);
+  margin-top: 2px;
+}
+
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--background, #0f172a);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted-foreground, #94a3b8);
+}
+
+.statValue {
+  font-weight: 700;
+  color: #60a5fa;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 主内容三栏弹性布局 */
+.mainLayout {
+  display: grid;
+  grid-template-columns: 320px 1fr 360px;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* 左侧镜头列表卷轴 Panel */
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  background: var(--card, #1e293b);
+  border-right: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+  overflow: hidden;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border, rgba(51, 65, 85, 0.4));
+  background: var(--background, #0f172a);
+}
+
+.panelTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--foreground, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.frameList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.frameCard {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--background, #0f172a);
+  border: 1px solid var(--border, rgba(51, 65, 85, 0.5));
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.frameCard:hover {
+  border-color: #6366f1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.frameCardActive {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+.frameThumbWrapper {
+  position: relative;
+  width: 96px;
+  height: 54px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #020617;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frameThumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.frameBadge {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  color: #e2e8f0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.frameInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.frameHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.frameTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground, #f8fafc);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.frameMetaTags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.metaTag {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(51, 65, 85, 0.5);
+  color: #cbd5e1;
+}
+
+.metaTagHighlight {
+  background: rgba(99, 102, 241, 0.2);
+  color: #818cf8;
+}
+
+/* 中央 Monitor / Canvas Panel */
+.centerPanel {
+  display: flex;
+  flex-direction: column;
+  background: var(--background, #0f172a);
+  overflow: hidden;
+  position: relative;
+}
+
+.canvasViewportHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--card, #1e293b);
+  border-bottom: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+}
+
+.viewportContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  background: var(--background, #0f172a);
+}
+
+.heroCanvasCard {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card, #1e293b);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroCanvasImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.canvasEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  gap: 12px;
+}
+
+.emptyIconCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #818cf8;
+}
+
+.canvasSubtitleBar {
+  position: absolute;
+  bottom: 16px;
+  left: 24px;
+  right: 24px;
+  background: var(--card, rgba(15, 23, 42, 0.88));
+  backdrop-filter: blur(12px);
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.subtitleText {
+  font-size: 13px;
+  font-weight: 500;
+  color: #f1f5f9;
+  line-height: 1.4;
+}
+
+.subtitleSpeaker {
+  color: #818cf8;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* 监视器底栏控制段 */
+.canvasControlBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--card, #1e293b);
+  border-top: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+}
+
+/* 右侧镜头 Inspector Panel */
+.rightPanel {
+  display: flex;
+  flex-direction: column;
+  background: var(--card, #1e293b);
+  border-left: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+  overflow-y: auto;
+}
+
+.inspectorContent {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inspectorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  background: var(--background, #0f172a);
+  border-radius: 12px;
+  border: 1px solid var(--border, rgba(51, 65, 85, 0.5));
+}
+
+.sectionLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--foreground, #f8fafc);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presetChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--card, #1e293b);
+  border: 1px solid var(--border, rgba(51, 65, 85, 0.6));
+  color: var(--muted-foreground, #94a3b8);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.presetChip:hover {
+  border-color: #6366f1;
+  color: #f8fafc;
+}
+
+.presetChipActive {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+  color: #818cf8;
+  font-weight: 600;
+}

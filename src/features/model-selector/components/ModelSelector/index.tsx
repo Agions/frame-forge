@@ -1,21 +1,27 @@
 /**
- * 模型选择器组件
- * 专业的 AI 模型选择界面
+ * 模型选择器组件 — 2026 最新版
+ * 明确划分：文字模型 (text)、图片模型 (image)、视频模型 (video) 三大分类矩阵
  */
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, CheckCircle, Loader, Zap, Star, DollarSign, Settings, Search } from 'lucide-react';
+import {
+  Bot,
+  CheckCircle,
+  Loader,
+  Zap,
+  Star,
+  DollarSign,
+  Settings,
+  Search,
+  Image as ImageIcon,
+  Video as VideoIcon,
+  FileText,
+} from 'lucide-react';
 import { useState, useMemo, useDeferredValue } from 'react';
 
 import { MODEL_PROVIDERS } from '@/core/config/models-config';
 import { LLM_MODELS, type LLMModelConfig } from '@/core/constants';
 import { useModel, useModelCost, useRecommendedModel } from '@/core/hooks/useModel';
-
-interface ModelSelectorProps {
-  /** 模型配置（可选，默认使用 core 配置） */
-  providers?: ModelProvider[];
-  models?: LLMModelConfig[];
-}
 import { Alert, AlertDescription } from '@/shared/components/ui/alert';
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 import { Badge } from '@/shared/components/ui/badge';
@@ -29,13 +35,12 @@ import type { ModelCategory, ModelProvider } from '@/shared/types';
 import styles from './index.module.less';
 import { TruncatedDescription } from './TruncatedDescription';
 
-// 分类选项
+// 2026 三大核心分类选项
 const CATEGORY_OPTIONS = [
-  { label: '全部', value: 'all' },
-  { label: '文本', value: 'text' },
-  { label: '代码', value: 'code' },
-  { label: '图像', value: 'image' },
-  { label: '视频', value: 'video' },
+  { label: '全部模型', value: 'all', icon: <Bot size={14} /> },
+  { label: '📝 文字大模型', value: 'text', icon: <FileText size={14} /> },
+  { label: '🎨 图片生图', value: 'image', icon: <ImageIcon size={14} /> },
+  { label: '🎬 视频渲染', value: 'video', icon: <VideoIcon size={14} /> },
 ];
 
 interface ModelSelectorProps {
@@ -97,7 +102,7 @@ export function ModelSelector({
         id: m.modelId,
         name: m.name,
         provider: m.provider as ModelProvider,
-        category: m.capabilities,
+        category: [m.category || 'text', ...(m.capabilities || [])],
         description: `${m.name} - ${m.version}`,
         version: m.version,
         contextWindow: m.contextWindow,
@@ -200,7 +205,7 @@ export function ModelSelector({
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               {model.recommended && (
-                <Tooltip title="推荐模型">
+                <Tooltip title="2026 推荐模型">
                   <Star size={16} className={styles.proIcon} />
                 </Tooltip>
               )}
@@ -254,17 +259,17 @@ export function ModelSelector({
       {/* 头部 */}
       <div className={styles.header}>
         <h4 className={styles.title} style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>
-          <Bot size={20} style={{ marginRight: 8 }} /> 选择 AI 模型
+          <Bot size={20} style={{ marginRight: 8 }} /> 2026 AI 模型矩阵 (文字 / 图片 / 视频)
         </h4>
         {selectedModel && (
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-            <span style={{ color: 'rgba(0,0,0,0.65)', fontSize: 14 }}>
-              当前: <strong>{selectedModel.name}</strong>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13 }}>
+              当前激活: <strong className="text-[#00f5d4]">{selectedModel.name}</strong>
             </span>
             {isConfigured ? (
-              <Badge variant="success">已配置</Badge>
+              <Badge variant="success">已配置 API</Badge>
             ) : (
-              <Badge variant="warning">未配置</Badge>
+              <Badge variant="warning">未配置 API</Badge>
             )}
           </div>
         )}
@@ -284,7 +289,7 @@ export function ModelSelector({
             className={styles.sectionTitle}
             style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 8 }}
           >
-            <Star size={14} /> 推荐模型
+            <Star size={14} /> 2026 最佳推荐
           </span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {recommended.map((model, idx) => (
@@ -304,50 +309,54 @@ export function ModelSelector({
 
       {/* 过滤器 */}
       <div className={styles.filters}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Input
-            placeholder="搜索模型..."
+            placeholder="搜索 2026 最新模型..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             allowClear
             className={styles.searchInput}
             icon={<Search size={16} />}
           />
-          <div style={{ display: 'flex', gap: 16 }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                {CATEGORY_OPTIONS.map((opt) => (
-                  <Button
-                    key={opt.value}
-                    variant={category === opt.value ? 'default' : 'ghost'}
-                    size="small"
-                    onClick={() => setCategory(opt.value as ModelCategory)}
-                  >
-                    {opt.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* 三大分类 Tab */}
+            <div style={{ display: 'flex', gap: 4 }}>
+              {CATEGORY_OPTIONS.map((opt) => (
                 <Button
-                  variant={provider === 'all' ? 'default' : 'ghost'}
+                  key={opt.value}
+                  variant={category === opt.value ? 'default' : 'ghost'}
                   size="small"
-                  onClick={() => setProvider('all')}
+                  onClick={() => setCategory(opt.value as ModelCategory)}
+                  className="gap-1 text-xs"
                 >
-                  全部
+                  {opt.label}
                 </Button>
-                {Object.entries(MODEL_PROVIDERS).map(([key, config]) => (
+              ))}
+            </div>
+
+            {/* 提供商 Selector */}
+            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginLeft: 'auto' }}>
+              <Button
+                variant={provider === 'all' ? 'default' : 'ghost'}
+                size="small"
+                onClick={() => setProvider('all')}
+                className="text-xs"
+              >
+                全部厂商
+              </Button>
+              {Object.entries(MODEL_PROVIDERS)
+                .slice(0, 6)
+                .map(([key, config]) => (
                   <Button
                     key={key}
                     variant={provider === key ? 'default' : 'ghost'}
                     size="small"
                     onClick={() => setProvider(key as ModelProvider)}
+                    className="text-xs"
                   >
                     {config.name}
                   </Button>
                 ))}
-              </div>
             </div>
           </div>
         </div>
@@ -363,12 +372,12 @@ export function ModelSelector({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'rgba(255,255,255,0.8)',
+              background: 'rgba(5, 12, 26, 0.85)',
               zIndex: 10,
             }}
           >
-            <Loader className="animate-spin" size={24} />
-            <span style={{ marginLeft: 8 }}>加载中...</span>
+            <Loader className="animate-spin text-[#00f5d4]" size={24} />
+            <span style={{ marginLeft: 8, color: '#00f5d4' }}>加载模型集中...</span>
           </div>
         )}
         <AnimatePresence mode="popLayout">
@@ -381,10 +390,10 @@ export function ModelSelector({
               style={{
                 padding: 32,
                 textAlign: 'center',
-                color: 'rgba(0,0,0,0.25)',
+                color: 'rgba(255,255,255,0.4)',
               }}
             >
-              没有找到匹配的模型
+              没有找到匹配的 2026 模型
             </div>
           )}
         </AnimatePresence>
@@ -409,7 +418,7 @@ export function ModelSelector({
                 icon={testing ? <Loader size={16} className="animate-spin" /> : <Zap size={16} />}
                 onClick={handleTest}
               >
-                测试连接
+                测试连通性
               </Button>
             )}
           </div>

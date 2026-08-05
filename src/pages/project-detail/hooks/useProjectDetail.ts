@@ -9,13 +9,13 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 
-import type { ScriptImportMetadata } from '@/components/ai';
 import { toast } from '@/components/ui/toast';
 import type { ProjectData } from '@/core/project/types/project';
 import type { Script, VideoSegment } from '@/core/script/types/script';
 import { collaborationService } from '@/core/services';
 import type { EvaluationScores, FrameComment, StoryboardVersion } from '@/core/services';
 import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
+import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
 import { useProjectStore } from '@/stores';
 
 import {

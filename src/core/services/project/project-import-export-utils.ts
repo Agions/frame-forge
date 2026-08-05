@@ -4,7 +4,12 @@
 
 import type { ProjectData } from '@/shared/types';
 
-import type { BackupRecord, DiffBuilder, ExportFormat, ProjectComparison } from './project-import-export-types';
+import type {
+  BackupRecord,
+  DiffBuilder,
+  ExportFormat,
+  ProjectComparison,
+} from './project-import-export-types';
 
 /** 解析版本号 */
 export function parseVersion(version: string): { major: number; minor: number; patch: number } {
@@ -21,7 +26,7 @@ export function nowIso(): string {
 export function generateExportFilename(projectName: string, format: ExportFormat): string {
   const timestamp = new Date().toISOString().slice(0, 10);
   const safe = projectName.replace(/[^a-zA-Z0-9一-龥]/g, '_');
-  return `storyweaver_${safe}_${timestamp}.${format}`;
+  return `mangav_${safe}_${timestamp}.${format}`;
 }
 
 /** 生成备份文件名 */

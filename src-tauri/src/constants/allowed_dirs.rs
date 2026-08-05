@@ -4,9 +4,9 @@
 //! of least privilege: output files may only be created inside these directories
 //! (typically the OS temp dir + per-app subdirectories).
 //!
-//! **Naming convention**: Each subdirectory uses the `storyweaver_*` prefix for
-//! brand continuity with the Story Weaver product line. No backwards-compatibility
-//! aliases are retained — old data in non-`storyweaver_*` directories will be
+//! **Naming convention**: Each subdirectory uses the `mangav_*` prefix for
+//! brand continuity with the MangaV product line. No backwards-compatibility
+//! aliases are retained — old data in non-`mangav_*` directories will be
 //! rejected by the path validator.
 
 use std::path::PathBuf;
@@ -14,19 +14,19 @@ use std::path::PathBuf;
 /// Directories where FFmpeg output files are allowed to be created.
 /// Used by `validate_output_path`.
 pub const ALLOWED_OUTPUT_DIRS: &[&str] = &[
-    "storyweaver_temp",
-    "storyweaver_keyframes",
-    "storyweaver_thumbnails",
-    "storyweaver_preview",
+    "mangav_temp",
+    "mangav_keyframes",
+    "mangav_thumbnails",
+    "mangav_preview",
 ];
 
 /// Directories where cleanup is allowed (subset of output dirs).
 /// Used by `clean_temp_file` to verify a path is safe to delete.
 pub const ALLOWED_TEMP_CLEANUP_DIRS: &[&str] = &[
-    "storyweaver_keyframes",
-    "storyweaver_thumbnails",
-    "storyweaver_temp",
-    "storyweaver_preview",
+    "mangav_keyframes",
+    "mangav_thumbnails",
+    "mangav_temp",
+    "mangav_preview",
 ];
 
 /// Build the full OS temp dir + subdirectory path for a given subdir.
@@ -40,8 +40,8 @@ mod tests {
 
     #[test]
     fn output_dirs_includes_keyframes() {
-        assert!(ALLOWED_OUTPUT_DIRS.contains(&"storyweaver_keyframes"));
-        assert!(ALLOWED_OUTPUT_DIRS.contains(&"storyweaver_preview"));
+        assert!(ALLOWED_OUTPUT_DIRS.contains(&"mangav_keyframes"));
+        assert!(ALLOWED_OUTPUT_DIRS.contains(&"mangav_preview"));
     }
 
     #[test]
@@ -57,7 +57,7 @@ mod tests {
 
     #[test]
     fn temp_subdir_creates_under_temp() {
-        let p = temp_subdir("storyweaver_keyframes");
-        assert!(p.ends_with("storyweaver_keyframes"));
+        let p = temp_subdir("mangav_keyframes");
+        assert!(p.ends_with("mangav_keyframes"));
     }
 }

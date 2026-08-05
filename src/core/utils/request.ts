@@ -1,5 +1,5 @@
 /**
- * Story Weaver Shared Utils - Request Utilities & Request Cache
+ * MangaV Shared Utils - Request Utilities & Request Cache
  */
 import { retry as retryRequest, type RetryOptions } from '@/core/utils/timing';
 

@@ -52,7 +52,7 @@ export const useProjectStore = create<ProjectState>()(
       };
     },
     {
-      name: 'storyweaver-project-storage',
+      name: 'mangav-project-storage',
       storage: createJSONStorage(() => createDebouncedStorage(localStorage, 1500)),
       partialize: (state) => ({
         projects: state.projects,

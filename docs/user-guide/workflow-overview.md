@@ -1,67 +1,49 @@
-# 工作流概览
+# MangaV (漫织 AI) 6 阶 SOP 漫剧生产流程
 
-> Story Weaver 的 9 步端到端创作流水线
+> 从小说文本导入到 4K 视频导出的标准生产 SOP
 
-## 双模式对比
+---
 
-| 维度             | Autonomous Mode               | Manual Mode            |
-| ---------------- | ----------------------------- | ---------------------- |
-| **用户操作**     | 提供原材料 → 按「开始」→ 等待 | 逐步审批 / 编辑 / 调整 |
-| **AI 行为**      | 自主分析 → 生成 → 审核 → 修复 | 按指令执行             |
-| **Quality Gate** | 每步自动评分（fail 触发重试） | 仅提示，人工把关       |
-| **Self-Review**  | 失败自动重试（≤3 次）         | 不重试                 |
-| **断点续传**     | 30s 自动 Checkpoint           | 不支持                 |
-| **适合场景**     | 批量生产、快速成片            | 精细定制               |
-| **预估时间**     | 15-30 min（短篇）             | 数小时                 |
-
-## 9 步流水线
+## 规范化 6 阶 SOP 流程图
 
 ```mermaid
-graph LR
-    A[1. 导入<br/>IMPORT] --> B[2. 分析<br/>ANALYSIS]
-    B --> C[3. 剧本<br/>SCRIPT]
-    C --> D[4. 角色<br/>CHARACTER]
-    D --> E[5. 分镜<br/>STORYBOARD]
-    E --> F[6. 渲染<br/>RENDER]
-    F --> G[7. 剪辑<br/>VIDEO_EDITING]
-    G --> H[8. 配音<br/>AUDIO_SYNTHESIS]
-    H --> I[9. 合成<br/>COMPOSITION]
+graph TD
+    S1[1. 草稿阶段: Draft] -->|AI 智能分场| S2[2. 剧本分解: ScriptParsed]
+    S2 -->|画风预设 & 镜头分类| S3[3. 分镜构建: StoryboardGenerated]
+    S3 -->|绑定角色 TTS 声优| S4[4. 音轨合成: AudioSynthesized]
+    S4 -->|发起硬件加速渲染| S5[5. 视频渲染: Rendering]
+    S5 -->|渲染校验完成| S6[6. 完工阶段: Completed]
 ```
 
-## 质量保障
+---
 
-### Quality Gate（每步评分）
+## 阶段说明指南
 
-每一步输出都经过自动评分：
+### 1. `Draft` (草稿与全局设置)
 
-| 维度       | 阈值   | 说明             |
-| ---------- | ------ | ---------------- |
-| 角色一致性 | ≥ 0.85 | VLM 比对角色外观 |
-| 视觉质量   | ≥ 0.80 | 构图/光影合理性  |
-| 脚本对齐   | ≥ 0.90 | 与原始剧本吻合度 |
-| 完整性     | 100%   | 必填字段不缺     |
+- 新建 `.mangav` 专属项目文件，导入小说原文本（支持 txt / markdown / docx）。
+- 选择全剧视觉风格预设（仙侠国风、现代日漫、赛博朋克、热血战斗、暗黑奇幻）。
 
-### Self-Review Loop
+### 2. `ScriptParsed` (剧本拆解与角色锚定)
 
-审核失败时自动重试：
+- **`mangav-ai`** 解析器识别剧情，分离对白与旁白。
+- 提炼 `CharacterAsset` 资产并写入性别、年龄、服饰与 LoRA 绑定词，启用 **Master Reference Protocol** 锁定角色防漂移。
 
-```
-[Step N 输出] → QualityGate 判定
-                       │
-              ┌────────┴────────┐
-              │                 │
-            PASS              FAIL
-              │                 │
-              ▼           触发 Self-Review
-          下一 步              │
-                                ▼
-                          优化 Prompt
-                          重新执行 Step N
-                          （最多 3 次）
-```
+### 3. `StoryboardGenerated` (分镜构建与画面渲染)
 
-::: tip Checkpoint
-Autonomous 模式每 30 秒自动保存状态到本地。应用崩溃 → 重启后自动恢复；断网 → 重连后继续。
-:::
+- `classify_camera_shot` 根据动作推导镜头语言（特写、动效、全景、中景）。
+- `PromptBuilder` 生成 SD/ComfyUI 正负 Prompt 并通过分镜网格渲染画面，锁定随机种子 Seed。
 
-[下一步：Autonomous 模式详解 →](/user-guide/autonomous-mode)
+### 4. `AudioSynthesized` (多音轨对齐)
+
+- `AudioStudio` 为对白绑定角色 TTS 声音（支持 EdgeTTS 与 CosyVoice）。
+- 精确排列对白轨、BGM 音轨与 SFX 效果音。
+
+### 5. `Rendering` (硬件加速渲染)
+
+- `mangav-media` 调度 VideoToolbox (Mac) 或 NVENC (Windows) 硬编。
+- 自动加入镜头 Keyframe 缩放平移（Pan/Zoom）过渡动效。
+
+### 6. `Completed` (归档发布)
+
+- 输出 1080p / 4K 高清视听漫剧视频并封存 `.mangav` 归档包。

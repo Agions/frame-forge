@@ -9,6 +9,7 @@ export type ModelProvider =
   | 'openai'
   | 'anthropic'
   | 'google'
+  | 'deepseek'
   | 'baidu'
   | 'alibaba'
   | 'zhipu'

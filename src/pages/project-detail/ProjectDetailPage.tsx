@@ -19,9 +19,7 @@ import {
 import React, { Suspense, lazy, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { AudioEditorPanel } from '@/components/media/audio';
-import { StoryboardCollaborationPanel } from '@/components/pipeline/StoryboardCollaborationPanel';
-import { CostPanel } from '@/components/project/CostPanel';
+import { AudioEditorPanel } from '@/components/media/audio/AudioEditorPanel';
 import { ExportPanel } from '@/components/project/ExportPanel';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -33,6 +31,8 @@ import { Tabs, TabPane } from '@/components/ui/tabs';
 import { Title, Text, Paragraph } from '@/components/ui/typography';
 import type { Character } from '@/core/script/types/novel';
 import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
+import CostDashboard from '@/features/cost/components/CostDashboard';
+import { StoryboardCollaborationPanel } from '@/features/storyboard/components/StoryboardCollaborationPanel';
 
 import { useProjectDetail } from './hooks/useProjectDetail';
 import styles from './ProjectDetail.module.less';
@@ -55,12 +55,12 @@ const EmptyScriptHint: React.FC<{
 );
 
 // Lazy-loaded sub-components
-const importScriptEditor = () => import('@/components/ai/ScriptEditor/ScriptEditor');
+const importScriptEditor = () => import('@/features/storyboard/components/ScriptEditor');
 const importRenderCenter = () => import('@/features/rendering/components/RenderCenter');
 const importCharacterDesigner = () =>
-  import('@/components/ai').then((m) => ({ default: m.CharacterDesigner }));
+  import('@/features/character-consistency/components/CharacterDesigner');
 const importCompositionStudio = () => import('@/features/composition/components/CompositionStudio');
-const importAudioEditor = () => import('@/components/media/audio');
+const importAudioEditor = () => import('@/components/media/audio/AudioEditorPanel');
 const importCostDashboard = () => import('@/features/cost/components/CostDashboard');
 
 const ScriptEditor = lazy(importScriptEditor);
@@ -415,7 +415,7 @@ const ProjectDetail = () => {
 
           <TabPane tab={renderTabLabel('cost', <DollarSign />, '成本')} key="cost">
             <div className={styles.workflowSection}>
-              <CostPanel projectId={project?.id} onExportReviewNotes={handleExportReviewNotes} />
+              <CostDashboard projectId={project?.id} />
             </div>
           </TabPane>
 

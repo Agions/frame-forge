@@ -8,7 +8,6 @@
 import { useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { ScriptImportMetadata } from '@/components/ai';
 import { toast } from '@/components/ui/toast';
 import type { AudioTrackConfig } from '@/core/audio/types/audio';
 import type { CompositionProject } from '@/core/audio/types/composition';
@@ -25,6 +24,7 @@ import {
 import type { QualityGateIssue } from '@/core/services';
 import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
 import { logger } from '@/core/utils/logger';
+import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
 import { type StoryboardState } from '@/stores/storyboard/storyboard-store';
 
 import { initialProjectEditState, type ProjectEditActions } from './project-edit-state';

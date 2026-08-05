@@ -7,7 +7,7 @@ version: '>=2.2'
 
 # 配置 API Key
 
-> Story Weaver 支持 7 个 AI Provider，至少配置一个才能开始创作。
+> MangaV 支持 7 个 AI Provider，至少配置一个才能开始创作。
 
 ---
 

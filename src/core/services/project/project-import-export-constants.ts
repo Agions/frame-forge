@@ -6,10 +6,10 @@ export const CURRENT_VERSION = '1.0.0';
 export const MIN_SUPPORTED_VERSION = '1.0.0';
 
 /** 备份索引存储键 */
-export const BACKUP_INDEX_KEY = 'storyweaver_backups';
+export const BACKUP_INDEX_KEY = 'mangav_backups';
 
 /** 单条备份内容存储键前缀 */
-export const BACKUP_ITEM_PREFIX = 'storyweaver_backup_';
+export const BACKUP_ITEM_PREFIX = 'mangav_backup_';
 
 /** 备份最大保留数量 */
 export const MAX_BACKUPS = 10;

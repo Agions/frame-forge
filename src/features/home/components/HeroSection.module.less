@@ -1,0 +1,431 @@
+.hero {
+  position: relative;
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  /* Deep black with cyan radial glow at top */
+  background: radial-gradient(
+    ellipse 80% 50% at 50% 0%,
+    rgba(0, 245, 212, 0.12) 0%,
+    rgba(180, 79, 255, 0.06) 40%,
+    rgba(5, 8, 16, 0.98) 75%
+  );
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(0, 245, 212, 0.06) inset,
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(0, 245, 212, 0.06);
+  margin-bottom: 2rem;
+}
+
+/* Primary neon glow bloom at top */
+.glow {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 320px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 245, 212, 0.28) 0%,
+    rgba(180, 79, 255, 0.14) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  animation: neonPulse 4s ease-in-out infinite;
+}
+
+/* Second purple accent glow */
+.glowSecondary {
+  position: absolute;
+  bottom: -40px;
+  right: -60px;
+  width: 400px;
+  height: 300px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 45, 120, 0.12) 0%,
+    rgba(180, 79, 255, 0.08) 50%,
+    transparent 70%
+  );
+  filter: blur(50px);
+  pointer-events: none;
+  animation: neonPulse 5s ease-in-out infinite reverse;
+}
+
+/* Dot-grid overlay */
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0, 245, 212, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Scan line sweep on load */
+.scanLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--neon-cyan) 30%,
+    rgba(0, 245, 212, 0.9) 50%,
+    var(--neon-cyan) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(0, 245, 212, 0.8);
+  animation: scanLine 1.8s ease-out 0.3s forwards;
+  pointer-events: none;
+}
+
+/* Particle container */
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: particleFloat linear infinite;
+
+  &:nth-child(1) { width: 3px; height: 3px; left: 15%; bottom: 20%; background: var(--neon-cyan); animation-duration: 6s; animation-delay: 0s; opacity: 0.7; }
+  &:nth-child(2) { width: 2px; height: 2px; left: 30%; bottom: 30%; background: var(--neon-purple); animation-duration: 8s; animation-delay: 1s; opacity: 0.6; }
+  &:nth-child(3) { width: 4px; height: 4px; left: 50%; bottom: 10%; background: var(--neon-cyan); animation-duration: 7s; animation-delay: 0.5s; opacity: 0.5; }
+  &:nth-child(4) { width: 2px; height: 2px; left: 70%; bottom: 25%; background: var(--neon-pink); animation-duration: 9s; animation-delay: 2s; opacity: 0.7; }
+  &:nth-child(5) { width: 3px; height: 3px; left: 85%; bottom: 15%; background: var(--neon-purple); animation-duration: 5s; animation-delay: 1.5s; opacity: 0.6; }
+  &:nth-child(6) { width: 2px; height: 2px; left: 22%; bottom: 40%; background: var(--neon-pink); animation-duration: 10s; animation-delay: 3s; opacity: 0.5; }
+  &:nth-child(7) { width: 3px; height: 3px; left: 60%; bottom: 35%; background: var(--neon-cyan); animation-duration: 7.5s; animation-delay: 0.8s; opacity: 0.6; }
+  &:nth-child(8) { width: 2px; height: 2px; left: 42%; bottom: 50%; background: var(--neon-purple); animation-duration: 8.5s; animation-delay: 2.5s; opacity: 0.5; }
+}
+
+/* Hero content layer */
+.heroContent {
+  position: relative;
+  z-index: 10;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Tech badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 1rem;
+  border-radius: 4px;
+  background: rgba(0, 245, 212, 0.07);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  color: var(--neon-cyan);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(0, 245, 212, 0.12), inset 0 1px 0 rgba(0, 245, 212, 0.1);
+  animation: slideUpIn 0.5s ease forwards;
+
+  /* Sparkle icon glow */
+  svg {
+    filter: drop-shadow(0 0 4px rgba(0, 245, 212, 0.8));
+  }
+}
+
+/* Main title */
+.title {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: rgba(224, 245, 248, 0.96);
+  margin-bottom: 1rem;
+  animation: slideUpIn 0.5s ease 0.1s both;
+  /* Subtle glitch */
+  animation: slideUpIn 0.5s ease 0.1s both, glitchText 8s ease-in-out 2s infinite;
+}
+
+/* Gradient highlight span */
+.highlight {
+  background: linear-gradient(
+    135deg,
+    var(--neon-cyan) 0%,
+    #60efff 30%,
+    var(--neon-purple) 70%,
+    var(--neon-pink) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(0, 245, 212, 0.4));
+  animation: neonFlowLine 4s linear infinite;
+  background-size: 200% 100%;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(148, 180, 194, 0.8);
+  max-width: 680px;
+  margin: 0 auto 2rem;
+  animation: slideUpIn 0.5s ease 0.2s both;
+}
+
+.br {
+  display: block;
+}
+
+/* CTA Buttons */
+.heroButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: slideUpIn 0.5s ease 0.3s both;
+}
+
+/* Primary — neon outline + glow */
+.primaryButton {
+  position: relative;
+  background: rgba(0, 245, 212, 0.1);
+  color: var(--neon-cyan) !important;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--neon-cyan) !important;
+  box-shadow: var(--neon-cyan-glow-sm);
+  transition: all 0.25s ease;
+  overflow: hidden;
+
+  /* Shimmer sweep */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 245, 212, 0.2) 50%,
+      transparent 100%
+    );
+    transition: left 0.4s ease;
+  }
+
+  &:hover {
+    background: rgba(0, 245, 212, 0.18);
+    box-shadow: var(--neon-cyan-glow);
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+}
+
+/* Secondary — dim glass */
+.secondaryButton {
+  background: rgba(8, 22, 48, 0.7) !important;
+  border: 1.5px solid rgba(0, 245, 212, 0.2) !important;
+  color: rgba(148, 180, 194, 0.8) !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: rgba(0, 245, 212, 0.06) !important;
+    border-color: rgba(0, 245, 212, 0.4) !important;
+    color: var(--neon-cyan) !important;
+    transform: translateY(-1px);
+  }
+}
+
+/* Role cards grid */
+.roleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.875rem;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: left;
+  animation: slideUpIn 0.5s ease 0.4s both;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.roleCard {
+  position: relative;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(5, 12, 26, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 245, 212, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+
+  /* Bottom glow accent */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 0 0 12px 12px;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    background: rgba(5, 12, 26, 0.95);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* Per-role colors via data attrs or classes */
+.roleCardCyan {
+  &::after { background: var(--neon-cyan); box-shadow: var(--neon-cyan-glow-sm); }
+  &:hover {
+    border-color: rgba(0, 245, 212, 0.45);
+    box-shadow: 0 0 20px rgba(0, 245, 212, 0.12), 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+  .roleCardIconWrap { border-color: rgba(0, 245, 212, 0.3); box-shadow: 0 0 10px rgba(0, 245, 212, 0.15); }
+  .roleCardTitle { color: var(--neon-cyan); }
+}
+
+.roleCardPurple {
+  &::after { background: var(--neon-purple); box-shadow: var(--neon-purple-glow-sm); }
+  &:hover {
+    border-color: rgba(180, 79, 255, 0.45);
+    box-shadow: 0 0 20px rgba(180, 79, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+  .roleCardIconWrap { border-color: rgba(180, 79, 255, 0.3); box-shadow: 0 0 10px rgba(180, 79, 255, 0.15); }
+  .roleCardTitle { color: var(--neon-purple); }
+}
+
+.roleCardPink {
+  &::after { background: var(--neon-pink); box-shadow: var(--neon-pink-glow-sm); }
+  &:hover {
+    border-color: rgba(255, 45, 120, 0.45);
+    box-shadow: 0 0 20px rgba(255, 45, 120, 0.12), 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+  .roleCardIconWrap { border-color: rgba(255, 45, 120, 0.3); box-shadow: 0 0 10px rgba(255, 45, 120, 0.15); }
+  .roleCardTitle { color: var(--neon-pink); }
+}
+
+.roleCardGreen {
+  &::after { background: var(--neon-green); box-shadow: var(--neon-green-glow); }
+  &:hover {
+    border-color: rgba(0, 255, 136, 0.45);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.12), 0 8px 32px rgba(0, 0, 0, 0.6);
+  }
+  .roleCardIconWrap { border-color: rgba(0, 255, 136, 0.3); box-shadow: 0 0 10px rgba(0, 255, 136, 0.15); }
+  .roleCardTitle { color: var(--neon-green); }
+}
+
+.roleCardIconWrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease;
+}
+
+.roleCardTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(224, 245, 248, 0.95);
+  display: block;
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.01em;
+  transition: color 0.3s ease;
+}
+
+.roleCardDesc {
+  font-size: 0.68rem;
+  color: rgba(148, 180, 194, 0.65);
+  line-height: 1.5;
+}
+
+.hint {
+  font-size: 0.7rem;
+  color: rgba(0, 245, 212, 0.45);
+  margin-top: 1.25rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Hero banner wrapper */
+.heroBanner {
+  margin: 1.5rem 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 245, 212, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(0, 245, 212, 0.08) inset,
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(0, 245, 212, 0.08);
+  position: relative;
+  background: rgba(5, 12, 26, 0.9);
+  animation: slideUpIn 0.5s ease 0.35s both;
+
+  &:hover .heroBannerImg {
+    transform: scale(1.01);
+  }
+
+  /* Overlay scanline effect on banner */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.06) 2px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+.heroBannerImg {
+  width: 100%;
+  display: block;
+  transition: transform 0.8s ease;
+  padding: 0.625rem;
+  border-radius: 0.875rem;
+}

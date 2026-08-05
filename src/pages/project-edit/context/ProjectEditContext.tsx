@@ -8,11 +8,11 @@
 
 import { createContext, useContext, useMemo, useState, useTransition } from 'react';
 
-import type { ScriptImportMetadata } from '@/components/ai';
 import type { AudioTrackConfig } from '@/core/audio/types/audio';
 import type { CompositionProject } from '@/core/audio/types/composition';
 import { useProject } from '@/core/hooks/useProject';
 import type { Character, StoryAnalysis } from '@/core/script/types/novel';
+import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
 import { useStoryboard } from '@/stores/storyboard/storyboard-store';
 
 import { initialProjectEditState, type ProjectEditContextValue } from './project-edit-state';

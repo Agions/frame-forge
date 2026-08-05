@@ -1,0 +1,275 @@
+/* ── Cyberpunk Hero Script Importer Container ── */
+
+.novelImporter {
+  width: 100%;
+  position: relative;
+}
+
+.heroInputCard {
+  background: rgba(5, 12, 26, 0.92);
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 245, 212, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
+    opacity: 0.6;
+  }
+}
+
+/* 顶部工具栏 Toolbar */
+.toolbarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.toolbarTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: rgba(224, 245, 248, 0.98);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+}
+
+.toolbarBadge {
+  font-size: 0.68rem;
+  font-family: monospace;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(0, 245, 212, 0.1);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+}
+
+.quickActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quickBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(224, 245, 248, 0.85);
+  background: rgba(8, 22, 48, 0.8);
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 245, 212, 0.15);
+    border-color: var(--neon-cyan);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 245, 212, 0.2);
+    transform: translateY(-1px);
+  }
+}
+
+.primaryFileBtn {
+  background: linear-gradient(135deg, rgba(0, 245, 212, 0.2), rgba(180, 79, 255, 0.2)) !important;
+  border-color: rgba(0, 245, 212, 0.4) !important;
+  color: var(--neon-cyan) !important;
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(0, 245, 212, 0.35), rgba(180, 79, 255, 0.35)) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 16px rgba(0, 245, 212, 0.3) !important;
+  }
+}
+
+/* 核心拖拽与编辑器区域 */
+.editorDropZone {
+  position: relative;
+  border-radius: 12px;
+  border: 1.5px solid rgba(0, 245, 212, 0.25);
+  background: rgba(2, 6, 16, 0.85);
+  transition: all 0.25s ease;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 245, 212, 0.25), inset 0 0 15px rgba(0, 245, 212, 0.05);
+  }
+
+  &.isDragging {
+    border-color: var(--neon-cyan);
+    background: rgba(0, 245, 212, 0.08);
+    box-shadow: 0 0 30px rgba(0, 245, 212, 0.4);
+  }
+}
+
+.dragOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 12, 26, 0.95);
+  border: 2px dashed var(--neon-cyan);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  gap: 0.75rem;
+  color: var(--neon-cyan);
+  font-weight: 700;
+  font-size: 0.95rem;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+.heroTextarea {
+  width: 100%;
+  min-height: 280px;
+  max-height: 520px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  padding: 1.25rem !important;
+  color: rgba(224, 245, 248, 0.95) !important;
+  font-family: inherit !important;
+  font-size: 0.88rem !important;
+  line-height: 1.7 !important;
+  resize: vertical !important;
+
+  &::placeholder {
+    color: rgba(148, 180, 194, 0.45);
+  }
+}
+
+/* 底部状态栏与统计信息 Bar */
+.editorFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: rgba(4, 10, 22, 0.9);
+  border-top: 1px solid rgba(0, 245, 212, 0.12);
+  font-size: 0.72rem;
+  color: rgba(148, 180, 194, 0.7);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.metaStats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  span {
+    color: var(--neon-cyan);
+    font-weight: 700;
+    font-family: monospace;
+  }
+}
+
+/* 预设剧本选择 Pills */
+.samplePillGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+  flex-wrap: wrap;
+
+  span {
+    font-size: 0.72rem;
+    color: rgba(148, 180, 194, 0.6);
+  }
+}
+
+.samplePill {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(0, 245, 212, 0.06);
+  border: 1px solid rgba(0, 245, 212, 0.2);
+  color: rgba(224, 245, 248, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 245, 212, 0.15);
+    color: var(--neon-cyan);
+    border-color: var(--neon-cyan);
+  }
+}
+
+/* 底部导入 Submit Bar */
+.submitBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(0, 245, 212, 0.15);
+}
+
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #050810;
+  background: linear-gradient(135deg, var(--neon-cyan), #00d2ff);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.3);
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ffffff, var(--neon-cyan));
+    box-shadow: 0 0 30px rgba(0, 245, 212, 0.5);
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* 已导入预览态 */
+.contentPreviewCard {
+  background: rgba(5, 12, 26, 0.92);
+  border: 1px solid rgba(0, 245, 212, 0.25);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}

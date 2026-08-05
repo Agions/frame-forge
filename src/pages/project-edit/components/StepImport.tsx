@@ -10,20 +10,20 @@
 import { FileText } from 'lucide-react';
 import { lazy } from 'react';
 
-import StepLayout from '@/components/common/StepLayout/StepLayout';
-import { StepActions } from '@/components/pipeline/StepActions';
 import { useProject } from '@/core/hooks/useProject';
+import { StepActions } from '@/features/storyboard/components/StepActions';
+import StepLayout from '@/features/storyboard/components/StepLayout';
 
 import { useStepImportContext } from '../context/selectors';
 
-const NovelImporter = lazy(() => import('@/components/ai/NovelImporter/NovelImporter'));
+const NovelImporter = lazy(() => import('@/features/storyboard/components/NovelImporter'));
 
 export interface StepImportProps {
   content?: string;
   loading?: boolean;
   onContentLoad?: (
     newContent: string,
-    metadata: import('@/components/ai').ScriptImportMetadata
+    metadata: import('@/features/storyboard/components/NovelImporter').ScriptImportMetadata
   ) => void;
   onRemove?: () => void;
   onNext?: () => void;

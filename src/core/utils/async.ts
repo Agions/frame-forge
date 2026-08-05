@@ -1,5 +1,5 @@
 /**
- * Story Weaver Shared Utils - Async Error Handling Utilities
+ * MangaV Shared Utils - Async Error Handling Utilities
  */
 
 import { toast } from '@/shared/components/ui/toast';

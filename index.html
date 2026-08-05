@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="dark dark-theme" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon-256x256.png" />
+    <link rel="icon" type="image/jpeg" href="/mangav_brand_logo.jpg" />
+    <link rel="apple-touch-icon" href="/mangav_brand_logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0B0E2C" />
+    <meta name="theme-color" content="#050810" />
     <meta
       name="description"
-      content="Story Weaver - AI 漫剧创作平台。基于 Tauri 2.1 桌面端，集成多模型 AI 实现从小说/剧本到成片的端到端自动化。"
+      content="MangaV (漫织 AI) - 基于 Tauri 2.1 桌面端，集成多模型 AI 实现从小说/剧本到成片的端到端自动化。"
     />
     <meta
       name="keywords"
@@ -20,41 +18,79 @@
 
     <!-- 性能优化：关键资源预加载 -->
     <link rel="preload" href="/src/main.tsx" as="script" />
-    <link rel="preconnect" href="https://api.openai.com" crossorigin />
-    <link rel="preconnect" href="https://api.anthropic.com" crossorigin />
-    <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossorigin />
-    <link rel="dns-prefetch" href="https://dashscope.aliyuncs.com" />
-    <link rel="dns-prefetch" href="https://open.bigmodel.cn" />
-    <link rel="dns-prefetch" href="https://aip.baidubce.com" />
 
-    <!-- Open Graph (Facebook, LinkedIn, Discord, Slack previews) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Story Weaver - AI 漫剧创作平台" />
-    <meta
-      property="og:description"
-      content="输入一本小说，AI 自动把它拍成一部漫剧。基于 Tauri 2.1 桌面端 + 多模型 AI 编排。"
-    />
-    <meta property="og:image" content="/og-image.png" />
-    <meta property="og:image:width" content="1280" />
-    <meta property="og:image:height" content="640" />
-    <meta property="og:image:alt" content="Story Weaver — AI 漫剧创作平台" />
-    <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="Story Weaver" />
+    <title>MangaV (漫织 AI)</title>
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Story Weaver - AI 漫剧创作平台" />
-    <meta
-      name="twitter:description"
-      content="输入一本小说，AI 自动把它拍成一部漫剧。基于 Tauri 2.1 桌面端 + 多模型 AI 编排。"
-    />
-    <meta name="twitter:image" content="/og-image.png" />
-    <meta name="twitter:creator" content="@Agions" />
-
-    <title>Story Weaver - AI 漫剧创作平台</title>
+    <!-- 原生开屏 Splash 样式（防止 JS 加载期间出现长白屏） -->
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #050810;
+        color: #e0f5f8;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overflow: hidden;
+      }
+      .app-splash-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: radial-gradient(ellipse at 50% 30%, rgba(0, 245, 212, 0.12) 0%, rgba(5, 8, 16, 0.98) 70%);
+      }
+      .app-splash-logo-wrap {
+        position: relative;
+        margin-bottom: 1.5rem;
+      }
+      .app-splash-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        border: 1.5px solid rgba(0, 245, 212, 0.5);
+        box-shadow: 0 0 24px rgba(0, 245, 212, 0.3), 0 0 50px rgba(0, 245, 212, 0.15);
+      }
+      .app-splash-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid rgba(0, 245, 212, 0.15);
+        border-top-color: #00f5d4;
+        border-radius: 50%;
+        animation: splashSpin 0.8s linear infinite;
+        margin-bottom: 1rem;
+      }
+      .app-splash-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #00f5d4;
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 10px rgba(0, 245, 212, 0.5);
+      }
+      .app-splash-sub {
+        font-size: 11px;
+        color: rgba(148, 180, 194, 0.6);
+        margin-top: 6px;
+      }
+      @keyframes splashSpin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- 动态首屏 Splash Loader：React 挂载前立即呈现高质感开屏，解决白屏尴尬 -->
+      <div class="app-splash-container">
+        <div class="app-splash-logo-wrap">
+          <img src="/mangav_brand_logo.jpg" alt="MangaV Logo" class="app-splash-logo" />
+        </div>
+        <div class="app-splash-spinner"></div>
+        <div class="app-splash-text">MangaV 漫织 AI · 启动中...</div>
+        <div class="app-splash-sub">Tauri v2 + Rust 引擎与 React 组件初始化</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

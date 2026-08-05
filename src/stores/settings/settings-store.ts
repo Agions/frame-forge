@@ -8,7 +8,7 @@ interface SettingsState {
   updateSettings: (patch: Partial<AppSettings>) => void;
 }
 
-const defaultSettings: AppSettings = { autoSave: true, theme: 'system', aiModelsSettings: {} };
+const defaultSettings: AppSettings = { autoSave: true, theme: 'light', aiModelsSettings: {} };
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
@@ -16,6 +16,6 @@ export const useSettingsStore = create<SettingsState>()(
       settings: defaultSettings,
       updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
     }),
-    { name: 'storyweaver-settings' }
+    { name: 'mangav-settings' }
   )
 );

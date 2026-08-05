@@ -82,7 +82,7 @@ export const useAppStore = create<AppState>()(
       },
     }),
     {
-      name: 'storyweaver-app-storage',
+      name: 'mangav-app-storage',
       partialize: (state) => ({
         language: state.language,
       }),

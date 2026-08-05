@@ -1,55 +1,69 @@
 /**
- * Step 6: 动态合成
- *
- * 通过 useStepCompositionContext() 获取 frames/onCompositionChange，
- * 不再依赖父组件层层传递 props。
+ * Step 7: 镜头动效与运镜轨迹合成工坊 (StepComposition)
+ * Cyber Midnight Zoom/Pan Keyframe 运镜与转场 Filter 选择
  */
-import { PlayCircle } from 'lucide-react';
-import { lazy } from 'react';
-import { useParams } from 'react-router-dom';
 
-import { StepActions } from '@/components/pipeline/StepActions';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Video, Sliders, ArrowRight, ArrowLeft, PlayCircle } from 'lucide-react';
+import React, { Suspense, lazy } from 'react';
+
 import { useProject } from '@/core/hooks/useProject';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card } from '@/shared/components/ui/card';
 
 import { useStepCompositionContext } from '../context/selectors';
-import styles from '../ProjectEdit.module.less';
 
 const CompositionStudio = lazy(() => import('@/features/composition/components/CompositionStudio'));
 
-export interface StepCompositionProps {
-  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
-  projectId?: string;
-  onCompositionChange?: (comp: import('@/core/audio/types/composition').CompositionProject) => void;
-  onPrev?: () => void;
-  onNext?: () => void;
-}
-
 function StepComposition() {
   const { frames, onCompositionChange } = useStepCompositionContext();
-  const { projectId } = useParams();
   const { setCurrentStep } = useProject();
 
   return (
-    <Card className={styles.stepCard}>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <PlayCircle className="h-5 w-5" />
-          动态合成
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground mb-4">为分镜添加动画效果和镜头运动，让画面动起来。</p>
-        <div className={styles.compositionStudioContainer}>
-          <CompositionStudio
-            frames={frames}
-            projectId={projectId}
-            onCompositionChange={onCompositionChange}
-          />
+    <div className="space-y-6">
+      <Card className="bg-slate-900/90 border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              <Video className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 m-0">
+                Step 7: 镜头动效与运镜轨迹合成工坊
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                为静态分镜添加 Zoom/Pan (平移与推进) 运镜 Filter 图，注入 Crossfade 与 Wipe 影视转场
+              </p>
+            </div>
+          </div>
+          <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-500/40 text-xs px-3 py-1">
+            <Sliders className="w-3.5 h-3.5 mr-1" /> Keyframe Motion Vector 2.0
+          </Badge>
         </div>
-        <StepActions onPrev={() => setCurrentStep(5)} onNext={() => setCurrentStep(7)} />
-      </CardContent>
-    </Card>
+
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center p-12">
+              <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <CompositionStudio frames={frames} onCompositionChange={onCompositionChange} />
+          </div>
+        </Suspense>
+      </Card>
+
+      {/* 底部步骤导航 */}
+      <div className="flex justify-between items-center pt-2">
+        <Button variant="outline" onClick={() => setCurrentStep(5)} className="gap-1.5">
+          <ArrowLeft className="w-4 h-4" /> 上一步: 场景渲染
+        </Button>
+        <Button variant="primary" onClick={() => setCurrentStep(7)} className="gap-1.5">
+          下一步: 多音轨 TTS 配音 <ArrowRight className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   );
 }
 

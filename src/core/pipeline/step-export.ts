@@ -9,13 +9,13 @@
  * @module core/pipeline/step-export
  */
 
+import { projectImportExportService } from '@/core/services/project/project-import-export-service';
 import { logger } from '@/core/utils/logger';
 
 import { BasePipelineStep } from './base-pipeline-step';
 import { PipelineStepId, QualityGateDecision } from './pipeline-types';
 import type { PipelineStep, StepInput } from './pipeline-types';
 import { getContext } from './step-helpers';
-import { projectImportExportService } from '@/core/services/project/project-import-export-service';
 
 /** 导出步骤输出 */
 export interface ExportOutput {
@@ -75,7 +75,9 @@ export class ExportStep extends BasePipelineStep {
     // 从上游步骤读取视频编辑结果
     const finalVideoUrl = context.getVariable<string>('finalVideoUrl');
     const finalVideoDuration = context.getVariable<number>('finalVideoDuration');
-    const finalVideoResolution = context.getVariable<{ width: number; height: number }>('finalVideoResolution');
+    const finalVideoResolution = context.getVariable<{ width: number; height: number }>(
+      'finalVideoResolution'
+    );
 
     if (!finalVideoUrl) {
       throw new Error('No final video URL available for export');
@@ -86,7 +88,7 @@ export class ExportStep extends BasePipelineStep {
     // 构造导出输出
     const output: ExportOutput = {
       videoUrl: finalVideoUrl,
-      filename: `storyweaver_${input.workflowId}_${Date.now()}.mp4`,
+      filename: `mangav_${input.workflowId}_${Date.now()}.mp4`,
       format: 'mp4',
       duration: finalVideoDuration ?? 0,
       resolution: finalVideoResolution ?? { width: 1920, height: 1080 },
@@ -127,7 +129,9 @@ export class ExportStep extends BasePipelineStep {
     context.setVariable('exportFilename', output.filename);
 
     const totalMs = Date.now() - ((input as { startTime?: number }).startTime ?? 0);
-    logger.success(`[ExportStep] Export completed in ${(totalMs / 1000).toFixed(1)}s: ${output.filename}`);
+    logger.success(
+      `[ExportStep] Export completed in ${(totalMs / 1000).toFixed(1)}s: ${output.filename}`
+    );
 
     return output;
   }
@@ -137,4 +141,3 @@ export class ExportStep extends BasePipelineStep {
 export function createExportStep(config?: Partial<PipelineStep>): ExportStep {
   return new ExportStep(config);
 }
-

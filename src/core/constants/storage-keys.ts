@@ -6,12 +6,12 @@
  */
 export const STORAGE_KEYS = {
   legacyProjects: 'STORAGE_KEYS.PROJECTS',
-  legacyProjectsZustand: 'storyweaver-project-storage',
-  projects: 'storyweaver:projects:v2',
-  settings: 'storyweaver:settings:v2',
-  app: 'storyweaver:app:v2',
-  storyboard: 'storyweaver:storyboard:v2',
-  migrationVersion: 'storyweaver:migration:version',
+  legacyProjectsZustand: 'mangav-project-storage',
+  projects: 'mangav:projects:v2',
+  settings: 'mangav:settings:v2',
+  app: 'mangav:app:v2',
+  storyboard: 'mangav:storyboard:v2',
+  migrationVersion: 'mangav:migration:version',
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

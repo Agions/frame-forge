@@ -2,7 +2,6 @@ import { ArrowLeft, Save, Trash2, Download, Bot } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import ScriptEditor from '@/components/ai/ScriptEditor/ScriptEditor';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -13,6 +12,7 @@ import type { ProjectData } from '@/core/project/types/project';
 import type { Script, ScriptSegment, VideoSegment } from '@/core/script/types/script';
 import { tauriService } from '@/core/services';
 import { logger } from '@/core/utils/logger';
+import ScriptEditor from '@/features/storyboard/components/ScriptEditor';
 import { useProjectStore } from '@/stores';
 
 import styles from './ScriptDetail.module.less';

@@ -3,11 +3,11 @@
  * 负责将协同评审与成本信息组装为 Markdown 文本
  */
 
+import { STORAGE_KEYS } from '@/core/constants/app-config';
 import type { FrameComment, StoryboardVersion } from '@/core/services/domain/collaboration-service';
 import type { CostRecord, CostStats } from '@/core/services/project/cost-service';
 import type { EvaluationScores } from '@/core/services/project/evaluation-service';
 import { getErrorMessage } from '@/shared/utils';
-import { STORAGE_KEYS } from '@/core/constants/app-config';
 
 const REVIEW_EXPORT_ACTIVITY_KEY = STORAGE_KEYS.REVIEW_EXPORT_ACTIVITIES;
 
@@ -60,7 +60,7 @@ class ReviewExportService {
     const generatedAt = input.generatedAt || new Date();
     const lines: string[] = [];
 
-    lines.push('# Story Weaver AI 评审记录导出');
+    lines.push('# MangaV AI 评审记录导出');
     lines.push('');
     lines.push(`- 项目ID: ${input.project.id}`);
     lines.push(`- 项目名称: ${input.project.name}`);

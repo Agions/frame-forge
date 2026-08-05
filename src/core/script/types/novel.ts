@@ -1,5 +1,5 @@
 /**
- * Story Weaver Novel Types
+ * MangaV Novel Types
  * Extracted from src/shared/types/index.ts
  * Novel/script analysis and processing types
  */

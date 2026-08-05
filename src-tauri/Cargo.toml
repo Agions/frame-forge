@@ -1,8 +1,8 @@
 [package]
-name = "story-weaver"
-version = "2.2.4"
-description = "Story Weaver - AI 漫剧创作平台"
-authors = ["Story Weaver Team <agions@qq.com>"]
+name = "mangav-desktop"
+version = "3.0.0"
+description = "MangaV - AI 漫剧创作平台 (Tauri v2 + Rust)"
+authors = ["MangaV Team <contact@mangav.ai>"]
 license = "MIT"
 repository = "https://github.com/Agions/story-weaver"
 edition = "2021"
@@ -15,6 +15,13 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = ">=2.6.3", features = [] }
 
 [dependencies]
+mangav-core = { path = "../crates/core" }
+mangav-ai = { path = "../crates/ai" }
+mangav-media = { path = "../crates/media" }
+mangav-plugin = { path = "../crates/plugin" }
+mangav-updater = { path = "../crates/updater" }
+mangav-ipc = { path = "../crates/ipc" }
+
 tauri = { version = "2", features = ["tray-icon"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

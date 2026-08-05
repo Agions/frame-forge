@@ -1,18 +1,15 @@
 /**
- * Theme Context — 主题状态管理
- *
- * 主题状态由 settingsStore (Zustand + persist) 作为唯一来源,
- * 通过 useSyncExternalStore 同步到 ThemeProvider。
+ * Theme Context — 浅色(默认)/暗黑/跟随系统 三模无缝全局引擎
  */
-import { createContext, useContext, useEffect, ReactNode, useSyncExternalStore } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { useSettingsStore } from '@/shared/stores/settings-store';
 
-type Theme = 'light' | 'dark' | 'system';
+export type ThemeMode = 'light' | 'dark' | 'system';
 
 interface ThemeContextValue {
-  theme: Theme;
-  setTheme: (t: Theme) => void;
+  theme: ThemeMode;
+  setTheme: (t: ThemeMode) => void;
   toggleTheme: () => void;
   resolvedTheme: 'light' | 'dark';
   isDarkMode: boolean;
@@ -25,54 +22,73 @@ function getSystemTheme(): 'light' | 'dark' {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function resolveTheme(theme: Theme): 'light' | 'dark' {
+function resolveTheme(theme: ThemeMode): 'light' | 'dark' {
   if (theme === 'system') return getSystemTheme();
-  return theme;
+  return theme || 'dark';
 }
 
 function applyThemeToDOM(resolved: 'light' | 'dark'): void {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  root.classList.remove('light', 'dark');
-  root.classList.add(resolved);
-  root.setAttribute('data-theme', resolved);
-  document.body.style.backgroundColor = resolved === 'dark' ? '#141414' : '#fff';
-  document.body.style.color =
-    resolved === 'dark' ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.85)';
+  root.classList.remove('light', 'dark', 'dark-theme', 'light-theme');
+
+  if (resolved === 'dark') {
+    root.classList.add('dark', 'dark-theme');
+    root.setAttribute('data-theme', 'dark');
+    document.body.style.backgroundColor = '#0b0f19';
+    document.body.style.color = '#f8fafc';
+  } else {
+    root.classList.add('light', 'light-theme');
+    root.setAttribute('data-theme', 'light');
+    document.body.style.backgroundColor = '#f8fafc';
+    document.body.style.color = '#0f172a';
+  }
 }
 
-export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const settingsTheme = useSyncExternalStore(
-    (cb) =>
-      useSettingsStore.subscribe((s, prev) => {
-        if (s.settings.theme !== prev.settings.theme) cb();
-      }),
-    () => useSettingsStore.getState().settings.theme as Theme,
-    () => useSettingsStore.getState().settings.theme as Theme
-  );
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const storeTheme = useSettingsStore((s) => (s?.settings?.theme as ThemeMode) || 'dark');
+  const updateSettings = useSettingsStore((s) => s.updateSettings);
+
+  const [activeTheme, setActiveThemeState] = useState<ThemeMode>(() => {
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('mangav-theme') as ThemeMode;
+      if (saved) return saved;
+    }
+    return storeTheme;
+  });
 
   useEffect(() => {
-    const resolved = resolveTheme(settingsTheme);
+    const resolved = resolveTheme(activeTheme);
     applyThemeToDOM(resolved);
 
-    // 监听系统主题变化 (仅 system 模式)
-    if (settingsTheme !== 'system') return;
+    if (activeTheme !== 'system') return;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = () => applyThemeToDOM(getSystemTheme());
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
-  }, [settingsTheme]);
+  }, [activeTheme]);
 
-  const updateSettings = useSettingsStore.getState().updateSettings;
-  const setTheme = (t: Theme) => updateSettings({ theme: t });
-  const toggleTheme = () =>
-    updateSettings({ theme: resolveTheme(settingsTheme) === 'dark' ? 'light' : 'dark' });
-  const resolvedTheme = resolveTheme(settingsTheme);
+  const setTheme = (t: ThemeMode) => {
+    setActiveThemeState(t);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('mangav-theme', t);
+    }
+    updateSettings?.({ theme: t });
+    applyThemeToDOM(resolveTheme(t));
+  };
+
+  const toggleTheme = () => {
+    const currentResolved = resolveTheme(activeTheme);
+    const nextTheme: ThemeMode = currentResolved === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+  };
+
+  const resolvedTheme = resolveTheme(activeTheme);
 
   return (
     <ThemeContext.Provider
       value={{
-        theme: settingsTheme,
+        theme: activeTheme,
         setTheme,
         toggleTheme,
         resolvedTheme,

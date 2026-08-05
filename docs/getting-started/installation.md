@@ -1,116 +1,69 @@
 ---
 title: 安装指南
-description: Story Weaver 安装指南 — 系统要求 + 安装步骤 + 环境配置
+description: MangaV (漫织 AI) 安装指南 — 系统要求 + 安装步骤 + 环境配置
 category: getting-started
-version: '>=2.2'
+version: '>=3.0'
 ---
 
-# 安装指南
+# MangaV (漫织 AI) 安装指南
 
-> Story Weaver 基于 Tauri 2.1 + React 19 + Vite 6 构建的桌面端应用。
+> MangaV 是基于 Tauri v2 + React 19 + Rust + Monorepo 构建的现代桌面端漫剧创作平台。
 
 ---
 
 ## 系统要求
 
-| 平台        | 最低要求                                |
-| ----------- | --------------------------------------- |
-| **macOS**   | 11+ (Big Sur)，Apple Silicon / Intel    |
-| **Windows** | 10+ (Build 1903)，64-bit                |
-| **Linux**   | Ubuntu 20.04+ / Fedora 34+ / Debian 11+ |
-| **内存**    | ≥ 4 GB（推荐 8 GB）                     |
-| **磁盘**    | ≥ 500 MB 可用空间                       |
+| 平台         | 最低要求                                    | 推荐配置                                    |
+| :----------- | :------------------------------------------ | :------------------------------------------ |
+| **macOS**    | macOS 12+ (Monterey)，Apple Silicon / Intel | macOS 14+ M1/M2/M3 (Apple Silicon 硬件加速) |
+| **Windows**  | Windows 10+ 64-bit (Build 1903)             | Windows 11 + NVIDIA 显卡 (NVENC 硬件加速)   |
+| **Linux**    | Ubuntu 22.04+ / Arch Linux / Debian 12+     | Ubuntu 24.04 64-bit                         |
+| **内存**     | ≥ 8 GB                                      | ≥ 16 GB                                     |
+| **磁盘空间** | ≥ 1 GB 可用空间                             | ≥ 10 GB (用于生成漫剧高帧率视频)            |
+
+---
 
 ## 前置依赖
 
-Story Weaver 桌面端需要以下运行时：
+若从源码进行编译开发或打包，需准备以下工具链：
 
 ```bash
-# Rust (≥ 1.70)
+# 1. Rust 工具链 (≥ 1.80)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-# Node.js (≥ 20)
-# 推荐使用 nvm
+# 2. Node.js 环境 (≥ 20.0)
 nvm install 20
 nvm use 20
 
-# pnpm (≥ 10)
+# 3. pnpm 包管理器 (≥ 10.0)
 npm install -g pnpm
 ```
 
-### Web 开发模式（无需 Tauri）
+---
 
-仅需 Node.js + pnpm 即可运行 Web 预览版：
+## 安装与运行
+
+### 方式 1：使用二进制桌面安装包
+
+从 [GitHub Releases](https://github.com/Agions/story-weaver/releases/latest) 下载对应平台安装包：
+
+- **macOS**: 下载 `MangaV.dmg` 拖入 `/Applications`。
+- **Windows**: 双击运行 `mangav_x64-setup.exe`。
+- **Linux**: 执行 `sudo dpkg -i mangav_amd64.deb`。
+
+### 方式 2：源码本地构建
 
 ```bash
-pnpm install
-pnpm dev
-```
-
-## 桌面端安装
-
-### 1. 克隆仓库
-
-```bash
+# 克隆仓库
 git clone https://github.com/Agions/story-weaver.git
 cd story-weaver
-```
 
-### 2. 安装依赖
-
-```bash
+# 安装依赖
 pnpm install
-```
 
-### 3. 启动开发模式
-
-```bash
-# Tauri 桌面端（完整功能，含 FFmpeg 原生加速）
+# 运行开发桌面端 (Tauri v2 + Vite Dev)
 pnpm tauri dev
 
-# 纯 Web 模式（预览 UI，无桌面集成）
-pnpm dev
+# 执行全量打包
+bash scripts/build-desktop.sh
 ```
-
-### 4. 构建发布版
-
-```bash
-pnpm tauri build
-```
-
-输出位于 `src-tauri/target/release/`：
-
-- **macOS**: `.app` / `.dmg`
-- **Windows**: `.msi` / `.exe`
-- **Linux**: `.AppImage` / `.deb`
-
-## 验证安装
-
-```bash
-# 检查 Rust
-rustc --version
-
-# 检查 Node
-node --version
-
-# 检查 pnpm
-pnpm --version
-
-# 运行测试
-pnpm test
-
-# 类型检查
-pnpm exec tsc --noEmit
-```
-
-## 故障排除
-
-::: warning WebView2 (Windows)
-Windows 平台需要 WebView2 运行时。如缺失，安装会提示下载。
-:::
-
-::: tip FFmpeg
-桌面端使用系统 FFmpeg（如已安装）。缺失时自动降级到 FFmpeg.wasm。
-:::
-
-[下一步：三步跑通 →](/getting-started/quick-start)

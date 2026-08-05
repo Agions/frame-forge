@@ -1,61 +1,25 @@
 /**
- * Step 3: 分镜设计
- *
- * 通过 useStepStoryboardContext() 获取 frames/selectedFrame/commentDraft 等，
- * 通过 useProjectEdit() 获取 focusFrameId，
- * 不再依赖父组件层层传递 props。
+ * Step 4: AI 漫剧分镜绘制工坊 (StepStoryboard)
+ * 封装 3 栏极客 Studio 工作台并集成前后步骤平滑导航
  */
-import { Image } from 'lucide-react';
-import { lazy } from 'react';
 
-import { StepActions } from '@/components/pipeline/StepActions';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { toast } from '@/components/ui/toast';
+import { Sparkles, ArrowRight, ArrowLeft } from 'lucide-react';
+import React, { Suspense, lazy } from 'react';
+
 import { useProject } from '@/core/hooks/useProject';
+import { Button } from '@/shared/components/ui/button';
+import { Card } from '@/shared/components/ui/card';
+import { toast } from '@/shared/components/ui/toast';
 
 import { useProjectEdit } from '../context/ProjectEditContext';
 import { useStepStoryboardContext } from '../context/selectors';
-import styles from '../ProjectEdit.module.less';
 
-import CollaborationPanel from './CollaborationPanel';
-
-const StoryboardEditor = lazy(
-  () => import('@/components/pipeline/StoryboardEditor/StoryboardEditor')
-);
-
-export interface StepStoryboardProps {
-  storyboardFrames?: import('@/core/storyboard/types/storyboard').StoryboardFrame[];
-  storyAnalysis?: import('@/core/script/types/novel').StoryAnalysis | null;
-  selectedFrame?: import('@/core/storyboard/types/storyboard').StoryboardFrame | null;
-  focusFrameId?: string;
-  commentDraft?: string;
-  versionLabel?: string;
-  compareLeftVersionId?: string;
-  compareRightVersionId?: string;
-  versionDiff?: import('@/core/services/domain/collaboration-service').VersionDiffSummary | null;
-  storyboardVersions?: import('@/core/services/domain/collaboration-service').StoryboardVersion[];
-  projectId?: string;
-  onFramesChange?: (frames: import('@/core/storyboard/types/storyboard').StoryboardFrame[]) => void;
-  onFrameSelect?: (
-    frame: import('@/core/storyboard/types/storyboard').StoryboardFrame | null
-  ) => void;
-  onBuildDraft?: () => void;
-  onAddComment?: () => void;
-  onSaveVersion?: () => void;
-  onCompareVersions?: () => void;
-  onRollback?: () => void;
-  onCommentDraftChange?: (v: string) => void;
-  onLeftVersionChange?: (v: string | undefined) => void;
-  onRightVersionChange?: (v: string | undefined) => void;
-  onVersionLabelChange?: (v: string) => void;
-  onPrev?: () => void;
-  onNext?: () => void;
-}
+const StoryboardEditor = lazy(() => import('@/features/storyboard/components/StoryboardEditor'));
+const CollaborationPanel = lazy(() => import('./CollaborationPanel'));
 
 function StepStoryboard() {
   const { state: projectEditState } = useProjectEdit();
-  const { focusFrameId, storyAnalysis } = projectEditState;
+  const { focusFrameId } = projectEditState;
   const {
     frames: storyboardFrames,
     onFramesChange,
@@ -65,31 +29,41 @@ function StepStoryboard() {
   const { setCurrentStep } = useProject();
 
   return (
-    <Card className={styles.stepCard}>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Image className="h-5 w-5" />
-          分镜设计
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground mb-4">设计漫画分镜，确定每个场景的构图和镜头。</p>
-        <div className={styles.storyboardContainer}>
-          <div className={styles.storyboardActions}>
-            <Button
-              variant="outline"
-              onClick={() => {
-                if (!storyAnalysis) {
-                  toast.warning('请先完成 AI 结构化解析');
-                  return;
-                }
-                onBuildDraft();
-                toast.success('已根据解析结果生成分镜草案');
-              }}
-            >
-              生成分镜草案
-            </Button>
+    <div className="space-y-6">
+      <Card className="bg-slate-900/90 border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 m-0">
+                Step 4: AI 漫剧分镜绘制工作台
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                3 栏 Studio 工作台：镜头卷轴、HD 16:9 画布视口、运镜构图芯片与 8K AI 场景生图
+              </p>
+            </div>
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              onBuildDraft();
+              toast.success('已自动生成最新分镜草案');
+            }}
+          >
+            一键智能生成草案
+          </Button>
+        </div>
+
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center p-12">
+              <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
           <StoryboardEditor
             key={`${storyboardFrames.length}-${storyboardFrames[0]?.id || 'none'}`}
             initialFrames={storyboardFrames}
@@ -98,10 +72,19 @@ function StepStoryboard() {
             onFrameSelect={onFrameSelect}
           />
           <CollaborationPanel />
-        </div>
-        <StepActions onPrev={() => setCurrentStep(2)} onNext={() => setCurrentStep(4)} />
-      </CardContent>
-    </Card>
+        </Suspense>
+      </Card>
+
+      {/* 底部步骤导航 */}
+      <div className="flex justify-between items-center pt-2">
+        <Button variant="outline" onClick={() => setCurrentStep(2)} className="gap-1.5">
+          <ArrowLeft className="w-4 h-4" /> 上一步: 镜头拆解
+        </Button>
+        <Button variant="primary" onClick={() => setCurrentStep(4)} className="gap-1.5">
+          下一步: 角色一致性锁定 <ArrowRight className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   );
 }
 

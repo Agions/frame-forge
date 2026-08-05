@@ -4,13 +4,13 @@
 
 /** 存储键名 */
 export const STORAGE_KEYS = {
-  PROJECTS: 'storyweaver_projects',
-  STORYBOARDS: 'storyweaver-storyboards',
-  COMPOSITIONS: 'storyweaver-compositions',
+  PROJECTS: 'mangav_projects',
+  STORYBOARDS: 'mangav-storyboards',
+  COMPOSITIONS: 'mangav-compositions',
   ASSETS: 'panelcraft_assets',
   CHARACTERS: 'man ga-characters',
-  BACKUPS: 'storyweaver_backups',
-  REVIEW_EXPORT_ACTIVITIES: 'storyweaver_review_export_activities',
+  BACKUPS: 'mangav_backups',
+  REVIEW_EXPORT_ACTIVITIES: 'mangav_review_export_activities',
   TOKEN: 'reelforge_token',
 } as const;
 

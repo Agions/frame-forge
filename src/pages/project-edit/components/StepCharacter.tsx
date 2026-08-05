@@ -1,112 +1,71 @@
 /**
- * Step 4: 角色设计
- *
- * 通过 useStepCharacterContext() 获取 characters/onChange，
- * 通过 useVersionControlContext() 获取版本控制能力。
- * 不再依赖父组件层层传递 props。
+ * Step 5: 角色一致性锁定与 LoRA 档案库 (StepCharacter)
+ * Master Reference Protocol 一致性注入与 IP-Adapter 生成器
  */
-import { User } from 'lucide-react';
-import { lazy, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
-import { StepActions } from '@/components/pipeline/StepActions';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { ShieldCheck, UserCheck, ArrowRight, ArrowLeft, Lock } from 'lucide-react';
+import React, { Suspense, lazy } from 'react';
+
 import { useProject } from '@/core/hooks/useProject';
-import type { StoryboardVersion } from '@/core/project/types/project';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card } from '@/shared/components/ui/card';
 
-import { useStepCharacterContext, useVersionControlContext } from '../context/selectors';
-import styles from '../ProjectEdit.module.less';
+import { useStepCharacterContext } from '../context/selectors';
 
-const CharacterDesigner = lazy(() =>
-  import('@/components/ai').then((m) => ({ default: m.CharacterDesigner }))
+const CharacterDesigner = lazy(
+  () => import('@/features/character-consistency/components/CharacterDesigner')
 );
-
-export interface StepCharacterProps {
-  characters?: import('@/core/script/types/novel').Character[];
-  projectId?: string;
-  onChange?: (characters: import('@/core/script/types/novel').Character[]) => void;
-  onPrev?: () => void;
-  onNext?: () => void;
-}
 
 function StepCharacter() {
   const { characters, onChange } = useStepCharacterContext();
-  const { saveVersionByType, listVersionsByType, rollbackVersionByType } =
-    useVersionControlContext();
-  const { projectId } = useParams();
   const { setCurrentStep } = useProject();
-  const [versionLabel, setVersionLabel] = useState('');
-  const [charVersions, setCharVersions] = useState<StoryboardVersion[]>([]);
-
-  const handleSaveVersion = () => {
-    saveVersionByType(
-      'character',
-      characters,
-      versionLabel || `角色-${new Date().toLocaleString()}`
-    );
-    setCharVersions(listVersionsByType('character') as StoryboardVersion[]);
-    setVersionLabel('');
-  };
 
   return (
-    <Card className={styles.stepCard}>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <User className="h-5 w-5" />
-          角色设计
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-muted-foreground mb-4">
-          为故事中的角色创建和管理形象档案，确保视觉一致性。
-        </p>
-
-        <div className={styles.versionControl}>
-          <div className={styles.versionSaveRow}>
-            <Input
-              placeholder="版本标签（可选）"
-              value={versionLabel}
-              onChange={(e) => setVersionLabel(e.target.value)}
-              className="w-48"
-            />
-            <Button variant="outline" size="sm" onClick={handleSaveVersion}>
-              保存角色版本
-            </Button>
-          </div>
-          {charVersions.length > 0 && (
-            <div className={styles.versionList}>
-              {charVersions.slice(0, 5).map((version) => (
-                <div key={version.id} className={styles.versionItem}>
-                  <span>{version.label || version.createdAt}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      const payload = rollbackVersionByType('character', version.id);
-                      if (payload && typeof payload === 'object' && 'characters' in payload) {
-                        const chars = (payload as { characters: unknown[] }).characters;
-                        if (Array.isArray(chars)) {
-                          onChange(chars as typeof characters);
-                        }
-                      }
-                    }}
-                  >
-                    回滚
-                  </Button>
-                </div>
-              ))}
+    <div className="space-y-6">
+      <Card className="bg-slate-900/90 border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+              <ShieldCheck className="w-6 h-6" />
             </div>
-          )}
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 m-0">
+                Step 5: 角色一致性锁定 (Master Reference Protocol)
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                锁定角色面部特征、服饰风格、LoRA 模型与 Prompt Tags，保障跨镜头人物绝对一致不走样
+              </p>
+            </div>
+          </div>
+          <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-xs px-3 py-1">
+            <Lock className="w-3.5 h-3.5 mr-1" /> 8K 一致性引擎已锁定
+          </Badge>
         </div>
 
-        <div className={styles.characterDesignerContainer}>
-          <CharacterDesigner characters={characters} onChange={onChange} projectId={projectId} />
-        </div>
-        <StepActions onPrev={() => setCurrentStep(3)} onNext={() => setCurrentStep(5)} />
-      </CardContent>
-    </Card>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center p-12">
+              <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            </div>
+          }
+        >
+          <div className="bg-slate-950 p-4 rounded-xl border border-slate-800">
+            <CharacterDesigner characters={characters} onChange={onChange} />
+          </div>
+        </Suspense>
+      </Card>
+
+      {/* 底部步骤导航 */}
+      <div className="flex justify-between items-center pt-2">
+        <Button variant="outline" onClick={() => setCurrentStep(3)} className="gap-1.5">
+          <ArrowLeft className="w-4 h-4" /> 上一步: 分镜绘制
+        </Button>
+        <Button variant="primary" onClick={() => setCurrentStep(5)} className="gap-1.5">
+          下一步: 硬件场景渲染 <ArrowRight className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   );
 }
 

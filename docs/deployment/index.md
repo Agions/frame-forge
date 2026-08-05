@@ -9,8 +9,8 @@
 pnpm tauri build
 
 # 输出
-# macOS: src-tauri/target/release/bundle/macos/Story Weaver.app
-# Windows: src-tauri/target/release/bundle/msi/Story Weaver_x64.msi
+# macOS: src-tauri/target/release/bundle/macos/MangaV.app
+# Windows: src-tauri/target/release/bundle/msi/MangaV_x64.msi
 # Linux: src-tauri/target/release/bundle/appimage/Story_Weaver.AppImage
 ```
 

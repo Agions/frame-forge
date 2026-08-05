@@ -6,12 +6,11 @@
 
 import { Edit3, Trash2, Play, Plus } from 'lucide-react';
 
+import styles from '@/features/storyboard/components/ScriptEditor.module.less';
 import { Button } from '@/shared/components/ui/button';
 import type { VideoSegment } from '@/shared/types/script';
 import { formatDurationShort } from '@/shared/utils';
 import { theme } from '@/styles/theme';
-
-import styles from './ScriptEditor/ScriptEditor.module.less';
 
 const SEGMENT_TYPE_LABELS: Record<string, string> = {
   narration: '旁白',
