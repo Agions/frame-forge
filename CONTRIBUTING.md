@@ -1,8 +1,8 @@
-# Story Weaver 开发指南
+# MangaV 开发指南
 
 ## 项目概述
 
-Story Weaver 是 AI 驱动的 **AI 漫剧创作平台**，输入一本小说，AI 自动把它拍成一部漫剧。基于 Tauri 2.1 + Rust 桌面端，集成多模型 AI（GLM-5 / M2.5 / Kimi / Seedream / Kling / Vidu / Edge TTS）实现端到端自动化。
+MangaV 是 AI 驱动的 **AI 漫剧创作平台**，输入一本小说，AI 自动把它拍成一部漫剧。基于 Tauri 2.1 + Rust 桌面端，集成多模型 AI（GLM-5 / M2.5 / Kimi / Seedream / Kling / Vidu / Edge TTS）实现端到端自动化。
 
 ## 技术栈
 
@@ -16,7 +16,7 @@ Story Weaver 是 AI 驱动的 **AI 漫剧创作平台**，输入一本小说，A
 
 ## 项目分层架构
 
-Story Weaver 采用严格的 **downward dependency（向下依赖）** 架构：
+MangaV 采用严格的 **downward dependency（向下依赖）** 架构：
 
 ```
 app（应用入口 + 路由 + Providers）
@@ -46,15 +46,15 @@ infrastructure（平台桥接：tauri-bridge/queue/telemetry）
 
 ## 命名规范
 
-| 对象 | 规范 | 示例 |
-|------|------|------|
-| 目录名 | `kebab-case` | `script-writer/`, `video-export/` |
-| 非组件文件（.ts） | `kebab-case` | `ai-provider-registry.ts`, `pipeline-engine.ts` |
-| React 组件文件（.tsx） | `PascalCase` | `HomePage.tsx`, `StepExport.tsx` |
-| 变量 / 函数 | `camelCase` | `generateSceneId`, `useProjectStore` |
-| 类 / 接口 / 类型 / 枚举 | `PascalCase` | `PipelineEngine`, `AIProvider` |
-| 编译期常量 / 枚举值 | `UPPER_CASE` | `MAX_RETRIES`, `API_TIMEOUT_MS` |
-| 测试文件 | `<target>.test.ts(x)` | `provider-registry.test.ts` |
+| 对象                    | 规范                  | 示例                                            |
+| ----------------------- | --------------------- | ----------------------------------------------- |
+| 目录名                  | `kebab-case`          | `script-writer/`, `video-export/`               |
+| 非组件文件（.ts）       | `kebab-case`          | `ai-provider-registry.ts`, `pipeline-engine.ts` |
+| React 组件文件（.tsx）  | `PascalCase`          | `HomePage.tsx`, `StepExport.tsx`                |
+| 变量 / 函数             | `camelCase`           | `generateSceneId`, `useProjectStore`            |
+| 类 / 接口 / 类型 / 枚举 | `PascalCase`          | `PipelineEngine`, `AIProvider`                  |
+| 编译期常量 / 枚举值     | `UPPER_CASE`          | `MAX_RETRIES`, `API_TIMEOUT_MS`                 |
+| 测试文件                | `<target>.test.ts(x)` | `provider-registry.test.ts`                     |
 
 > **注意**：拒绝 `snake_case`。项目采用 React 19 + Vite + Tauri + Radix 技术栈，整套工具链以 camelCase/kebab/PascalCase 为默认。
 
@@ -62,15 +62,15 @@ infrastructure（平台桥接：tauri-bridge/queue/telemetry）
 
 以下依赖方向**禁止**：
 
-| 禁止边（from → to） | 理由 |
-|----------------------|------|
-| `core/*` → `components/`、`pages/`、`app/` | 核心层不得反向依赖 UI |
-| `shared/*` → `core/services/*`、`pages/*`、`components/*`、`app/` | shared 是基座，只依赖 `types/*` 与自身 |
-| `core/services/*` → `app/`、`pages/`、`components/` | 领域服务不得依赖 UI |
-| 任意文件 → `infrastructure/ai/providers/*` | 该目录已删除（死代码） |
-| 任意文件 → `shared/utils/general` | 该文件已删除，改从 `@/shared/utils` 桶消费 |
-| `features/*` → 其它 `features/*` 的内部实现 | feature 间只允许通过 `core/services` 或 `shared` 协作 |
-| 经 `./` 桶自引用的"同居导出" | 禁止在 barrel 中 re-export 又会从同 barrel 导入的模块 |
+| 禁止边（from → to）                                               | 理由                                                  |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| `core/*` → `components/`、`pages/`、`app/`                        | 核心层不得反向依赖 UI                                 |
+| `shared/*` → `core/services/*`、`pages/*`、`components/*`、`app/` | shared 是基座，只依赖 `types/*` 与自身                |
+| `core/services/*` → `app/`、`pages/`、`components/`               | 领域服务不得依赖 UI                                   |
+| 任意文件 → `infrastructure/ai/providers/*`                        | 该目录已删除（死代码）                                |
+| 任意文件 → `shared/utils/general`                                 | 该文件已删除，改从 `@/shared/utils` 桶消费            |
+| `features/*` → 其它 `features/*` 的内部实现                       | feature 间只允许通过 `core/services` 或 `shared` 协作 |
+| 经 `./` 桶自引用的"同居导出"                                      | 禁止在 barrel 中 re-export 又会从同 barrel 导入的模块 |
 
 **校验方式**：CI 加入 `madge --circular`（必须为 0）与 `dependency-cruiser` 守护上述禁止边。
 
@@ -97,6 +97,7 @@ src/features/
 ```
 
 **约定**：
+
 - 每个切片只通过 `core/services` 或 `shared` 与横向引擎交互
 - 切片间不得直接 import 对方的内部实现
 - 切片入口为 `index.ts`，导出 `*FeatureService` 对象
@@ -126,7 +127,7 @@ src/features/
 ## 开发指南
 
 ```
-Story Weaver/
+MangaV/
 ├── src/                          # 前端 UI 层（React + Tauri API 包装）
 │   ├── features/                 # 14 个 Feature 模块（DDD 风格）
 │   │   ├── ai/                   # AI 模型选择

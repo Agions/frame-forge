@@ -20,7 +20,9 @@ dist/
 docs-site/
 
 # Rust build
-src-tauri/target/
+target/
+**/target/
+
 
 # IDE
 .idea/

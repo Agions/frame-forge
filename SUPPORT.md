@@ -1,6 +1,6 @@
 # Support
 
-> Story Weaver 用户支持渠道与资源
+> MangaV (漫织 AI) 用户支持渠道与资源
 
 ## 快速获取帮助
 
@@ -29,8 +29,8 @@
 
 1. **环境信息**：
    - 操作系统 + 版本（macOS 14.5 / Windows 11 / Ubuntu 24.04）
-   - Story Weaver 版本（v3.0.0）
-   - Tauri 版本（v2.1）
+   - MangaV 版本（v3.0.0）
+   - Tauri 版本（v2.0）
 
 2. **复现步骤**：
 
@@ -45,7 +45,7 @@
 
 4. **截图/录屏**（强烈推荐）
 
-5. **日志**（`~/.story-weaver/logs/` 目录下）
+5. **日志**（`~/.mangav/logs/` 目录下）
 
 ## 贡献代码
 
@@ -53,7 +53,7 @@
 
 ## 致谢
 
-Story Weaver 由以下项目启发 / 使用：
+MangaV (漫织 AI) 由以下项目启发 / 使用：
 
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) — 节点化工作流理念
 - [Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) — 创作者工具设计

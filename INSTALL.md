@@ -1,4 +1,4 @@
-# 安装 Story Weaver
+# 安装 MangaV (漫织 AI)
 
 ## macOS
 
@@ -7,12 +7,12 @@
 ```bash
 # 克隆并安装
 brew tap Agions/tap https://github.com/Agions/homebrew-tap
-brew install --cask story-weaver
+brew install --cask mangav
 ```
 
 ### 选项二：下载 DMG
 
-从 [GitHub Releases](https://github.com/Agions/story-weaver/releases/latest) 下载最新的 `.dmg` 文件，将 `Story Weaver.app` 拖入 `/Applications`。
+从 [GitHub Releases](https://github.com/Agions/story-weaver/releases/latest) 下载最新的 `.dmg` 文件，将 `MangaV.app` 拖入 `/Applications`。
 
 ### 选项三：安装脚本
 
@@ -39,13 +39,13 @@ curl -sL https://raw.githubusercontent.com/Agions/story-weaver/main/scripts/inst
 或从 [GitHub Releases](https://github.com/Agions/story-weaver/releases/latest) 下载 `.deb` 并运行：
 
 ```bash
-sudo dpkg -i story-weaver_*.deb
+sudo dpkg -i mangav_*.deb
 ```
 
 ### Arch Linux (AUR)
 
 ```bash
-yay -S story-weaver
+yay -S mangav
 ```
 
 ---

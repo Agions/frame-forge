@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest a new feature for Story Weaver
+description: Suggest a new feature for MangaV
 labels: ["enhancement", "needs-triage"]
 body:
   - type: markdown
