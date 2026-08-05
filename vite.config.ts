@@ -51,11 +51,12 @@ export default defineConfig({
   clearScreen: false,
 
   server: {
+    host: '127.0.0.1',
     port: 1420,
-    strictPort: true,
+    strictPort: false,
     hmr: {
       protocol: 'ws',
-      host: 'localhost',
+      host: '127.0.0.1',
     },
     optimizeDeps: {
       exclude: [...TAURI_EXTERNALS],
@@ -73,12 +74,26 @@ export default defineConfig({
   css: {
     devSourcemap: true,
     minify: true,
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+        math: 'always',
+      },
+    },
+    modules: {
+      localsConvention: 'camelCase',
+    },
   },
 
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      // @story-weaver/common: removed — packages/common no longer exists, zero consumers
+      '@mangav/core': path.resolve(__dirname, './packages/core/src'),
+      '@mangav/ai-engine': path.resolve(__dirname, './packages/ai-engine/src'),
+      '@mangav/storyboard': path.resolve(__dirname, './packages/storyboard/src'),
+      '@mangav/audio-studio': path.resolve(__dirname, './packages/audio-studio/src'),
+      '@mangav/render-pipeline': path.resolve(__dirname, './packages/render-pipeline/src'),
+      '@mangav/ui': path.resolve(__dirname, './packages/ui/src'),
     },
   },
 

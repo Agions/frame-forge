@@ -22,12 +22,18 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"],
-      "@mangav/core": ["./packages/core/src/index.ts"],
-      "@mangav/ai-engine": ["./packages/ai-engine/src/index.ts"],
-      "@mangav/storyboard": ["./packages/storyboard/src/index.ts"],
-      "@mangav/audio-studio": ["./packages/audio-studio/src/index.ts"],
-      "@mangav/render-pipeline": ["./packages/render-pipeline/src/index.ts"],
-      "@mangav/ui": ["./packages/ui/src/index.ts"]
+      "@mangav/core": ["./packages/core/src"],
+      "@mangav/core/*": ["./packages/core/src/*"],
+      "@mangav/ai-engine": ["./packages/ai-engine/src"],
+      "@mangav/ai-engine/*": ["./packages/ai-engine/src/*"],
+      "@mangav/storyboard": ["./packages/storyboard/src"],
+      "@mangav/storyboard/*": ["./packages/storyboard/src/*"],
+      "@mangav/audio-studio": ["./packages/audio-studio/src"],
+      "@mangav/audio-studio/*": ["./packages/audio-studio/src/*"],
+      "@mangav/render-pipeline": ["./packages/render-pipeline/src"],
+      "@mangav/render-pipeline/*": ["./packages/render-pipeline/src/*"],
+      "@mangav/ui": ["./packages/ui/src"],
+      "@mangav/ui/*": ["./packages/ui/src/*"]
     }
   },
   "include": ["src", "packages/*/src/**/*"],
