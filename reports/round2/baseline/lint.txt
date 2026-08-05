@@ -1,4 +1,0 @@
-
-> story-weaver@2.2.4 lint /Users/zfkc/Desktop/04-AI/story-weaver
-> pnpm exec eslint 'src/**/*.{ts,tsx}' --quiet
-
