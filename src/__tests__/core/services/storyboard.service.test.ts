@@ -7,6 +7,7 @@ import {
   resetStoryboardService,
   getStoryboardService,
 } from '@/core/services/storyboard-service';
+import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
 import type { StoryboardFrame } from '@/shared/types/storyboard';
 
 // Mock uuid

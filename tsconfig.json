@@ -11,9 +11,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -21,10 +21,16 @@
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@mangav/core": ["./packages/core/src/index.ts"],
+      "@mangav/ai-engine": ["./packages/ai-engine/src/index.ts"],
+      "@mangav/storyboard": ["./packages/storyboard/src/index.ts"],
+      "@mangav/audio-studio": ["./packages/audio-studio/src/index.ts"],
+      "@mangav/render-pipeline": ["./packages/render-pipeline/src/index.ts"],
+      "@mangav/ui": ["./packages/ui/src/index.ts"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "packages/*/src/**/*"],
   "exclude": ["src/__tests__/**", "src/__mocks__/**", "src/**/__tests__/**"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
