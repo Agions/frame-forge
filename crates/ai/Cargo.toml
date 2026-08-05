@@ -1,0 +1,11 @@
+[package]
+name = "mangav-ai"
+version = "3.0.0"
+edition = "2021"
+description = "MangaV 高性能 Async AI 服务 Client"
+
+[dependencies]
+mangav-core = { path = "../core" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
