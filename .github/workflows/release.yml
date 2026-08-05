@@ -66,14 +66,14 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           body: |
-            ## Download Story Weaver ${{ steps.version.outputs.version }}
+            ## Download MangaV (漫织 AI) ${{ steps.version.outputs.version }}
 
             | Platform | Architecture | Download |
             |----------|-------------|----------|
-            | Windows | x64 | [.exe](story-weaver-${{ steps.version.outputs.version }}-windows-x64.exe) |
-            | Windows | ARM64 | [.exe](story-weaver-${{ steps.version.outputs.version }}-windows-arm64.exe) |
-            | macOS | Universal | [.tar.gz](story-weaver-${{ steps.version.outputs.version }}-macos-universal.tar.gz) |
-            | Linux | x64 | [.tar.gz](story-weaver-${{ steps.version.outputs.version }}-linux-x64.tar.gz) |
+            | Windows | x64 | [.exe](mangav-${{ steps.version.outputs.version }}-windows-x64.exe) |
+            | Windows | ARM64 | [.exe](mangav-${{ steps.version.outputs.version }}-windows-arm64.exe) |
+            | macOS | Universal | [.tar.gz](mangav-${{ steps.version.outputs.version }}-macos-universal.tar.gz) |
+            | Linux | x64 | [.tar.gz](mangav-${{ steps.version.outputs.version }}-linux-x64.tar.gz) |
 
             > Full release notes: [CHANGELOG.md](https://github.com/Agions/story-weaver/blob/${{ steps.version.outputs.tag }}/CHANGELOG.md)
           draft: true
@@ -106,7 +106,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build frontend
         run: pnpm run build
@@ -120,7 +120,7 @@ jobs:
         run: |
           $src = "src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis"
           $exe = Get-ChildItem -Path $src -Filter "*.exe" | Select-Object -First 1
-          $out = "story-weaver-${{ needs.prepare.outputs.version }}-windows-x64.exe"
+          $out = "mangav-${{ needs.prepare.outputs.version }}-windows-x64.exe"
           Copy-Item $exe.FullName $out
           echo "artifact_name=$out" >> $env:GITHUB_OUTPUT
 
@@ -129,7 +129,7 @@ jobs:
         with:
           tag_name: ${{ needs.prepare.outputs.tag }}
           draft: true
-          files: story-weaver-${{ needs.prepare.outputs.version }}-windows-x64.exe
+          files: mangav-${{ needs.prepare.outputs.version }}-windows-x64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -160,7 +160,7 @@ jobs:
           targets: aarch64-pc-windows-msvc
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build frontend
         run: pnpm run build
@@ -174,7 +174,7 @@ jobs:
         run: |
           $src = "src-tauri/target/aarch64-pc-windows-msvc/release/bundle/nsis"
           $exe = Get-ChildItem -Path $src -Filter "*.exe" | Select-Object -First 1
-          $out = "story-weaver-${{ needs.prepare.outputs.version }}-windows-arm64.exe"
+          $out = "mangav-${{ needs.prepare.outputs.version }}-windows-arm64.exe"
           Copy-Item $exe.FullName $out
           echo "artifact_name=$out" >> $env:GITHUB_OUTPUT
 
@@ -183,7 +183,7 @@ jobs:
         with:
           tag_name: ${{ needs.prepare.outputs.tag }}
           draft: true
-          files: story-weaver-${{ needs.prepare.outputs.version }}-windows-arm64.exe
+          files: mangav-${{ needs.prepare.outputs.version }}-windows-arm64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -212,7 +212,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build frontend
         run: pnpm run build
@@ -224,15 +224,15 @@ jobs:
         id: package
         run: |
           cd $GITHUB_WORKSPACE/src-tauri/target/release/bundle
-          tar -czf "$GITHUB_WORKSPACE/story-weaver-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz" -C macos "Story Weaver.app"
-          echo "artifact_name=story-weaver-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz" >> $GITHUB_OUTPUT
+          tar -czf "$GITHUB_WORKSPACE/mangav-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz" -C macos "MangaV.app"
+          echo "artifact_name=mangav-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz" >> $GITHUB_OUTPUT
 
       - name: Upload macOS tar.gz
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare.outputs.tag }}
           draft: true
-          files: story-weaver-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz
+          files: mangav-${{ needs.prepare.outputs.version }}-macos-universal.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -272,7 +272,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build frontend
         run: pnpm run build
@@ -284,15 +284,15 @@ jobs:
         id: package
         run: |
           cd src-tauri/target/release
-          tar -czf "$GITHUB_WORKSPACE/story-weaver-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz" story-weaver
-          echo "artifact_name=story-weaver-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz" >> $GITHUB_OUTPUT
+          tar -czf "$GITHUB_WORKSPACE/mangav-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz" mangav*
+          echo "artifact_name=mangav-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz" >> $GITHUB_OUTPUT
 
       - name: Upload Linux tar.gz
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.prepare.outputs.tag }}
           draft: true
-          files: story-weaver-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz
+          files: mangav-${{ needs.prepare.outputs.version }}-linux-x64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
