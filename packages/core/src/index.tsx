@@ -79,7 +79,7 @@ export interface CharacterAsset {
   id: string;
   name: string;
   description?: string;
-  gender: 'male' | 'female' | 'unknown';
+  gender?: 'male' | 'female' | 'unknown' | 'other';
   avatarUrl?: string;
   promptTags: string;
   loraModel?: string;
