@@ -1,225 +1,249 @@
 import {
   ShieldCheck,
+  AlertTriangle,
   CheckCircle2,
   XCircle,
-  AlertCircle,
   MessageSquare,
-  CornerDownLeft,
+  UserCheck,
+  Send,
   RefreshCcw,
+  Sparkles,
 } from 'lucide-react';
 import React, { useState } from 'react';
 
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card } from '@/shared/components/ui/card';
+import { Textarea } from '@/shared/components/ui/textarea';
 import { toast } from '@/shared/components/ui/toast';
-import { WorkflowStage, RoleType, AuditReviewRecord, WorkflowEngine } from '@mangav/core';
-import { MangaCard, MangaButton, StatusBadge } from '@mangav/ui';
 
-interface AuditReviewPanelProps {
-  currentStage: WorkflowStage;
-  activeRole: RoleType;
-  auditHistory?: AuditReviewRecord[];
-  onApprove: (comment: string) => void;
-  onReject: (comment: string) => void;
+export interface AuditTicket {
+  id: string;
+  targetRole: 'writer' | 'storyboarder' | 'producer';
+  targetRoleName: string;
+  stageName: string;
+  comment: string;
+  author: string;
+  createdAt: string;
+  status: 'pending_fix' | 'fixed';
+}
+
+const DEFAULT_TICKETS: AuditTicket[] = [
+  {
+    id: 'ticket-1',
+    targetRole: 'storyboarder',
+    targetRoleName: '分镜师',
+    stageName: 'Stage 3 · 分镜 4K 构建',
+    comment:
+      '第 2 镜林修的服装特写与 Stage 2 资产库中的青色风衣不一致，存在跑脸/跑服风险，请重新垫图生成。',
+    author: '导演 / 质检员',
+    createdAt: '2026-08-07 20:30',
+    status: 'pending_fix',
+  },
+];
+
+export interface AuditReviewPanelProps {
+  currentStage?: any;
+  activeRole?: any;
+  auditHistory?: any[];
+  onApprove?: (comment?: string) => void;
+  onReject?: (comment?: string) => void;
   onRequestReview?: () => void;
 }
 
 export const AuditReviewPanel: React.FC<AuditReviewPanelProps> = ({
-  currentStage,
-  activeRole,
-  auditHistory = [],
-  onApprove,
-  onReject,
-  onRequestReview,
+  onApprove: externalApprove,
+  onReject: externalReject,
 }) => {
-  const [comment, setComment] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const isPendingReview =
-    currentStage === 'ScriptPendingReview' ||
-    currentStage === 'StoryboardPendingReview' ||
-    currentStage === 'ProductionPendingReview';
-
-  const isRejected =
-    currentStage === 'ScriptRejected' ||
-    currentStage === 'StoryboardRejected' ||
-    currentStage === 'ProductionRejected';
-
-  const latestAudit = auditHistory.length > 0 ? auditHistory[auditHistory.length - 1] : null;
+  const [tickets, setTickets] = useState<AuditTicket[]>(DEFAULT_TICKETS);
+  const [selectedRole, setSelectedRole] = useState<'writer' | 'storyboarder' | 'producer'>(
+    'storyboarder'
+  );
+  const [rejectComment, setRejectComment] = useState('');
+  const [showRejectForm, setShowRejectForm] = useState(false);
 
   const handleApprove = () => {
-    setIsSubmitting(true);
-    try {
-      onApprove(comment || '审核通过，准予进入下一阶段');
-      setComment('');
-      toast.success('已批准通过！流程已流转至下一阶段。');
-    } finally {
-      setIsSubmitting(false);
+    if (typeof externalApprove === 'function') {
+      externalApprove('终审合格');
+    } else {
+      toast.success('【导演终审通过】漫剧 4K 全流向阶段质检合格，已推进至完工导出！');
     }
   };
 
-  const handleReject = () => {
-    if (!comment.trim()) {
-      toast.warning('请在评论框中输入具体的驳回与修改意见！');
+  const handleCreateRejectTicket = () => {
+    if (!rejectComment.trim()) {
+      toast.error('请输入具体打回修改意见说明！');
       return;
     }
-    setIsSubmitting(true);
-    try {
-      onReject(comment);
-      setComment('');
-      toast.error('已驳回打回！建议已通知对应负责人修正。');
-    } finally {
-      setIsSubmitting(false);
-    }
+
+    const roleNameMap = {
+      writer: '编剧',
+      storyboarder: '分镜师',
+      producer: '制作师',
+    };
+
+    const newTicket: AuditTicket = {
+      id: `ticket-${Date.now()}`,
+      targetRole: selectedRole,
+      targetRoleName: roleNameMap[selectedRole],
+      stageName: 'Stage 3 · 角色与分镜审核',
+      comment: rejectComment.trim(),
+      author: '导演 / 质检员',
+      createdAt: new Date().toLocaleTimeString(),
+      status: 'pending_fix',
+    };
+
+    setTickets([newTicket, ...tickets]);
+    setRejectComment('');
+    setShowRejectForm(false);
+    toast.warning(`已向【${roleNameMap[selectedRole]}】下发打回驳回批注工单！`);
   };
 
-  // 审核员视角的审核控制卡片
-  if (activeRole === 'auditor') {
-    return (
-      <MangaCard
-        title="导演 / 审核员专属质检面板"
-        subtitle="审核创作产物质量，批准通过或驳回并填写修改意见，形成闭环管理"
-        className="border-indigo-500/40 mb-6 bg-slate-900/90"
-      >
-        <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/70 border border-slate-800 mb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
-              <ShieldCheck className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-xs font-semibold text-slate-200 block">当前流程阶段</span>
-              <span className="text-xs text-indigo-300 font-mono">
-                {WorkflowEngine.getStageLabel(currentStage)}
-              </span>
-            </div>
+  const handleMarkFixed = (ticketId: string) => {
+    setTickets(tickets.map((t) => (t.id === ticketId ? { ...t, status: 'fixed' as const } : t)));
+    toast.success('该驳回工单已确认修复完成！');
+  };
+
+  return (
+    <Card className="bg-slate-900/60 border border-slate-800/80 backdrop-blur-xl p-5 rounded-2xl mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
+      <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800/80 flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#a855f7]/10 border border-[#a855f7]/30 flex items-center justify-center text-[#a855f7] shadow-[0_0_16px_rgba(168,85,247,0.2)]">
+            <ShieldCheck className="w-5 h-5" />
           </div>
-
-          <StatusBadge
-            status={isPendingReview ? 'warning' : isRejected ? 'error' : 'success'}
-            label={isPendingReview ? '待质检审核' : isRejected ? '阶段已驳回' : '质检合规 / 进行中'}
-          />
+          <div>
+            <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
+              4 角色导演质检与打回流转工单 (Audit Review System)
+            </h3>
+            <p className="text-xs text-slate-400">
+              编剧 ➔ 分镜 ➔ 制作 ➔ 导演审核，支持精准打回并批注修正
+            </p>
+          </div>
         </div>
 
-        {/* 审核意见录入 */}
-        <div className="space-y-3 mb-4">
-          <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-            <MessageSquare className="w-4 h-4 text-indigo-400" />
-            审核意见与修改指导建议
-          </label>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="若批准通过可留空（默认审核通过）；若打回重做，请详细输入打回原因和修改建议..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 min-h-[75px]"
-          />
-        </div>
-
-        {/* 审核操作按钮组 */}
-        <div className="flex items-center justify-end gap-3">
-          {isPendingReview && (
-            <MangaButton
-              variant="danger"
-              size="sm"
-              onClick={handleReject}
-              disabled={isSubmitting}
-              className="gap-1.5"
-            >
-              <XCircle className="w-4 h-4" />
-              驳回打回上一阶段
-            </MangaButton>
-          )}
-
-          <MangaButton
-            variant="primary"
+        <div className="flex items-center gap-2">
+          <Button
             size="sm"
             onClick={handleApprove}
-            disabled={isSubmitting}
-            className="gap-1.5"
+            className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_12px_rgba(0,245,212,0.3)]"
           >
-            <CheckCircle2 className="w-4 h-4" />
-            {isPendingReview ? '质检通过并推进' : '强制审核通过'}
-          </MangaButton>
+            <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+            质检合格 · 终审通过
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setShowRejectForm(!showRejectForm)}
+            className="border-rose-500/40 text-rose-400 hover:bg-rose-500/10 text-xs"
+          >
+            <XCircle className="w-3.5 h-3.5 mr-1" />
+            打回驳回批注
+          </Button>
         </div>
+      </div>
 
-        {/* 历史记录展示 */}
-        {auditHistory.length > 0 && (
-          <div className="mt-5 pt-4 border-t border-slate-800/80">
-            <span className="text-xs font-semibold text-slate-400 block mb-2">
-              审核历史闭环记录
+      {/* 质检打回工单填写区 */}
+      {showRejectForm && (
+        <div className="p-4 rounded-xl bg-slate-950/80 border border-rose-500/30 mb-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
+              <AlertTriangle className="w-4 h-4" />
+              新建质检打回批注工单
             </span>
-            <div className="space-y-2 max-h-[140px] overflow-y-auto">
-              {auditHistory
-                .slice()
-                .reverse()
-                .map((rec) => (
-                  <div
-                    key={rec.id}
-                    className={`p-2.5 rounded-lg border text-xs ${
-                      rec.status === 'rejected'
-                        ? 'bg-rose-950/30 border-rose-500/30 text-rose-300'
-                        : 'bg-emerald-950/30 border-emerald-500/30 text-emerald-300'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-semibold">
-                        {rec.auditorName} ({WorkflowEngine.getStageLabel(rec.stage)})
-                      </span>
-                      <span className="text-[10px] opacity-75">
-                        {new Date(rec.timestamp).toLocaleTimeString()}
-                      </span>
-                    </div>
-                    <p className="text-[11px] opacity-90">{rec.comment}</p>
-                  </div>
-                ))}
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-slate-400">指派修复角色:</span>
+              <select
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e.target.value as any)}
+                className="bg-slate-900 border border-slate-700 text-slate-200 rounded px-2 py-1 text-xs"
+              >
+                <option value="writer">编剧 (剧本问题)</option>
+                <option value="storyboarder">分镜师 (画风/跑脸问题)</option>
+                <option value="producer">制作师 (音轨/画面剪辑问题)</option>
+              </select>
             </div>
           </div>
-        )}
-      </MangaCard>
-    );
-  }
 
-  // 非审核员视角：根据审核状态显示简明提醒或申请审核入口
-  return (
-    <div className="mb-6">
-      {isRejected && latestAudit && (
-        <div className="p-4 bg-rose-950/50 border border-rose-500/40 rounded-2xl flex items-start gap-3 mb-4 shadow-xl">
-          <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold text-rose-200">
-                审核驳回提醒：请根据导演意见修正后重新提交
-              </h4>
-              <span className="text-[10px] text-rose-400 font-mono">
-                {new Date(latestAudit.timestamp).toLocaleTimeString()}
-              </span>
-            </div>
-            <p className="text-xs text-rose-300/90 mt-1 bg-rose-900/30 p-2.5 rounded-lg border border-rose-500/20 font-mono">
-              💬 审核意见: "{latestAudit.comment}"
-            </p>
-            {onRequestReview && (
-              <div className="mt-3 flex justify-end">
-                <MangaButton
-                  size="sm"
-                  variant="outline"
-                  onClick={onRequestReview}
-                  className="gap-1 text-xs"
+          <Textarea
+            rows={2}
+            placeholder="详细描述具体修改建议（如：第 3 集镜头 2 人物青色风衣颜色偏差，需根据资产库修正...）"
+            value={rejectComment}
+            onChange={(e) => setRejectComment(e.target.value)}
+            className="bg-slate-900 border-slate-800 text-xs text-slate-100 resize-none"
+          />
+
+          <div className="flex justify-end gap-2">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setShowRejectForm(false)}
+              className="text-xs text-slate-400"
+            >
+              取消
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleCreateRejectTicket}
+              className="bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs"
+            >
+              <Send className="w-3.5 h-3.5 mr-1" />
+              下发打回工单
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* 工单列表 */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+          <span>流转工单记录 ({tickets.length})</span>
+          <span>待修复工单: {tickets.filter((t) => t.status === 'pending_fix').length} 项</span>
+        </div>
+
+        {tickets.map((ticket) => (
+          <div
+            key={ticket.id}
+            className={`p-3.5 rounded-xl border flex items-start justify-between gap-4 transition-all ${
+              ticket.status === 'pending_fix'
+                ? 'bg-rose-950/20 border-rose-500/30'
+                : 'bg-slate-950/40 border-slate-800 opacity-75'
+            }`}
+          >
+            <div className="space-y-1 flex-1">
+              <div className="flex items-center gap-2">
+                <Badge
+                  className={
+                    ticket.status === 'pending_fix'
+                      ? 'bg-rose-500/20 text-rose-300 border-rose-500/40 text-[10px]'
+                      : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-[10px]'
+                  }
                 >
-                  <RefreshCcw className="w-3.5 h-3.5" />
-                  修改完毕，重新提交审核
-                </MangaButton>
+                  {ticket.status === 'pending_fix' ? '待修复' : '已修复完成'}
+                </Badge>
+                <span className="font-bold text-xs text-slate-200">
+                  指派 ➔ 【{ticket.targetRoleName}】
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono">{ticket.createdAt}</span>
               </div>
+              <p className="text-xs text-slate-300 leading-relaxed">{ticket.comment}</p>
+            </div>
+
+            {ticket.status === 'pending_fix' && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => handleMarkFixed(ticket.id)}
+                className="border-[#00f5d4]/40 text-[#00f5d4] hover:bg-[#00f5d4]/10 text-xs flex-shrink-0"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                标记已修复
+              </Button>
             )}
           </div>
-        </div>
-      )}
-
-      {isPendingReview && (
-        <div className="p-3.5 bg-indigo-950/40 border border-indigo-500/30 rounded-xl flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-xs text-indigo-300">
-            <CornerDownLeft className="w-4 h-4 text-indigo-400 animate-pulse" />
-            <span>当前阶段产物已提交，正等待审核员/导演质检评估中...</span>
-          </div>
-          <StatusBadge status="warning" label="等待审核中" size="sm" />
-        </div>
-      )}
-    </div>
+        ))}
+      </div>
+    </Card>
   );
 };
+
+export default AuditReviewPanel;

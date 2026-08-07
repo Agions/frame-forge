@@ -23,6 +23,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/ui/toast';
+import { AssetVaultPanel } from '@/features/asset-vault/AssetVaultPanel';
+import { AuditReviewPanel } from '@/features/audit/AuditReviewPanel';
 import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { useProjectStore } from '@/shared/stores/project-store';
 import { ScriptParseResult } from '@mangav/ai-engine';
@@ -269,6 +271,12 @@ const WorkflowPage = () => {
           </button>
         </div>
       </div>
+
+      {/* ── 🔒 中心化漫剧资产库 ── */}
+      <AssetVaultPanel />
+
+      {/* ── 🛡️ 4 角色导演质检与打回流转工单 ── */}
+      <AuditReviewPanel />
       {/* 顶部 Workflow Header */}
       <div className={styles.header}>
         <div className="flex items-center gap-3">
