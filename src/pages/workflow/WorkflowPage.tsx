@@ -251,7 +251,7 @@ const WorkflowPage = () => {
                   border: '1px solid rgba(0,245,212,0.3)',
                 }}
               >
-                STATION v3.0
+                STATION v0.0.1
               </span>
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">

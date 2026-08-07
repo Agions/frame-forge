@@ -384,7 +384,7 @@ const SettingsPage = () => {
               <div className={styles.aboutInfo}>
                 <div className={styles.infoItem}>
                   <span className="text-slate-400">版本</span>
-                  <span className="font-mono text-[#00f5d4] font-bold">v3.0.0 Pro Studio</span>
+                  <span className="font-mono text-[#00f5d4] font-bold">v0.0.1 Studio</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className="text-slate-400">架构驱动</span>

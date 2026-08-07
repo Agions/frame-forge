@@ -158,7 +158,7 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
                 className="h-5 object-contain"
                 style={{ filter: 'drop-shadow(0 0 8px rgba(0,245,212,0.4))' }}
               />
-              <span className={styles.versionBadge}>v3.0 PRO</span>
+              <span className={styles.versionBadge}>v0.0.1 PRO</span>
             </div>
           </div>
 

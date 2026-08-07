@@ -20,7 +20,7 @@ log_error() { echo -e "${COLOR_ERROR}[ERROR] ${1}${COLOR_RESET}"; }
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT_DIR}"
 
-log_info "MangaV (漫织 AI) v3.0.0 桌面端打包构建引擎启动..."
+log_info "MangaV (漫织 AI) v0.0.1 桌面端打包构建引擎启动..."
 log_info "工作区目录: ${ROOT_DIR}"
 
 # 1. 预检依赖环境

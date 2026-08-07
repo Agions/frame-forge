@@ -25,7 +25,7 @@ export const AutoUpdaterModal: React.FC<{ isOpen: boolean; onClose: () => void }
   const [checking, setChecking] = useState(false);
   const [updateInfo, setUpdateInfo] = useState<UpdateInfo>({
     available: false,
-    currentVersion: '3.0.0',
+    currentVersion: '0.0.1',
     version: '3.1.0',
     notes:
       '• 2026 年 8 月最新 AI 模型矩阵全量集成 (Qwen 3.8-Max, DeepSeek-V4, GPT-5.6 Sol, Claude Opus 5)\n• 完整 4 大角色 SOP 闭环与质检打回流转机制\n• Gemini AI 生成 3D 拟态极简画风视觉系统\n• 支持 GitHub Releases 端到端自动热更新推送到打包应用',
