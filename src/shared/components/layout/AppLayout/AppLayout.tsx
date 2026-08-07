@@ -43,7 +43,6 @@ const STAGES = [
 const NAV_ITEMS = [
   { key: 'home', path: '/', icon: Home, label: '首页概览', exact: true },
   { key: 'workflow', path: '/workflow', icon: Workflow, label: 'SOP 创作车间', exact: false },
-  { key: 'settings', path: '/settings', icon: Settings, label: '系统设置', exact: false },
 ];
 
 // 6 阶精炼 SOP 步骤描述（避免过多冗余内容）
