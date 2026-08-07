@@ -2,6 +2,7 @@ import { Plus, Sparkles, FileText, Wand2, ArrowRight } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { Button } from '@/shared/components/ui/button';
 import {
   Dialog,
@@ -88,6 +89,7 @@ const ROLE_CARDS = [
 const HeroSection = () => {
   const navigate = useNavigate();
   const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleSelectSample = (sample: (typeof SAMPLE_SCRIPTS)[0]) => {
     setIsSampleModalOpen(false);
@@ -178,7 +180,7 @@ const HeroSection = () => {
           </div>
 
           <div
-            onClick={() => navigate('/project/new')}
+            onClick={() => setIsCreateModalOpen(true)}
             className="group cursor-pointer p-4 rounded-2xl bg-slate-900/60 border border-slate-700/60 hover:border-slate-500 hover:bg-slate-900/90 transition-all shadow-lg"
           >
             <div className="flex items-center justify-between mb-2">
@@ -258,6 +260,9 @@ const HeroSection = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Create Project Modal */}
+      <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );
 };

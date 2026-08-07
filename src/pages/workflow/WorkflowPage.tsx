@@ -16,11 +16,15 @@ import {
   Palette,
   Clapperboard,
   ShieldCheck,
+  FolderKanban,
+  Plus,
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { toast } from '@/components/ui/toast';
+import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
+import { useProjectStore } from '@/shared/stores/project-store';
 import { ScriptParseResult } from '@mangav/ai-engine';
 import { ScriptSourceManager } from '@mangav/storyboard';
 import { MangaButton, MangaCard, StatusBadge } from '@mangav/ui';
@@ -195,9 +199,14 @@ const WorkflowPage = () => {
   // 展开的 9 阶步骤 Key (集合)
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set(['import']));
 
+  // 项目 store 联动
+  const store = useProjectStore();
+  const activeProject = store.currentProject || (store.projects && store.projects[0]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
   const handleStartWorkflow = () => {
     toast.info('开启 SOP 漫剧工作台');
-    navigate('/project/new');
+    setIsCreateModalOpen(true);
   };
 
   const handleScriptParsed = (result: ScriptParseResult) => {
@@ -227,6 +236,39 @@ const WorkflowPage = () => {
 
   return (
     <div className={styles.container}>
+      {/* ── 🎬 项目上下文关联 Bar ── */}
+      <div className="flex items-center justify-between p-3.5 px-5 rounded-2xl bg-slate-950/80 border border-[#00f5d4]/30 backdrop-blur-xl mb-4 shadow-[0_0_24px_rgba(0,245,212,0.1)]">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center text-[#00f5d4]">
+            <FolderKanban className="w-4 h-4" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-slate-400">当前编辑项目:</span>
+              <span className="text-sm font-bold text-slate-100">
+                {activeProject?.name || '未选定项目 (极速草稿车间)'}
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00f5d4]/10 text-[#00f5d4] border border-[#00f5d4]/30 font-mono font-bold">
+                {(activeProject as any)?.stage || 'SOP 车间进行中'}
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              画风: {(activeProject as any)?.artStyle || '日系二次元'} · 画幅:{' '}
+              {(activeProject as any)?.aspectRatio || '16:9 4K'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="px-3.5 py-1.5 rounded-xl bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_12px_rgba(0,245,212,0.3)] transition-all flex items-center gap-1 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            新建漫剧项目
+          </button>
+        </div>
+      </div>
       {/* 顶部 Workflow Header */}
       <div className={styles.header}>
         <div className="flex items-center gap-3">
@@ -452,6 +494,9 @@ const WorkflowPage = () => {
           一键创建新漫剧项目
         </MangaButton>
       </div>
+
+      {/* ── 🚀 极速赛博新建项目 Modal ── */}
+      <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );
 };

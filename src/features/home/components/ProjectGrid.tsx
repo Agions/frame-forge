@@ -9,9 +9,10 @@ import {
   FolderOpen,
   ArrowRight,
 } from 'lucide-react';
-import React, { useCallback, memo } from 'react';
+import React, { useCallback, memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import type { ProjectData } from '@/shared/types';
@@ -164,10 +165,11 @@ const ProjectCard = memo(function ProjectCard({
 
 function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
   const navigate = useNavigate();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleCreateProject = useCallback(() => {
-    navigate('/project/new');
-  }, [navigate]);
+    setIsCreateModalOpen(true);
+  }, []);
 
   const handleViewProject = useCallback(
     (id: string) => {
@@ -280,6 +282,9 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
           ))}
         </div>
       )}
+
+      {/* Create Project Modal */}
+      <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );
 }

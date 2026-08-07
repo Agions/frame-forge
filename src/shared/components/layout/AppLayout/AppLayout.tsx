@@ -23,6 +23,7 @@ import React, { PropsWithChildren, useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useTheme } from '@/app/providers/ThemeContext';
+import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { Button } from '@/shared/components/ui/button';
 import { AutoUpdaterModal } from '@/shared/components/updater/AutoUpdaterModal';
 import { WorkflowEngine } from '@mangav/core';
@@ -41,8 +42,8 @@ const STAGES = [
 
 const NAV_ITEMS = [
   { key: 'home', path: '/', icon: Home, label: '首页概览', exact: true },
-  { key: 'workflow', path: '/workflow', icon: Workflow, label: 'SOP 流水线', exact: false },
-  { key: 'new', path: '/project/new', icon: Plus, label: '新建项目', exact: false },
+  { key: 'workflow', path: '/workflow', icon: Workflow, label: 'SOP 创作车间', exact: false },
+  { key: 'settings', path: '/settings', icon: Settings, label: '系统设置', exact: false },
 ];
 
 // 6 阶精炼 SOP 步骤描述（避免过多冗余内容）
@@ -92,6 +93,7 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
 
   // Modals & Menu State
   const [isUpdaterOpen, setIsUpdaterOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isHelpMenuOpen, setIsHelpMenuOpen] = useState(false);
   const [showDocsModal, setShowDocsModal] = useState(false);
   const [showAboutModal, setShowAboutModal] = useState(false);
@@ -185,6 +187,14 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
 
           {/* Right Actions */}
           <div className={styles.topActions}>
+            <Button
+              size="sm"
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_12px_rgba(0,245,212,0.3)] cursor-pointer mr-1"
+            >
+              <Plus className="w-3.5 h-3.5 mr-1" />
+              新建漫剧
+            </Button>
             {/* Help Dropdown Menu (Mac / System Navigation Help) */}
             <div className={styles.helpDropdownContainer} ref={helpRef}>
               <button
@@ -468,6 +478,9 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
           </div>
         </div>
       )}
+
+      {/* ── 🚀 极速赛博新建项目 Modal ── */}
+      <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );
 };
