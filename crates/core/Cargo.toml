@@ -1,6 +1,6 @@
 [package]
 name = "mangav-core"
-version = "3.0.0"
+version = "0.0.1"
 edition = "2021"
 description = "MangaV 领域模型、数据库存取与 .mangav 项目文件打包"
 

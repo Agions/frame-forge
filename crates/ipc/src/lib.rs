@@ -9,7 +9,7 @@ pub mod commands {
 
     #[command]
     pub fn get_mangav_version() -> String {
-        "3.0.0".to_string()
+        "0.0.1".to_string()
     }
 
     #[command]

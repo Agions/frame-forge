@@ -1,6 +1,6 @@
 {
   "name": "@mangav/audio-studio",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "description": "MangaV 音轨合成与 TTS 声音编辑器",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",

@@ -1,6 +1,6 @@
 [package]
 name = "mangav-updater"
-version = "3.0.0"
+version = "0.0.1"
 edition = "2021"
 description = "MangaV 自动更新与签名验证服务"
 

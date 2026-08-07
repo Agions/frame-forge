@@ -128,7 +128,7 @@ features:
 <!-- 数据 -->
 
 <div class="vp-section-header">
-  <h2 class="vp-section-title">项目数据 (v3.0.0 Pro Studio)</h2>
+  <h2 class="vp-section-title">项目数据 (v0.0.1 Studio)</h2>
 </div>
 
 <div class="vp-stats-row">

@@ -1,8 +1,8 @@
 [package]
 name = "mangav-desktop"
-version = "3.0.0"
+version = "0.0.1"
 description = "MangaV - AI 漫剧创作平台 (Tauri v2 + Rust)"
-authors = ["MangaV Team <contact@mangav.ai>"]
+authors = ["Agions"]
 license = "MIT"
 repository = "https://github.com/Agions/story-weaver"
 edition = "2021"

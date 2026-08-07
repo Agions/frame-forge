@@ -1,6 +1,6 @@
 [package]
 name = "mangav-media"
-version = "3.0.0"
+version = "0.0.1"
 edition = "2021"
 description = "MangaV FFmpeg 硬件加速视频渲染引擎与音轨合成器"
 

@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "productName": "MangaV",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "identifier": "ai.mangav.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",

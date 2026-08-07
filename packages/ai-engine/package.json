@@ -1,6 +1,6 @@
 {
   "name": "@mangav/ai-engine",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "description": "MangaV AI 引擎、PromptBuilder 与画风预设",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",

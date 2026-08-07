@@ -1,9 +1,9 @@
 {
   "name": "mangav",
   "private": true,
-  "version": "3.0.0",
+  "version": "0.0.1",
   "description": "MangaV (漫织 AI) - AI 漫剧创作平台。采用 Tauri v2 + React 19 + Rust + Packages Monorepo 模块化架构，将小说一键转化为专业级漫剧视频。",
-  "author": "MangaV Team <contact@mangav.ai>",
+  "author": "Agions",
   "license": "MIT",
   "type": "module",
   "scripts": {

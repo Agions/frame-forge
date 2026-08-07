@@ -20,5 +20,5 @@ pub fn check_for_updates(current_version: &str) -> UpdateInfo {
 }
 
 pub fn get_current_version() -> String {
-    "3.0.0".to_string()
+    "0.0.1".to_string()
 }

@@ -437,7 +437,7 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
               {/* 架构简介 */}
               <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800">
                 <span className="font-bold text-slate-100 text-sm block mb-1">
-                  MangaV (漫织 AI) 3.0 Pro Studio
+                  MangaV (漫织 AI) v0.0.1 Studio
                 </span>
                 <p className="text-slate-400 text-[11px] leading-relaxed">
                   基于 Tauri v2 + React 19 + Rust

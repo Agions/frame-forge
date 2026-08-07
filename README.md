@@ -7,7 +7,7 @@
 
 <br/>
 
-# MangaV (漫织 AI) · Studio v3.0.0
+# MangaV (漫织 AI) · Studio v0.0.1
 
 > **输入一本小说，AI 自动精织为 4K 原生视听漫剧 —— 基于 Tauri v2 + React 19 + Rust Engine 的端到端开源桌面应用体系。**
 
@@ -17,7 +17,7 @@
 [![Tauri](https://img.shields.io/badge/Tauri-2.1-FFC131?style=for-the-badge&logo=tauri)](https://tauri.app)
 [![Rust](https://img.shields.io/badge/Rust-2021-000000?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Version](https://img.shields.io/badge/version-v3.0.0-6366F1?style=for-the-badge)](https://github.com/Agions/mangav/releases)
+[![Version](https://img.shields.io/badge/version-v0.0.1-6366F1?style=for-the-badge)](https://github.com/Agions/mangav/releases)
 
 [**📖 在线文档**](https://agions.github.io/mangav/) · [**📥 下载桌面端**](https://github.com/Agions/mangav/releases) · [**🐛 报告问题**](https://github.com/Agions/mangav/issues/new)
 

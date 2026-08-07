@@ -26,7 +26,7 @@ export function useMangaVStudio() {
           id: `prj-${Date.now()}`,
           name,
           author,
-          version: '3.0.0',
+          version: '0.0.1',
           createdAt: Date.now(),
           updatedAt: Date.now(),
           stage: 'Draft',

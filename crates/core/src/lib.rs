@@ -56,7 +56,7 @@ impl ProjectStore {
                 id: format!("prj-{}", now),
                 name: name.to_string(),
                 author: author.to_string(),
-                version: "3.0.0".to_string(),
+                version: "0.0.1".to_string(),
                 created_at: now,
                 updated_at: now,
                 stage: WorkflowStage::Draft,
