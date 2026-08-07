@@ -1,572 +1,131 @@
-/* ── WorkflowPage Cyberpunk Neon Dark ── */
+/* ── MangaV Cyberpunk Dark Studio Workshop Layout (v0.0.1) ── */
 
 .container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 1.5rem;
+  color: #f8fafc;
 }
 
-/* ── Page Header ── */
-.header {
+/* ── Top Pipeline Track (6-Step Nodes) ── */
+.pipelineTrack {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
   position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 245, 212, 0.5) 20%,
-      rgba(180, 79, 255, 0.5) 80%,
-      transparent 100%
-    );
-  }
-}
-
-/* ── Role Tab Switcher ── */
-.roleTabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.75rem;
-  padding: 0.3rem;
-  background: rgba(5, 12, 26, 0.9);
-  border: 1px solid rgba(0, 245, 212, 0.12);
-  border-radius: 10px;
-  backdrop-filter: blur(12px);
-}
-
-.roleTab {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 7px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  color: rgba(148, 180, 194, 0.6);
-  background: transparent;
-  border: 1px solid transparent;
-  white-space: nowrap;
-
-  &:hover {
-    color: rgba(224, 245, 248, 0.9);
-    background: rgba(0, 245, 212, 0.05);
-  }
-}
-
-.roleTabCyan.roleTabActive {
-  background: rgba(0, 245, 212, 0.1);
-  border-color: rgba(0, 245, 212, 0.4);
-  color: #00f5d4;
-  box-shadow: 0 0 12px rgba(0, 245, 212, 0.2);
-}
-
-.roleTabPurple.roleTabActive {
-  background: rgba(180, 79, 255, 0.1);
-  border-color: rgba(180, 79, 255, 0.4);
-  color: #b44fff;
-  box-shadow: 0 0 12px rgba(180, 79, 255, 0.2);
-}
-
-.roleTabPink.roleTabActive {
-  background: rgba(255, 45, 120, 0.1);
-  border-color: rgba(255, 45, 120, 0.4);
-  color: #ff2d78;
-  box-shadow: 0 0 12px rgba(255, 45, 120, 0.2);
-}
-
-.roleTabGreen.roleTabActive {
-  background: rgba(0, 255, 136, 0.1);
-  border-color: rgba(0, 255, 136, 0.4);
-  color: #00ff88;
-  box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
-}
-
-/* Role icon in tab */
-.roleTabIcon {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 4px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-/* ── Role Matrix Cards ── */
-.roleMatrix {
-  margin-bottom: 2rem;
-}
-
-.matrixHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-  color: rgba(148, 180, 194, 0.7);
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.roleCards {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Role card base */
-.roleCard {
-  position: relative;
-  border-radius: 14px;
-  background: rgba(5, 12, 26, 0.9);
-  border: 1px solid rgba(0, 245, 212, 0.12);
+  padding: 1.25rem 1.5rem;
+  background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(16px);
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-
-  /* Top neon accent line */
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10%;
-    right: 10%;
-    height: 1.5px;
-    border-radius: 9999px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover {
-    transform: translateY(-3px);
-
-    &::before {
-      opacity: 1;
-    }
-  }
-
-  &.expanded {
-    &::before {
-      opacity: 1;
-    }
-  }
+  border: 1px solid rgba(0, 245, 212, 0.25);
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  overflow-x: auto;
 }
 
-/* Per-role neon colors */
-.roleCardCyan {
-  &::before { background: var(--neon-cyan); box-shadow: var(--neon-cyan-glow-sm); }
-  &.expanded, &:hover {
-    border-color: rgba(0, 245, 212, 0.35);
-    box-shadow: 0 0 24px rgba(0, 245, 212, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
+.pipelineConnectingLine {
+  position: absolute;
+  top: 50%;
+  left: 3rem;
+  right: 3rem;
+  height: 2px;
+  background: linear-gradient(90deg, #00f5d4 0%, #a855f7 50%, #ec4899 100%);
+  z-index: 1;
+  opacity: 0.3;
 }
 
-.roleCardPurple {
-  &::before { background: var(--neon-purple); box-shadow: var(--neon-purple-glow-sm); }
-  &.expanded, &:hover {
-    border-color: rgba(180, 79, 255, 0.35);
-    box-shadow: 0 0 24px rgba(180, 79, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
-}
-
-.roleCardPink {
-  &::before { background: var(--neon-pink); box-shadow: var(--neon-pink-glow-sm); }
-  &.expanded, &:hover {
-    border-color: rgba(255, 45, 120, 0.35);
-    box-shadow: 0 0 24px rgba(255, 45, 120, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
-}
-
-.roleCardGreen {
-  &::before { background: var(--neon-green); box-shadow: var(--neon-green-glow); }
-  &.expanded, &:hover {
-    border-color: rgba(0, 255, 136, 0.35);
-    box-shadow: 0 0 24px rgba(0, 255, 136, 0.1), 0 8px 32px rgba(0, 0, 0, 0.6);
-  }
-}
-
-/* Card header section (always visible) */
-.roleCardHeader {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 1rem 0.875rem;
-  border-bottom: 1px solid rgba(0, 245, 212, 0.08);
-}
-
-.roleCardAvatar {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 8px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.roleCardName {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: rgba(224, 245, 248, 0.95);
-  flex: 1;
-}
-
-/* Expand toggle icon */
-.expandToggle {
-  width: 20px;
-  height: 20px;
-  color: rgba(148, 180, 194, 0.4);
-  transition: transform 0.3s ease, color 0.2s ease;
-  flex-shrink: 0;
-
-  &.rotated {
-    transform: rotate(180deg);
-    color: var(--neon-cyan);
-  }
-}
-
-/* Steps list (collapsed) */
-.roleCardSteps {
-  padding: 0.75rem 1rem;
+.pipelineNode {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-}
-
-.roleCardStep {
-  display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.72rem;
-  color: rgba(148, 180, 194, 0.75);
-}
-
-.stepDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 9999px;
-  flex-shrink: 0;
-}
-
-/* Expanded detail panel */
-.roleCardDetail {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-
-  &.open {
-    max-height: 300px;
-  }
-}
-
-.roleCardDetailInner {
-  padding: 0.875rem 1rem 1rem;
-  border-top: 1px solid rgba(0, 245, 212, 0.08);
-}
-
-.roleCardOutput {
-  font-size: 0.68rem;
-  color: rgba(148, 180, 194, 0.5);
-  margin-bottom: 0.5rem;
-
-  strong {
-    color: rgba(148, 180, 194, 0.8);
-  }
-}
-
-.roleCardAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  border: 1px solid;
-  background: transparent;
-  transition: all 0.2s ease;
   cursor: pointer;
-}
-
-.actionCyan {
-  color: var(--neon-cyan);
-  border-color: rgba(0, 245, 212, 0.4);
-  &:hover { background: rgba(0, 245, 212, 0.1); box-shadow: var(--neon-cyan-glow-sm); }
-}
-
-.actionPurple {
-  color: var(--neon-purple);
-  border-color: rgba(180, 79, 255, 0.4);
-  &:hover { background: rgba(180, 79, 255, 0.1); box-shadow: var(--neon-purple-glow-sm); }
-}
-
-.actionPink {
-  color: var(--neon-pink);
-  border-color: rgba(255, 45, 120, 0.4);
-  &:hover { background: rgba(255, 45, 120, 0.1); box-shadow: var(--neon-pink-glow-sm); }
-}
-
-.actionGreen {
-  color: var(--neon-green);
-  border-color: rgba(0, 255, 136, 0.4);
-  &:hover { background: rgba(0, 255, 136, 0.1); box-shadow: var(--neon-green-glow); }
-}
-
-/* ── 9-Stage Workflow Pipeline ── */
-.workflowCard {
-  position: relative;
-  background: rgba(5, 12, 26, 0.9);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 245, 212, 0.14);
-  border-radius: 16px;
-  padding: 1.75rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-  margin-bottom: 2rem;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 245, 212, 0.5) 30%,
-      rgba(180, 79, 255, 0.5) 70%,
-      transparent 100%
-    );
-  }
-}
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.75rem;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Step card */
-.step {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.875rem;
-  padding: 1rem;
-  background: rgba(2, 6, 16, 0.7);
-  border: 1px solid rgba(0, 245, 212, 0.1);
-  border-radius: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  overflow: hidden;
-
-  /* Flow light indicator on left */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: transparent;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px 0 0 10px;
-  }
+  transition: all 0.3s ease;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(7, 10, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   &:hover {
-    border-color: rgba(0, 245, 212, 0.3);
-    background: rgba(5, 12, 26, 0.95);
+    border-color: rgba(0, 245, 212, 0.5);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 245, 212, 0.08);
-
-    &::before {
-      background: var(--neon-cyan);
-      box-shadow: var(--neon-cyan-glow-sm);
-    }
-  }
-
-  &.stepActive {
-    border-color: rgba(0, 245, 212, 0.45);
-    background: rgba(0, 245, 212, 0.05);
-    box-shadow: 0 0 20px rgba(0, 245, 212, 0.1), 0 8px 24px rgba(0, 0, 0, 0.5);
-
-    &::before {
-      background: var(--neon-cyan);
-      box-shadow: var(--neon-cyan-glow-sm);
-    }
-  }
-
-  &.stepCompleted {
-    border-color: rgba(0, 255, 136, 0.3);
-
-    &::before {
-      background: var(--neon-green);
-      box-shadow: var(--neon-green-glow);
-    }
   }
 }
 
-/* Expanded step detail */
-.stepExpanded {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.3s ease;
-
-  &.open {
-    max-height: 200px;
-  }
-}
-
-.stepExpandedInner {
-  padding-top: 0.75rem;
-  margin-top: 0.75rem;
-  border-top: 1px solid rgba(0, 245, 212, 0.1);
-  font-size: 0.7rem;
-  color: rgba(148, 180, 194, 0.7);
-  line-height: 1.6;
-}
-
-/* Filtered-out step */
-.stepDimmed {
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-/* Step number badge */
-.stepNumber {
-  width: 2rem;
-  height: 2rem;
-  min-width: 2rem;
-  border-radius: 8px;
-  color: #050810;
-  font-weight: 800;
-  font-size: 0.78rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: linear-gradient(135deg, var(--neon-cyan) 0%, #00c9ac 100%);
-  box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
-  flex-shrink: 0;
-
-  .stepCompleted & {
-    background: linear-gradient(135deg, var(--neon-green) 0%, #00cc6e 100%);
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
-  }
-}
-
-.stepContent {
-  flex: 1;
-  min-width: 0;
-}
-
-.stepHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.25rem;
-}
-
-.stepTitle {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: rgba(224, 245, 248, 0.95);
-  flex: 1;
-  min-width: 0;
-}
-
-.stepRoleBadge {
-  font-size: 0.6rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  font-weight: 700;
-  font-family: monospace;
-  letter-spacing: 0.04em;
-  flex-shrink: 0;
-  margin-left: 0.5rem;
-}
-
-.badgeCyan {
+.nodeActive {
   background: rgba(0, 245, 212, 0.1);
-  color: var(--neon-cyan);
-  border: 1px solid rgba(0, 245, 212, 0.3);
-}
+  border-color: #00f5d4;
+  box-shadow: 0 0 16px rgba(0, 245, 212, 0.3);
 
-.badgePurple {
-  background: rgba(180, 79, 255, 0.1);
-  color: var(--neon-purple);
-  border: 1px solid rgba(180, 79, 255, 0.3);
-}
-
-.badgePink {
-  background: rgba(255, 45, 120, 0.1);
-  color: var(--neon-pink);
-  border: 1px solid rgba(255, 45, 120, 0.3);
-}
-
-.badgeGreen {
-  background: rgba(0, 255, 136, 0.1);
-  color: var(--neon-green);
-  border: 1px solid rgba(0, 255, 136, 0.3);
-}
-
-.stepDesc {
-  font-size: 0.7rem;
-  color: rgba(148, 180, 194, 0.65);
-  line-height: 1.5;
-}
-
-/* Connection line between steps */
-.stepLine {
-  display: none;
-}
-
-/* ── CTA Bottom Card ── */
-.ctaCard {
-  text-align: center;
-  padding: 2rem;
-  border-radius: 16px;
-  background: rgba(5, 12, 26, 0.85);
-  border: 1px solid rgba(0, 245, 212, 0.15);
-  backdrop-filter: blur(16px);
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-purple), transparent);
-    opacity: 0.6;
+  .nodeDot {
+    background: #00f5d4;
+    box-shadow: 0 0 12px #00f5d4;
   }
+}
+
+.nodeDot {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: rgba(148, 163, 184, 0.4);
+  border: 2px solid rgba(15, 23, 42, 0.9);
+  transition: all 0.3s ease;
+}
+
+.nodeTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+}
+
+.nodeSub {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+/* ── Studio Dual Pane Layout ── */
+.studioGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1.5rem;
+  align-items: start;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mainWorkspace {
+  min-width: 0;
+}
+
+.inspectorDrawer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Audio Dock Bar ── */
+.audioDock {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.waveTrack {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(7, 10, 20, 0.6);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }

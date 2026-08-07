@@ -64,6 +64,7 @@ const COMPOSITION_PRESETS = [
 ];
 
 interface StoryboardEditorProps {
+  projectId?: string;
   initialFrames?: StoryboardFrame[];
   focusFrameId?: string;
   onChange?: (frames: StoryboardFrame[]) => void;
