@@ -111,12 +111,6 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleCycleTheme = () => {
-    if (theme === 'light') setTheme('dark');
-    else if (theme === 'dark') setTheme('system');
-    else setTheme('light');
-  };
-
   const activePath = location.pathname;
 
   const currentStage = activePath.includes('edit')
@@ -251,22 +245,6 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>检查更新</span>
-            </button>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={handleCycleTheme}
-              title={`当前: ${theme === 'light' ? '浅色' : theme === 'dark' ? '暗黑' : '跟随系统'}`}
-              className="px-2 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
-              style={{
-                background: 'rgba(148,180,194,0.06)',
-                border: '1px solid rgba(148,180,194,0.15)',
-                color: 'rgba(148,180,194,0.7)',
-              }}
-            >
-              {theme === 'light' && <Sun className="w-3.5 h-3.5 text-amber-400" />}
-              {theme === 'dark' && <Moon className="w-3.5 h-3.5 text-[#b44fff]" />}
-              {theme === 'system' && <Laptop className="w-3.5 h-3.5 text-[#00f5d4]" />}
             </button>
 
             {/* HW Badge */}

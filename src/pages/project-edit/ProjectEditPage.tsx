@@ -160,7 +160,7 @@ const ProjectEdit = () => {
               className="text-slate-300 hover:text-white"
             >
               <ArrowLeft className="h-4 w-4 mr-1" />
-              返回
+              返回上一页
             </Button>
             <div>
               <h3 className="text-base font-bold text-slate-100 flex items-center gap-2 m-0">
