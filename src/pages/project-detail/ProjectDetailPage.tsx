@@ -16,52 +16,25 @@ import {
   Volume2,
   Zap,
 } from 'lucide-react';
-import React, { Suspense, lazy, useEffect, useMemo } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { AudioEditorPanel } from '@/components/media/audio/AudioEditorPanel';
 import { ExportPanel } from '@/components/project/ExportPanel';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import Empty from '@/components/ui/empty';
-import { Modal } from '@/components/ui/modal';
-import { Space } from '@/components/ui/space';
-import { Spin } from '@/components/ui/spin';
-import { Tabs, TabPane } from '@/components/ui/tabs';
-import { Title, Text, Paragraph } from '@/components/ui/typography';
-import type { Character } from '@/core/script/types/novel';
-import type { StoryboardFrame } from '@/core/storyboard/types/storyboard';
-import CostDashboard from '@/features/cost/components/CostDashboard';
-import { StoryboardCollaborationPanel } from '@/features/storyboard/components/StoryboardCollaborationPanel';
+import { Button } from '@/shared/components/ui/button';
+import Empty from '@/shared/components/ui/empty';
+import { Spin } from '@/shared/components/ui/spin';
+import { Tabs, TabPane } from '@/shared/components/ui/tabs';
+import type { Character } from '@/shared/types/novel';
+import type { VideoSegment } from '@/shared/types/script';
 
 import { useProjectDetail } from './hooks/useProjectDetail';
-import styles from './ProjectDetail.module.less';
 
-/**
- * EmptyScriptHint — inline component for "script not generated" empty state.
- * Extracted from ProjectDetailPage (was duplicated 4 times across script/character/
- * render/audio/export tabs + 1 variant for composition tab).
- */
-const EmptyScriptHint: React.FC<{
-  onEdit: () => void;
-  description?: string;
-  buttonText?: string;
-}> = ({ onEdit, description = '请先生成或编辑剧本', buttonText = '去编辑剧本' }) => (
-  <Empty description={description} image={undefined}>
-    <Button type="primary" onClick={onEdit} icon={<Edit />}>
-      {buttonText}
-    </Button>
-  </Empty>
-);
-
-// Lazy-loaded sub-components
 const importScriptEditor = () => import('@/features/storyboard/components/ScriptEditor');
 const importRenderCenter = () => import('@/features/rendering/components/RenderCenter');
 const importCharacterDesigner = () =>
   import('@/features/character-consistency/components/CharacterDesigner');
 const importCompositionStudio = () => import('@/features/composition/components/CompositionStudio');
-const importAudioEditor = () => import('@/components/media/audio/AudioEditorPanel');
-const importCostDashboard = () => import('@/features/cost/components/CostDashboard');
 
 const ScriptEditor = lazy(importScriptEditor);
 const RenderCenter = lazy(importRenderCenter);
@@ -77,363 +50,125 @@ const ProjectDetail = () => {
     project,
     activeScript,
     activeTab,
-    novelMetadata,
-    selectedFrameId,
     storyboardFrames,
     exportQualityGate,
     setActiveTab,
-    setActiveScript,
-    persistProjectPatch,
     handleApplyRenderedFrame,
-    handleExportReviewNotes,
-    handleCreateScript,
     handleScriptChange,
-    handleExportScript,
-    deleteProject,
+    handleDeleteProject,
+    persistProjectPatch,
     preloadTabModules,
   } = useProjectDetail({ projectId: id ?? '' });
 
-  // Preload mapping (must stay in presenter for lazy import references)
-  const preloadByTab = useMemo<Record<string, Array<() => Promise<unknown>>>>(
-    () => ({
-      novel: [importScriptEditor],
-      'script-edit': [importCharacterDesigner, importRenderCenter],
-      storyboard: [importRenderCenter, importCompositionStudio],
-      character: [importRenderCenter, importCompositionStudio],
-      render: [importCompositionStudio, importAudioEditor],
-      composition: [importAudioEditor, importCostDashboard],
-      audio: [importCostDashboard],
-      cost: [],
-      export: [],
-    }),
-    []
-  );
-
-  // Preload on tab change
   useEffect(() => {
-    const tasks = preloadByTab[activeTab] || [];
-    if (tasks.length === 0) return;
+    preloadTabModules(activeTab);
+  }, [preloadTabModules, activeTab]);
 
-    const warmup = () => {
-      tasks.forEach((task) => void task());
-    };
-    // Use requestIdleCallback via runWhenIdle equivalent
-    const timerId = setTimeout(warmup, 120);
-    return () => clearTimeout(timerId);
-  }, [activeTab, preloadByTab]);
-
-  // Tab label renderer with preload trigger
-  const renderTabLabel = (tabKey: string, icon: React.ReactNode, label: string) => (
-    <span onMouseEnter={() => preloadTabModules(tabKey)} onFocus={() => preloadTabModules(tabKey)}>
-      {icon}
-      {label}
-    </span>
-  );
-
-  // Navigation helpers (not in hook to avoid circular dependency)
-  const handleGenerateScript = () => navigate(`/projects/${id}/edit`);
-  const handleDeleteProject = async () => {
-    if (!project || !id) return;
-
-    const confirmed = await new Promise<boolean>((resolve) => {
-      Modal.confirm({
-        title: '确认删除',
-        content: '确定要删除此项目吗？此操作不可撤销。',
-        okText: '删除',
-        okType: 'danger',
-        cancelText: '取消',
-        onOk: () => resolve(true),
-        onCancel: () => resolve(false),
-      });
-    });
-
-    if (!confirmed) return;
-
-    deleteProject(id);
-    const { toast } = await import('@/components/ui/toast');
-    toast.success('项目已删除');
-    navigate('/projects');
-  };
+  const handleEditClick = () => navigate(`/project/edit/${id}`);
 
   if (loading) {
-    return <Spin size="large" tip="加载中..." />;
+    return (
+      <div className="flex items-center justify-center min-h-[60vh] text-[var(--muted-foreground)]">
+        <Spin size="large" tip="正在加载 Novella 漫剧工程大厅..." />
+      </div>
+    );
   }
 
   if (!project) {
-    return <div>项目不存在</div>;
+    return (
+      <div className="p-8 text-center rounded-2xl bg-[var(--card)] border border-[var(--border)] max-w-lg mx-auto my-12 space-y-4">
+        <Empty description="未找到指定的漫剧工程数据" />
+        <Button onClick={() => navigate('/')}>返回首页工作台</Button>
+      </div>
+    );
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <Space>
-          <Button icon={<ArrowLeft />} onClick={() => navigate('/projects')}>
-            返回项目列表
+    <div className="space-y-6">
+      {/* 头部 Top Toolbar */}
+      <div className="flex items-center justify-between p-5 rounded-3xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-2xl shadow-xl flex-wrap gap-4">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            返回
           </Button>
+          <div>
+            <h2 className="text-xl font-bold text-[var(--foreground)]">{project.name}</h2>
+            <p className="text-xs text-[var(--muted-foreground)]">
+              {project.description || 'Novella 4K 漫剧视听项目'}
+            </p>
+          </div>
+        </div>
 
-          <Button icon={<Edit />} onClick={() => navigate(`/projects/${id}/edit`)}>
-            编辑项目
-          </Button>
-
+        <div className="flex items-center gap-2">
           <Button
-            icon={<Download />}
-            onClick={handleExportScript}
-            disabled={!activeScript?.content || activeScript.content.length === 0}
+            onClick={handleEditClick}
+            className="bg-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/80 text-slate-950 font-bold text-xs shadow-md shadow-cyan-500/20"
           >
-            导出剧本
+            <Edit className="w-3.5 h-3.5 mr-1" />
+            编辑工程
           </Button>
-
-          <Button icon={<FileText />} onClick={handleExportReviewNotes} disabled={!project}>
-            导出评审记录
+          <Button variant="destructive" size="sm" onClick={handleDeleteProject}>
+            <Trash2 className="w-3.5 h-3.5 mr-1" />
+            删除
           </Button>
-
-          <Button danger icon={<Trash2 />} onClick={handleDeleteProject}>
-            删除项目
-          </Button>
-        </Space>
-
-        <Title level={2}>{project.name}</Title>
+        </div>
       </div>
 
-      {project.description && (
-        <Card className={styles.descriptionCard}>
-          <Text>{project.description}</Text>
-        </Card>
-      )}
-
-      <Card className={styles.functionCard}>
-        <Tabs activeKey={activeTab} onChange={setActiveTab} size="large">
-          <TabPane tab={renderTabLabel('novel', <FileText />, '小说')} key="novel">
-            <div className={styles.novelSection}>
-              {project.content ? (
-                <>
-                  <Title level={5}>已导入的小说/剧本</Title>
-                  {novelMetadata && (
-                    <div className={styles.metadata}>
-                      <p>
-                        <strong>文件名:</strong> {novelMetadata.filename}
-                      </p>
-                      <p>
-                        <strong>字符数:</strong> {novelMetadata.charCount.toLocaleString()}
-                      </p>
-                      <p>
-                        <strong>预估章节数:</strong> {novelMetadata.estimatedChapters}
-                      </p>
-                    </div>
-                  )}
-                  <Paragraph>
-                    <Text type="secondary">内容预览（前1000字符）:</Text>
-                  </Paragraph>
-                  <Card size="small" style={{ maxHeight: 200, overflow: 'auto' }}>
-                    <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
-                      {project.content.substring(0, 1000)}
-                      {project.content.length > 1000 ? '...' : ''}
-                    </pre>
-                  </Card>
-                  <Button
-                    type="link"
-                    onClick={() => navigate(`/projects/${id}/edit`)}
-                    icon={<Edit />}
-                    style={{ marginTop: 16 }}
-                  >
-                    编辑项目内容
-                  </Button>
-                </>
-              ) : (
-                <Empty description="尚未导入小说/剧本内容" image={undefined}>
-                  <Button
-                    type="primary"
-                    onClick={() => navigate(`/projects/${id}/edit`)}
-                    icon={<Plus />}
-                  >
-                    导入小说/剧本
-                  </Button>
-                </Empty>
-              )}
-            </div>
+      {/* 选项卡面板大厅 */}
+      <div className="p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-2xl shadow-xl">
+        <Tabs activeKey={activeTab} onChange={setActiveTab}>
+          <TabPane tab="剧本拆解与分镜" key="novel">
+            <Suspense fallback={<Spin tip="正在载入剧本编辑器..." />}>
+              <ScriptEditor
+                segments={(activeScript?.segments as unknown as VideoSegment[]) || []}
+                onSegmentsChange={(segs) => handleScriptChange(segs as any)}
+              />
+            </Suspense>
           </TabPane>
 
-          <TabPane tab={renderTabLabel('script-edit', <Edit />, '剧本')} key="script-edit">
-            <div className={styles.scriptSection}>
-              <div className={styles.scriptHeader}>
-                <Title level={4}>剧本编辑</Title>
-                <Space>
-                  <Button type="primary" icon={<Edit />} onClick={handleGenerateScript}>
-                    编辑剧本
-                  </Button>
-
-                  <Button icon={<Plus />} onClick={handleCreateScript}>
-                    创建空白剧本
-                  </Button>
-                </Space>
-              </div>
-
-              {project.scripts && project.scripts.length > 0 ? (
-                <>
-                  <Tabs
-                    activeKey={activeScript?.id}
-                    onChange={(key) => {
-                      const script = (project.scripts ?? []).find((s) => s.id === key);
-                      if (script) setActiveScript(script);
-                    }}
-                  >
-                    {project.scripts.map((script) => (
-                      <TabPane
-                        key={script.id}
-                        tab={`剧本 ${new Date(script.createdAt).toLocaleDateString()}`}
-                      >
-                        <Suspense fallback={<Spin />}>
-                          <ScriptEditor
-                            segments={
-                              script.segments
-                                ? script.segments.map((seg) => ({
-                                    id: seg.id,
-                                    start: seg.startTime,
-                                    end: seg.endTime,
-                                    type: seg.type,
-                                    content: seg.content,
-                                  }))
-                                : []
-                            }
-                            onSegmentsChange={handleScriptChange}
-                          />
-                        </Suspense>
-                      </TabPane>
-                    ))}
-                  </Tabs>
-                </>
-              ) : (
-                <Card>
-                  <div className={styles.emptyScript}>
-                    <Text type="secondary">
-                      暂无剧本，点击&quot;编辑剧本&quot;或&quot;创建空白剧本&quot;按钮添加
-                    </Text>
-                  </div>
-                </Card>
-              )}
-            </div>
+          <TabPane tab="角色一致性设计" key="character">
+            <Suspense fallback={<Spin tip="正在载入角色设计器..." />}>
+              <CharacterDesigner
+                characters={(activeScript as any)?.characters || []}
+                onChange={(chars) => {
+                  if (activeScript) {
+                    handleScriptChange({ ...activeScript, characters: chars } as any);
+                  }
+                }}
+              />
+            </Suspense>
           </TabPane>
 
-          <TabPane tab={renderTabLabel('storyboard', <Image />, '分镜')} key="storyboard">
-            <div className={styles.workflowSection}>
-              {activeScript?.content && activeScript.content.length > 0 ? (
-                <div className={styles.storyboardDetail}>
-                  {storyboardFrames.length > 0 ? (
-                    <StoryboardCollaborationPanel
-                      projectId={project?.id ?? ''}
-                      storyboardFrames={storyboardFrames}
-                      selectedFrameId={selectedFrameId}
-                      onSelectFrame={(id: string | undefined) => id ?? ''}
-                      onPersistPatch={persistProjectPatch}
-                      onFrameUpdate={(frames) => persistProjectPatch({ storyboardFrames: frames })}
-                    />
-                  ) : (
-                    <Empty description="暂无分镜，请先在编辑页生成分镜" image={undefined}>
-                      <Button
-                        type="primary"
-                        onClick={() => navigate(`/projects/${id}/edit`)}
-                        icon={<Edit />}
-                      >
-                        去生成分镜
-                      </Button>
-                    </Empty>
-                  )}
-                </div>
-              ) : (
-                <EmptyScriptHint onEdit={() => navigate(`/projects/${id}/edit`)} />
-              )}
-            </div>
+          <TabPane tab="画面与场景渲染" key="render">
+            <Suspense fallback={<Spin tip="正在载入 4K 渲染中心..." />}>
+              <RenderCenter
+                frames={storyboardFrames}
+                projectId={id}
+                onApplyRenderedFrame={handleApplyRenderedFrame}
+              />
+            </Suspense>
           </TabPane>
 
-          <TabPane tab={renderTabLabel('character', <User />, '角色')} key="character">
-            <div className={styles.workflowSection}>
-              {activeScript?.content && activeScript.content.length > 0 ? (
-                <Suspense fallback={<Spin />}>
-                  <CharacterDesigner
-                    characters={project.characters ?? []}
-                    onChange={(chars: Character[]) => {
-                      persistProjectPatch({ characters: chars });
-                    }}
-                    projectId={project?.id}
-                  />
-                </Suspense>
-              ) : (
-                <EmptyScriptHint onEdit={() => navigate(`/projects/${id}/edit`)} />
-              )}
-            </div>
+          <TabPane tab="视听极速合成" key="composition">
+            <Suspense fallback={<Spin tip="正在载入合成大厅..." />}>
+              <CompositionStudio frames={storyboardFrames} />
+            </Suspense>
           </TabPane>
 
-          <TabPane tab={renderTabLabel('render', <Zap />, '渲染')} key="render">
-            <div className={styles.workflowSection}>
-              {activeScript?.content && activeScript.content.length > 0 ? (
-                <Suspense fallback={<Spin />}>
-                  <RenderCenter
-                    frames={Array.isArray(project.storyboardFrames) ? project.storyboardFrames : []}
-                    projectId={project?.id}
-                    onApplyRenderedFrame={handleApplyRenderedFrame}
-                  />
-                </Suspense>
-              ) : (
-                <EmptyScriptHint onEdit={() => navigate(`/projects/${id}/edit`)} />
-              )}
-            </div>
+          <TabPane tab="配音与音效" key="audio">
+            <AudioEditorPanel project={project} onPersistPatch={persistProjectPatch} />
           </TabPane>
 
-          <TabPane tab={renderTabLabel('composition', <PlayCircle />, '合成')} key="composition">
-            <div className={styles.workflowSection}>
-              {activeScript?.segments &&
-              activeScript.segments.length > 0 &&
-              (project.storyboardFrames?.length ?? 0) > 0 ? (
-                <Suspense fallback={<Spin />}>
-                  <CompositionStudio
-                    frames={project.storyboardFrames as StoryboardFrame[]}
-                    projectId={project?.id}
-                    onCompositionChange={(comp) => {
-                      persistProjectPatch({ composition: comp });
-                    }}
-                  />
-                </Suspense>
-              ) : (
-                <EmptyScriptHint
-                  description="请先生成或编辑剧本并完成场景渲染"
-                  buttonText="去编辑"
-                  onEdit={() => navigate(`/projects/${id}/edit`)}
-                />
-              )}
-            </div>
-          </TabPane>
-
-          <TabPane tab={renderTabLabel('audio', <Volume2 />, '配音')} key="audio">
-            <div className={styles.workflowSection}>
-              {activeScript?.content && activeScript.content.length > 0 ? (
-                <AudioEditorPanel project={project} onPersistPatch={persistProjectPatch} />
-              ) : (
-                <EmptyScriptHint onEdit={() => navigate(`/projects/${id}/edit`)} />
-              )}
-            </div>
-          </TabPane>
-
-          <TabPane tab={renderTabLabel('cost', <DollarSign />, '成本')} key="cost">
-            <div className={styles.workflowSection}>
-              <CostDashboard projectId={project?.id} />
-            </div>
-          </TabPane>
-
-          <TabPane tab={renderTabLabel('export', <Download />, '导出')} key="export">
-            <div className={styles.workflowSection}>
-              {activeScript?.content && activeScript.content.length > 0 ? (
-                <ExportPanel
-                  projectId={project?.id ?? ''}
-                  qualityGate={exportQualityGate}
-                  onNavigateToEdit={() => navigate(`/projects/${id}/edit`)}
-                />
-              ) : (
-                <EmptyScriptHint onEdit={() => navigate(`/projects/${id}/edit`)} />
-              )}
-            </div>
+          <TabPane tab="4K 完工导出" key="export">
+            <ExportPanel
+              projectId={id ?? ''}
+              qualityGate={exportQualityGate}
+              onNavigateToEdit={handleEditClick}
+            />
           </TabPane>
         </Tabs>
-      </Card>
+      </div>
     </div>
   );
 };

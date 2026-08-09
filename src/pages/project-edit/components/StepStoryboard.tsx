@@ -41,7 +41,7 @@ function StepStoryboard() {
                 Step 4: AI 漫剧分镜绘制工作台
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                3 栏 Studio 工作台：镜头卷轴、HD 16:9 画布视口、运镜构图芯片与 8K AI 场景生图
+                漫剧分镜工作台：镜头卷轴、HD 16:9 画布视口与 AI 场景生图
               </p>
             </div>
           </div>

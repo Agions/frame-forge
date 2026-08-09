@@ -1,12 +1,12 @@
 {
-  "name": "@mangav/ai-engine",
+  "name": "@novella/ai-engine",
   "version": "0.0.1",
-  "description": "MangaV AI 引擎、PromptBuilder 与画风预设",
+  "description": "Novella AI 引擎、PromptBuilder 与画风预设",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",
   "types": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
-    "@mangav/core": "workspace:*"
+    "@novella/core": "workspace:*"
   }
 }

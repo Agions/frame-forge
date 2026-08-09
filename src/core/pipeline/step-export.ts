@@ -88,7 +88,7 @@ export class ExportStep extends BasePipelineStep {
     // 构造导出输出
     const output: ExportOutput = {
       videoUrl: finalVideoUrl,
-      filename: `mangav_${input.workflowId}_${Date.now()}.mp4`,
+      filename: `novella_${input.workflowId}_${Date.now()}.mp4`,
       format: 'mp4',
       duration: finalVideoDuration ?? 0,
       resolution: finalVideoResolution ?? { width: 1920, height: 1080 },

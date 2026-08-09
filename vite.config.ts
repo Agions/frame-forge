@@ -88,12 +88,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@mangav/core': path.resolve(__dirname, './packages/core/src'),
-      '@mangav/ai-engine': path.resolve(__dirname, './packages/ai-engine/src'),
-      '@mangav/storyboard': path.resolve(__dirname, './packages/storyboard/src'),
-      '@mangav/audio-studio': path.resolve(__dirname, './packages/audio-studio/src'),
-      '@mangav/render-pipeline': path.resolve(__dirname, './packages/render-pipeline/src'),
-      '@mangav/ui': path.resolve(__dirname, './packages/ui/src'),
+      '@novella/core': path.resolve(__dirname, './packages/core/src'),
+      '@novella/ai-engine': path.resolve(__dirname, './packages/ai-engine/src'),
+      '@novella/storyboard': path.resolve(__dirname, './packages/storyboard/src'),
+      '@novella/audio-studio': path.resolve(__dirname, './packages/audio-studio/src'),
+      '@novella/render-pipeline': path.resolve(__dirname, './packages/render-pipeline/src'),
+      '@novella/ui': path.resolve(__dirname, './packages/ui/src'),
     },
   },
 

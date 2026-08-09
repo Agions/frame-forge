@@ -102,8 +102,48 @@ export function useProjectLoader(projectId: string | undefined): {
         setError(null);
       })
       .catch(() => {
-        setError('加载项目失败，请确认项目文件是否存在');
-        setData(null);
+        // Fallback: Read from Zustand project store
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const { useProjectStore } = require('@/shared/stores/project-store');
+        const storeState = useProjectStore.getState();
+        const fallbackProject = storeState.projects.find((p: any) => p.id === projectId) || storeState.currentProject;
+
+        if (fallbackProject) {
+          const search = new URLSearchParams(location.search);
+          const frameId = search.get('frameId');
+          const stepValue = search.get('step');
+          let initialStep = 0;
+          if (frameId) {
+            initialStep = 3;
+          } else if (stepValue) {
+            initialStep = Number(stepValue);
+          } else if (fallbackProject.script || fallbackProject.novelText) {
+            initialStep = 2;
+          }
+
+          setData({
+            name: fallbackProject.name || '未命名漫剧工程',
+            description: fallbackProject.description ?? '',
+            content: fallbackProject.content || fallbackProject.novelText,
+            novelMetadata: fallbackProject.novelMetadata,
+            storyAnalysis: fallbackProject.storyAnalysis,
+            storyboardFrames: fallbackProject.storyboardFrames || fallbackProject.parsedScenes,
+            storyboardComments: fallbackProject.storyboardComments,
+            storyboardVersions: fallbackProject.storyboardVersions,
+            audioConfig: fallbackProject.audioConfig,
+            characters: fallbackProject.characters,
+            composition: fallbackProject.composition,
+            script: fallbackProject.script || fallbackProject.novelText,
+            exportPreset: fallbackProject.exportPreset || '16:9',
+            exportSettings: fallbackProject.exportSettings,
+            initialStep,
+            frameId: frameId ?? undefined,
+          });
+          setError(null);
+        } else {
+          setError('加载项目失败，请确认项目文件是否存在');
+          setData(null);
+        }
       })
       .finally(() => {
         setLoading(false);

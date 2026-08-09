@@ -4,13 +4,13 @@
 
 /** 存储键名 */
 export const STORAGE_KEYS = {
-  PROJECTS: 'mangav_projects',
-  STORYBOARDS: 'mangav-storyboards',
-  COMPOSITIONS: 'mangav-compositions',
+  PROJECTS: 'novella_projects',
+  STORYBOARDS: 'novella-storyboards',
+  COMPOSITIONS: 'novella-compositions',
   ASSETS: 'panelcraft_assets',
   CHARACTERS: 'man ga-characters',
-  BACKUPS: 'mangav_backups',
-  REVIEW_EXPORT_ACTIVITIES: 'mangav_review_export_activities',
+  BACKUPS: 'novella_backups',
+  REVIEW_EXPORT_ACTIVITIES: 'novella_review_export_activities',
   TOKEN: 'reelforge_token',
 } as const;
 

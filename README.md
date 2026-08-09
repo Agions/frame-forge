@@ -1,25 +1,25 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="public/mangav_brand_logo.jpg" />
-  <img src="public/mangav_brand_logo.jpg" alt="MangaV (漫织 AI) · 端到端 AI 漫剧创作平台" width="120" style="border-radius: 24px; box-shadow: 0 0 30px rgba(0,245,212,0.4);" />
+  <source media="(prefers-color-scheme: dark)" srcset="public/novella_brand_logo.jpg" />
+  <img src="public/novella_brand_logo.jpg" alt="Novella (Novella AI) · 端到端 AI 漫剧创作平台" width="120" style="border-radius: 24px; box-shadow: 0 0 30px rgba(0,245,212,0.4);" />
 </picture>
 
 <br/>
 
-# MangaV (漫织 AI) · Studio v0.0.1
+# Novella (Novella AI) · Studio v0.0.1
 
 > **输入一本小说，AI 自动精织为 4K 原生视听漫剧 —— 基于 Tauri v2 + React 19 + Rust Engine 的端到端开源桌面应用体系。**
 
-[![Build Status](https://img.shields.io/badge/build-passing-emerald?style=for-the-badge&logo=github-actions)](https://github.com/Agions/mangav/actions)
-[![License](https://img.shields.io/github/license/Agions/mangav?style=for-the-badge&color=45B8AC)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/badge/build-passing-emerald?style=for-the-badge&logo=github-actions)](https://github.com/Agions/novella/actions)
+[![License](https://img.shields.io/github/license/Agions/novella?style=for-the-badge&color=45B8AC)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Tauri](https://img.shields.io/badge/Tauri-2.1-FFC131?style=for-the-badge&logo=tauri)](https://tauri.app)
 [![Rust](https://img.shields.io/badge/Rust-2021-000000?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
-[![Version](https://img.shields.io/badge/version-v0.0.1-6366F1?style=for-the-badge)](https://github.com/Agions/mangav/releases)
+[![Version](https://img.shields.io/badge/version-v0.0.1-6366F1?style=for-the-badge)](https://github.com/Agions/novella/releases)
 
-[**📖 在线文档**](https://agions.github.io/mangav/) · [**📥 下载桌面端**](https://github.com/Agions/mangav/releases) · [**🐛 报告问题**](https://github.com/Agions/mangav/issues/new)
+[**📖 在线文档**](https://agions.github.io/novella/) · [**📥 下载桌面端**](https://github.com/Agions/novella/releases) · [**🐛 报告问题**](https://github.com/Agions/novella/issues/new)
 
 </div>
 
@@ -27,7 +27,7 @@
 
 ## 📖 简介 (Overview)
 
-**MangaV (漫织 AI)** 是一款面向漫剧创作者、短视频博主与影视编导的开源桌面端 **AI 漫剧全流程创作平台**。
+**Novella (Novella AI)** 是一款面向漫剧创作者、短视频博主与影视编导的开源桌面端 **AI 漫剧全流程创作平台**。
 
 平台通过全新的 **6 阶规范 SOP 流水线**，将原著小说或剧本文本自动进行章节切分、高潮提炼、角色设定卡推导、分镜提示词构建、关键帧画面渲染、多角色 TTS 配音合成及 4K 视频导出。内置 13 大 AI 提供商接口，涵盖最新的文字大模型、生图模型与视频生成引擎。
 
@@ -100,21 +100,21 @@ graph TD
 ## 🏗️ 系统架构设计 (Architecture Overview)
 
 ```
-mangav/
+novella/
 ├── packages/                     # 6 大前端 TypeScript/React 模块 (pnpm workspace)
-│   ├── core/                     # @mangav/core — 领域模型与 WorkflowEngine 状态机
-│   ├── ai-engine/                # @mangav/ai-engine — 13 大 AI Provider 与 ModelCatalog
-│   ├── storyboard/               # @mangav/storyboard — NovelImporter 沉浸编辑器与 StoryboardGrid
-│   ├── audio-studio/             # @mangav/audio-studio — AudioStudio 多音轨 TTS 工作台
-│   ├── render-pipeline/          # @mangav/render-pipeline — 硬件加速渲染控制台与 Hooks
-│   └── ui/                       # @mangav/ui — 赛博朋克极暗 Design System 组件库
+│   ├── core/                     # @novella/core — 领域模型与 WorkflowEngine 状态机
+│   ├── ai-engine/                # @novella/ai-engine — 13 大 AI Provider 与 ModelCatalog
+│   ├── storyboard/               # @novella/storyboard — NovelImporter 沉浸编辑器与 StoryboardGrid
+│   ├── audio-studio/             # @novella/audio-studio — AudioStudio 多音轨 TTS 工作台
+│   ├── render-pipeline/          # @novella/render-pipeline — 硬件加速渲染控制台与 Hooks
+│   └── ui/                       # @novella/ui — 赛博朋克极暗 Design System 组件库
 ├── crates/                       # 6 大 Rust Native Crate (Cargo workspace)
-│   ├── core/                     # mangav-core — 项目持久化 (ProjectStore) 与 Keyring
-│   ├── ai/                       # mangav-ai — NovelScriptParser 剧本拆解与镜头推导
-│   ├── media/                    # mangav-media — FFmpeg 硬件加速与 VideoToolbox/NVENC
-│   ├── ipc/                      # mangav-ipc — 强类型 Tauri Command 桥接层
-│   ├── plugin/                   # mangav-plugin — WASM 扩展沙盒
-│   └── updater/                  # mangav-updater — 自动更新与签名校验
+│   ├── core/                     # novella-core — 项目持久化 (ProjectStore) 与 Keyring
+│   ├── ai/                       # novella-ai — NovelScriptParser 剧本拆解与镜头推导
+│   ├── media/                    # novella-media — FFmpeg 硬件加速与 VideoToolbox/NVENC
+│   ├── ipc/                      # novella-ipc — 强类型 Tauri Command 桥接层
+│   ├── plugin/                   # novella-plugin — WASM 扩展沙盒
+│   └── updater/                  # novella-updater — 自动更新与签名校验
 ├── src/                          # 应用主入口 (Feature-Sliced Design)
 ├── src-tauri/                    # Tauri v2 桌面壳入口与配置文件
 └── scripts/                      # 标准化构建与自动化脚本 (`build-desktop.sh`)
@@ -128,17 +128,17 @@ mangav/
 
 | 平台        | 架构                              | 下载二进制文件                                                                  |
 | :---------- | :-------------------------------- | :------------------------------------------------------------------------------ |
-| **macOS**   | Universal (Apple Silicon / Intel) | [MangaV.app (DMG)](https://github.com/Agions/mangav/releases/latest)            |
-| **Windows** | x64                               | [mangav_x64-setup.exe (NSIS)](https://github.com/Agions/mangav/releases/latest) |
-| **Windows** | ARM64                             | [mangav_arm64-setup.exe](https://github.com/Agions/mangav/releases/latest)      |
-| **Linux**   | x64                               | [mangav_amd64.deb](https://github.com/Agions/mangav/releases/latest)            |
+| **macOS**   | Universal (Apple Silicon / Intel) | [Novella.app (DMG)](https://github.com/Agions/novella/releases/latest)            |
+| **Windows** | x64                               | [novella_x64-setup.exe (NSIS)](https://github.com/Agions/novella/releases/latest) |
+| **Windows** | ARM64                             | [novella_arm64-setup.exe](https://github.com/Agions/novella/releases/latest)      |
+| **Linux**   | x64                               | [novella_amd64.deb](https://github.com/Agions/novella/releases/latest)            |
 
 ### 选项二：源码克隆与本地开发
 
 ```bash
 # 1. 克隆代码库
-git clone https://github.com/Agions/mangav.git
-cd mangav
+git clone https://github.com/Agions/novella.git
+cd novella
 
 # 2. 安装项目依赖
 pnpm install
@@ -171,4 +171,4 @@ VITE_SEEDDREAM_API_KEY=your_bytedance_key
 
 ## 📄 许可证 (License)
 
-[MIT License](LICENSE) © 2026 **MangaV Team**
+[MIT License](LICENSE) © 2026 **Novella Team**

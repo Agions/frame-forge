@@ -6,12 +6,12 @@
  */
 export const STORAGE_KEYS = {
   legacyProjects: 'STORAGE_KEYS.PROJECTS',
-  legacyProjectsZustand: 'mangav-project-storage',
-  projects: 'mangav:projects:v2',
-  settings: 'mangav:settings:v2',
-  app: 'mangav:app:v2',
-  storyboard: 'mangav:storyboard:v2',
-  migrationVersion: 'mangav:migration:version',
+  legacyProjectsZustand: 'novella-project-storage',
+  projects: 'novella:projects:v2',
+  settings: 'novella:settings:v2',
+  app: 'novella:app:v2',
+  storyboard: 'novella:storyboard:v2',
+  migrationVersion: 'novella:migration:version',
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];

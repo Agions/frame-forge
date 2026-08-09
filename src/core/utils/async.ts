@@ -1,5 +1,5 @@
 /**
- * MangaV Shared Utils - Async Error Handling Utilities
+ * Novella Shared Utils - Async Error Handling Utilities
  */
 
 import { toast } from '@/shared/components/ui/toast';

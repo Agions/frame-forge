@@ -1,4 +1,4 @@
-# MangaV (漫织 AI) 系统架构设计说明书
+# Novella (Novella AI) 系统架构设计说明书
 
 > **设计目标**: 构建企业级、可扩展、解耦的 AI 漫剧桌面创作平台，支撑从小说导入到 4K 视频导出的全流程自动化。
 
@@ -6,29 +6,29 @@
 
 ## 1. 架构总览 (High-Level Architecture)
 
-`MangaV` 采用了 **pnpm workspace (前端)** + **Cargo workspace (Rust 后端)** 的双层 Monorepo 解耦架构：
+`Novella` 采用了 **pnpm workspace (前端)** + **Cargo workspace (Rust 后端)** 的双层 Monorepo 解耦架构：
 
 ```mermaid
 graph TD
     subgraph Frontend ["前端架构 (React 19 + Monorepo Packages)"]
-        UI["@mangav/ui<br/>设计系统组件库"]
-        CoreTS["@mangav/core<br/>领域模型与 WorkflowEngine"]
-        AI_TS["@mangav/ai-engine<br/>PromptBuilder & 预设"]
-        SB_TS["@mangav/storyboard<br/>分镜编辑器组件"]
-        Audio_TS["@mangav/audio-studio<br/>多音轨与 TTS 工作台"]
-        Render_TS["@mangav/render-pipeline<br/>渲染控制台 & Hooks"]
+        UI["@novella/ui<br/>设计系统组件库"]
+        CoreTS["@novella/core<br/>领域模型与 WorkflowEngine"]
+        AI_TS["@novella/ai-engine<br/>PromptBuilder & 预设"]
+        SB_TS["@novella/storyboard<br/>分镜编辑器组件"]
+        Audio_TS["@novella/audio-studio<br/>多音轨与 TTS 工作台"]
+        Render_TS["@novella/render-pipeline<br/>渲染控制台 & Hooks"]
     end
 
     subgraph IPC ["通信层 (Tauri IPC Bridge)"]
-        Specta["mangav-ipc<br/>强类型 Command 调度通道"]
+        Specta["novella-ipc<br/>强类型 Command 调度通道"]
     end
 
     subgraph Backend ["Rust Native 后端 (Cargo Workspace)"]
-        CoreRS["mangav-core<br/>ProjectStore & 校验"]
-        AIRS["mangav-ai<br/>NovelScriptParser & 镜头推导"]
-        MediaRS["mangav-media<br/>FFmpeg 硬件加速 (VideoToolbox/NVENC)"]
-        PluginRS["mangav-plugin<br/>Extism WASM 沙盒"]
-        UpdaterRS["mangav-updater<br/>ed25519 签名更新"]
+        CoreRS["novella-core<br/>ProjectStore & 校验"]
+        AIRS["novella-ai<br/>NovelScriptParser & 镜头推导"]
+        MediaRS["novella-media<br/>FFmpeg 硬件加速 (VideoToolbox/NVENC)"]
+        PluginRS["novella-plugin<br/>Extism WASM 沙盒"]
+        UpdaterRS["novella-updater<br/>ed25519 签名更新"]
     end
 
     UI --> CoreTS
@@ -49,12 +49,12 @@ graph TD
 
 | Crate 模块           | 核心职责                                                                                                                                      | 依赖关系                                   |
 | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------- |
-| **`mangav-core`**    | 核心领域模型（`WorkflowStage`, `MangaProject`, `CharacterAsset`）、`MangavError` 统一错误体系、`ProjectStore` 数据持久化与 6 阶状态机约束校验 | 无                                         |
-| **`mangav-ai`**      | `NovelScriptParser` 剧本拆解器（章节/对白/场景边界识别）、`CharacterConsistencyEngine` 视觉一致性注入器、`PromptBuilder` 链式构建器           | `mangav-core`                              |
-| **`mangav-media`**   | 平台硬件加速能力检测（Apple VideoToolbox / NVIDIA NVENC / Intel QSV）、`FFmpegCommandBuilder` 视频拼接/缩略图指令生成、自适应编码器选择算法   | `mangav-core`                              |
-| **`mangav-ipc`**     | Tauri 命令暴露层，无业务逻辑纯路由，对外提供强类型 Command 接口                                                                               | `mangav-core`, `mangav-ai`, `mangav-media` |
-| **`mangav-plugin`**  | Extism / WASM 插件沙盒集成，负责第三方节点或自定义导出扩展的隔离加载                                                                          | `mangav-core`                              |
-| **`mangav-updater`** | 桌面端静默更新检测与数字签名校验                                                                                                              | `mangav-core`                              |
+| **`novella-core`**    | 核心领域模型（`WorkflowStage`, `MangaProject`, `CharacterAsset`）、`NovellaError` 统一错误体系、`ProjectStore` 数据持久化与 6 阶状态机约束校验 | 无                                         |
+| **`novella-ai`**      | `NovelScriptParser` 剧本拆解器（章节/对白/场景边界识别）、`CharacterConsistencyEngine` 视觉一致性注入器、`PromptBuilder` 链式构建器           | `novella-core`                              |
+| **`novella-media`**   | 平台硬件加速能力检测（Apple VideoToolbox / NVIDIA NVENC / Intel QSV）、`FFmpegCommandBuilder` 视频拼接/缩略图指令生成、自适应编码器选择算法   | `novella-core`                              |
+| **`novella-ipc`**     | Tauri 命令暴露层，无业务逻辑纯路由，对外提供强类型 Command 接口                                                                               | `novella-core`, `novella-ai`, `novella-media` |
+| **`novella-plugin`**  | Extism / WASM 插件沙盒集成，负责第三方节点或自定义导出扩展的隔离加载                                                                          | `novella-core`                              |
+| **`novella-updater`** | 桌面端静默更新检测与数字签名校验                                                                                                              | `novella-core`                              |
 
 ---
 
@@ -62,7 +62,7 @@ graph TD
 
 ```
 packages/
-├── core/             # 导出 WorkflowEngine 状态机控制、Episode/Shot 接口、useMangaVStudio
+├── core/             # 导出 WorkflowEngine 状态机控制、Episode/Shot 接口、useNovellaStudio
 ├── ai-engine/        # 导出 ArtStylePreset 5 大画风配置、CameraShot 镜头提示词、PromptBuilder
 ├── storyboard/       # 导出 StoryboardGrid 虚拟网格、ShotToolbar 操作栏、StoryboardStats 统计
 ├── audio-studio/     # 导出 AudioTimeline 多轨时间轴、TTSVoice 预设列表、AudioStudio 组件

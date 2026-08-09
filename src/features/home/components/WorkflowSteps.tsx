@@ -54,7 +54,7 @@ const steps: Step[] = [
 
 /**
  * 工作流程步骤组件
- * 展示 MangaV (漫织 AI) 完整创作流程
+ * 展示 Novella (Novella AI) 完整创作流程
  */
 const WorkflowSteps = () => {
   const { isDarkMode } = useTheme();

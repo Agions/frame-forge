@@ -1,15 +1,15 @@
 ---
 layout: home
-title: MangaV (漫织 AI)
+title: Novella (Novella AI)
 titleTemplate: false
 
 hero:
-  name: 'MangaV (漫织 AI)'
+  name: 'Novella (Novella AI)'
   text: '端到端 AI 漫剧创作平台'
   tagline: '输入一本小说，AI 自动生成 4K 精致漫剧——你只需要按「开始」'
   image:
-    src: /mangav_brand_logo.jpg
-    alt: MangaV (漫织 AI)
+    src: /novella_brand_logo.jpg
+    alt: Novella (Novella AI)
   actions:
     - theme: brand
       text: 快速开始 →
@@ -19,7 +19,7 @@ hero:
       link: /developer-guide/architecture
     - theme: alt
       text: GitHub ⭐
-      link: https://github.com/Agions/mangav
+      link: https://github.com/Agions/novella
 
 features:
   - icon: 🎬
@@ -45,7 +45,7 @@ features:
 <!-- 为什么选择 -->
 
 <div class="vp-section-header">
-  <h2 class="vp-section-title">为什么选择 MangaV (漫织 AI)？</h2>
+  <h2 class="vp-section-title">为什么选择 Novella (Novella AI)？</h2>
   <p class="vp-section-sub">市面上唯一的<strong>高性能开源桌面端</strong> AI 漫剧创作平台。数据完全本地、MIT 协议、无云端锁死。</p>
 </div>
 

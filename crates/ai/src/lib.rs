@@ -1,8 +1,8 @@
-//! MangaV Industry-Grade AI Generation & Consistency Engine
+//! Novella Industry-Grade AI Generation & Consistency Engine
 
 pub mod parser;
 pub mod prompt;
-use mangav_core::models::{CharacterAsset, EpisodeModel, SceneModel, ShotModel};
+use novella_core::models::{CharacterAsset, EpisodeModel, SceneModel, ShotModel};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

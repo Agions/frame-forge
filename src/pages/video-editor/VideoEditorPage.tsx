@@ -1,12 +1,5 @@
 /**
- * VideoEditorPage — 视频编辑器页面（Presenter 层）
- *
- * 职责：
- * - 调用 useVideoEditor 获取所有状态和操作
- * - 渲染 UI 布局
- * - 组合子渲染函数
- *
- * 原始 714 行 → 拆分后 <250 行
+ * VideoEditorPage — 视频剪辑编辑器页面
  */
 import { useParams } from 'react-router-dom';
 
@@ -16,7 +9,6 @@ import { Tabs, TabPane } from '@/components/ui/tabs';
 import { Title } from '@/components/ui/typography';
 
 import { useVideoEditor } from './hooks/useVideoEditor';
-import styles from './VideoEditorPage.module.less';
 import { renderVideoPlayer, renderTimeline } from './VideoEditorPage.player';
 import { renderSegmentList, renderKeyframeList } from './VideoEditorPage.segments';
 import { renderToolbar, ExportProgressModal, renderSettingsPanel } from './VideoEditorPage.toolbar';
@@ -46,31 +38,35 @@ const VideoEditor = () => {
   } = state;
 
   return (
-    <div className={styles.editorLayout}>
-      <div className={styles.editorContent}>
-        <ExportProgressModal
-          isExporting={isExporting}
-          exportProgress={exportProgress}
-          exportStatus={exportStatus}
-          outputFormat={outputFormat}
-          videoQuality={videoQuality}
-        />
+    <div className="space-y-4 p-4 md:p-6 bg-[var(--background)] text-[var(--foreground)] min-h-screen">
+      <ExportProgressModal
+        isExporting={isExporting}
+        exportProgress={exportProgress}
+        exportStatus={exportStatus}
+        outputFormat={outputFormat}
+        videoQuality={videoQuality}
+      />
 
-        {renderToolbar(state)}
+      {renderToolbar(state)}
 
-        <Row gutter={[24, 24]}>
-          {/* 视频预览区 */}
-          <Col span={16}>
-            <Card className={styles.playerCard} title="视频预览">
-              {renderVideoPlayer(
-                videoSrc,
-                videoRef,
-                handleTimeUpdate,
-                handleVideoLoaded,
-                togglePlayPause,
-                state
-              )}
-            </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 视频预览区 & 时间轴 */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-2xl shadow-xl">
+            <h3 className="text-base font-bold text-[var(--foreground)] mb-3">
+              Novella 4K 视听视频播放器
+            </h3>
+            {renderVideoPlayer(
+              videoSrc,
+              videoRef,
+              handleTimeUpdate,
+              handleVideoLoaded,
+              togglePlayPause,
+              state
+            )}
+          </div>
+
+          <div className="p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-2xl shadow-xl">
             {renderTimeline(
               segments,
               selectedSegmentIndex,
@@ -78,41 +74,33 @@ const VideoEditor = () => {
               duration,
               state.handleSelectSegment
             )}
-          </Col>
+          </div>
+        </div>
 
-          {/* 右侧工具面板 */}
-          <Col span={8}>
-            <Tabs defaultActiveKey="trim" className={styles.editorTabs}>
-              <TabPane tab="片段" key="trim">
-                {renderSegmentList(state)}
-              </TabPane>
+        {/* 右侧工具面板 */}
+        <div className="p-6 rounded-3xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-2xl shadow-xl">
+          <Tabs defaultActiveKey="trim">
+            <TabPane tab="视频片段" key="trim">
+              {renderSegmentList(state)}
+            </TabPane>
 
-              <TabPane tab="关键帧" key="keyframes">
-                <div className={styles.keyframesContainer}>
-                  <Title level={5} className={styles.sectionTitle}>
-                    关键帧
-                  </Title>
-                  {renderKeyframeList(keyframes)}
-                </div>
-              </TabPane>
+            <TabPane tab="运镜关键帧" key="keyframes">
+              <div className="space-y-3 py-2">
+                <h4 className="font-bold text-sm text-[var(--foreground)]">关键帧列表</h4>
+                {renderKeyframeList(keyframes)}
+              </div>
+            </TabPane>
 
-              <TabPane tab="效果" key="effects">
-                <div className={styles.effectsPanel}>
-                  <Title level={5} className={styles.sectionTitle}>
-                    视频效果
-                  </Title>
-                  <p style={{ color: '#999', textAlign: 'center', padding: '40px 0' }}>
-                    此功能正在开发中
-                  </p>
-                </div>
-              </TabPane>
-
-              <TabPane tab="设置" key="settings">
-                {renderSettingsPanel(outputFormat, videoQuality, setVideoQuality, setOutputFormat)}
-              </TabPane>
-            </Tabs>
-          </Col>
-        </Row>
+            <TabPane tab="导出与参数" key="settings">
+              {renderSettingsPanel(
+                outputFormat,
+                videoQuality,
+                setVideoQuality,
+                setOutputFormat
+              )}
+            </TabPane>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

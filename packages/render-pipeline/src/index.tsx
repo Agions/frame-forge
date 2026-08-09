@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { MangaCard, MangaButton } from '@mangav/ui';
+import { MangaCard, MangaButton } from '@novella/ui';
 
 export interface RenderJobConfig {
   resolution: '1080p' | '4k';

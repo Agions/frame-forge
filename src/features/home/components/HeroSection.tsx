@@ -1,4 +1,16 @@
-import { Plus, Sparkles, FileText, Wand2, ArrowRight } from 'lucide-react';
+import {
+  Plus,
+  Wand2,
+  FileText,
+  Play,
+  Flame,
+  Sparkles,
+  Clapperboard,
+  Users,
+  Film,
+  CheckCircle2,
+  Share2,
+} from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,19 +24,17 @@ import {
   DialogDescription,
 } from '@/shared/components/ui/dialog';
 
-import styles from './HeroSection.module.less';
-
 const SAMPLE_SCRIPTS = [
   {
     title: '【赛博修仙】数字元神与机械灵脉',
     genre: '科幻修仙',
     episodes: '全 12 集',
-    desc: '在 2099 年的赛博修仙界，李云霄借助数字元神侵入天道服务器，反抗脑机修仙财阀的残酷统治。',
+    desc: '在 2099 年的赛博修仙界，李云霄借助数字元神侵入天道服务器，反抗脑机修仙财阀的统治。',
     snippet: `第一章：数字元神觉醒
 
 夜色笼罩着深霄市的钛合金高楼，霓虹雨打在李云霄的金属手臂上，迸发出刺目的火花。
 李云霄：“天道服务器的防护墙，也不过如此。”
-他闭上双眼，脑机接口瞬间过载，一道金色的数字元神化作飞剑，径直刺入黑神话财阀的核心数据中枢！`,
+他闭上双眼，脑机接口瞬间过载，一道金色的数字元神化作飞剑，径直刺入黑神轨财阀的核心数据中枢！`,
   },
   {
     title: '【都市战神】龙王归来之隐性首富',
@@ -52,42 +62,17 @@ const SAMPLE_SCRIPTS = [
   },
 ];
 
-const ROLE_CARDS = [
-  {
-    imageIcon: '/writer_role_icon.jpg',
-    alt: '编剧',
-    title: '编剧 · 剧本构演',
-    desc: '小说剧情拆解、人设建模与镜头台词拟定',
-    colorClass: styles.roleCardCyan,
-  },
-  {
-    imageIcon: '/storyboarder_role_icon.jpg',
-    alt: '分镜师',
-    title: '分镜师 · 视听绘制',
-    desc: 'Master Protocol 锁定形象，AI 漫画画幅绘制',
-    colorClass: styles.roleCardPurple,
-  },
-  {
-    imageIcon: '/animator_role_icon.jpg',
-    alt: '制作师',
-    title: '制作师 · 渲染合成',
-    desc: 'EdgeTTS/CosyVoice 多音轨合成与硬件加速 4K 导出',
-    colorClass: styles.roleCardPink,
-  },
-  {
-    imageIcon: '/auditor_role_icon.jpg',
-    alt: '审核员',
-    title: '审核员 · 质检打回',
-    desc: '全流程产物审核评估，驳回建议录入与闭环流转',
-    colorClass: styles.roleCardGreen,
-  },
+const PIPELINE_STEPS = [
+  { id: 1, name: '角色设计', icon: Users, done: true },
+  { id: 2, name: '故事设计', icon: FileText, done: true },
+  { id: 3, name: '动画生成', icon: Film, active: true },
+  { id: 4, name: '后期制作', icon: Clapperboard, done: false },
+  { id: 5, name: '导出', icon: Share2, done: false },
 ];
 
-/**
- * 首页英雄区域组件 — 赛博朋克深色专业工作站版 (v0.0.1)
- */
 const HeroSection = () => {
   const navigate = useNavigate();
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isSampleModalOpen, setIsSampleModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
@@ -97,171 +82,220 @@ const HeroSection = () => {
   };
 
   return (
-    <div className={styles.hero}>
-      {/* Background ambient lighting */}
-      <div className={styles.glow} />
-      <div className={styles.glowSecondary} />
-      <div className={styles.grid} />
-      <div className={styles.scanLine} />
+    <div className="space-y-4 mb-6">
+      {/* Gemini AI 设计稿 100% 对齐：门面级 4K 漫剧 Hero 展台 */}
+      <div className="studio-card p-5 md:p-7 relative overflow-hidden border border-[var(--border)] rounded-3xl space-y-6">
+        {/* 背景高光与渐变 */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Floating particles */}
-      <div className={styles.particles} aria-hidden="true">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <span key={i} className={styles.particle} />
-        ))}
+        {/* 展台大卡片两栏布局 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+          {/* 左侧 & 中间：主视听播放器与 SOP 步骤指示器 */}
+          <div className="lg:col-span-2 space-y-4 flex flex-col justify-between">
+            {/* 标题与 SOP 阶段 Pills */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tight flex items-center gap-2">
+                    漫剧创作车间
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono font-bold">
+                      PRO Studio
+                    </span>
+                  </h1>
+                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                    AI 漫画 & 动画视频制作工作室 · 极速 GPU 硬件加速编解码
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="studio-btn-primary text-xs px-3.5 py-1.5 rounded-xl border-0 shadow-sm flex items-center gap-1 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    新建工程
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setIsSampleModalOpen(true)}
+                    className="bg-transparent border border-[var(--border)] hover:bg-white/10 text-[var(--foreground)] text-xs px-3.5 py-1.5 rounded-xl cursor-pointer"
+                  >
+                    <FileText className="w-3.5 h-3.5 mr-1" />
+                    剧本范例
+                  </Button>
+                </div>
+              </div>
+
+              {/* SOP 阶段 Step Badges (与 Gemini Mockup 100% 对齐) */}
+              <div className="p-3 rounded-2xl bg-white/5 border border-[var(--border)] flex items-center justify-between gap-2 overflow-x-auto">
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-600 text-white shadow-sm">
+                    阶段 3: 动画生成
+                  </span>
+                  <span className="text-[11px] font-mono text-[var(--muted-foreground)] font-bold">
+                    03/05
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1 sm:gap-3 shrink-0 text-xs">
+                  {PIPELINE_STEPS.map((step) => {
+                    const Icon = step.icon;
+                    return (
+                      <div
+                        key={step.id}
+                        className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-colors ${
+                          step.active
+                            ? 'bg-indigo-500/20 text-indigo-400 font-bold border border-indigo-500/40'
+                            : step.done
+                              ? 'text-emerald-400'
+                              : 'text-[var(--muted-foreground)]'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline text-[11px]">{step.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* 16:9 高清视听 Player (Gemini 展台核心) */}
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black/60 border border-[var(--border)] group shadow-2xl flex items-center justify-center">
+              <img
+                src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1200&q=80"
+                alt="漫剧 4K 展台"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+
+              {/* 播放按钮 Overlay (绝对居中 100% Center Positioning) */}
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-indigo-600/90 hover:bg-indigo-500 text-white flex items-center justify-center shadow-xl shadow-indigo-600/40 transition-transform hover:scale-110 cursor-pointer border-0 z-20"
+              >
+                <Play className="w-6 h-6 fill-current ml-1" />
+              </button>
+
+              {/* 渲染进度条 Overlay (Gemini 效果) */}
+              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between gap-4 text-xs font-mono">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <span className="text-indigo-400 font-bold animate-pulse">渲染中... 78%</span>
+                  <div className="flex-1 h-2 rounded-full bg-white/20 overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 w-[78%] transition-all duration-300" />
+                  </div>
+                </div>
+                <span className="text-slate-300 text-[11px]">02:45 / 05:30</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 右侧：当前焦点工程面板 (Gemini 右面板) */}
+          <div className="p-4 rounded-2xl bg-white/5 border border-[var(--border)] flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
+                <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  当前工程：星际漫游者
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono font-bold">
+                  4K 渲染中
+                </span>
+              </div>
+
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between text-[var(--muted-foreground)]">
+                  <span>画幅规范:</span>
+                  <span className="text-[var(--foreground)] font-mono font-bold">16:9 (3840x2160)</span>
+                </div>
+                <div className="flex justify-between text-[var(--muted-foreground)]">
+                  <span>帧率 FPS:</span>
+                  <span className="text-[var(--foreground)] font-mono font-bold">25 FPS 60fps 插帧</span>
+                </div>
+                <div className="flex justify-between text-[var(--muted-foreground)]">
+                  <span>分镜总数:</span>
+                  <span className="text-indigo-400 font-mono font-bold">18 帧 (第 14 帧)</span>
+                </div>
+              </div>
+
+              {/* 关键帧缩略图 preview */}
+              <div className="grid grid-cols-2 gap-2 pt-2">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80"
+                  alt="帧 1"
+                  className="rounded-lg border border-[var(--border)] aspect-video object-cover"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80"
+                  alt="帧 2"
+                  className="rounded-lg border border-[var(--border)] aspect-video object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2 border-t border-[var(--border)]">
+              <Button
+                size="sm"
+                onClick={() => navigate('/workflow')}
+                className="studio-btn-primary w-full text-xs py-2 rounded-xl"
+              >
+                <Wand2 className="w-3.5 h-3.5 mr-1" />
+                继续创作
+              </Button>
+
+              <Button
+                size="sm"
+                onClick={() => navigate('/project/proj-demo-1')}
+                className="w-full bg-transparent border border-[var(--border)] hover:bg-white/10 text-[var(--foreground)] text-xs py-2 rounded-xl"
+              >
+                4K 压制导出
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.heroContent}>
-        {/* Version Tech Badge */}
-        <div className={styles.badge}>
-          <div className="mangav-pulse-dot" />
-          <span>v0.0.1 · Tauri v2 + React 19 + Rust 原生驱动的 AI 漫剧创作平台</span>
-        </div>
-
-        {/* Brand Header Group */}
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="relative group">
-            <img
-              src="/mangav_brand_logo.jpg"
-              alt="MangaV Logo"
-              className="w-16 h-16 rounded-2xl transition-transform duration-500 group-hover:scale-110 shadow-[0_0_24px_rgba(0,245,212,0.4)] border border-[#00f5d4]/40"
-            />
-          </div>
-          <img
-            src="/mangav_brand_text.jpg"
-            alt="MangaV 漫织 AI"
-            className="h-14 object-contain filter drop-shadow-[0_0_16px_rgba(0,245,212,0.6)]"
-          />
-        </div>
-
-        {/* Subtitle */}
-        <p className={styles.subtitle}>
-          输入一本小说，AI 自动精织为 4K 原生视听漫剧
-          <br className={styles.br} />
-          集成了 13 大 AI 大模型、视听多模态与 FFmpeg 硬件加速压制引擎
-        </p>
-
-        {/* 3-Action Hero Quick Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto my-6 text-left">
-          <div
-            onClick={() => navigate('/workflow')}
-            className="group cursor-pointer p-4 rounded-2xl bg-slate-900/60 border border-[#00f5d4]/20 hover:border-[#00f5d4]/60 hover:bg-slate-900/90 transition-all shadow-lg hover:shadow-[0_0_24px_rgba(0,245,212,0.2)]"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className="w-10 h-10 rounded-xl bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center text-[#00f5d4] group-hover:scale-110 transition-transform">
-                <FileText className="w-5 h-5" />
-              </div>
-              <ArrowRight className="w-4 h-4 text-[#00f5d4] opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-            </div>
-            <h4 className="text-sm font-bold text-slate-100 mb-1 group-hover:text-[#00f5d4] transition-colors">
-              📖 剧本一键导入
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              粘贴小说 TXT/MD，自动抽取角色与分镜列表
-            </p>
-          </div>
-
-          <div
-            onClick={() => setIsSampleModalOpen(true)}
-            className="group cursor-pointer p-4 rounded-2xl bg-slate-900/60 border border-[#a855f7]/20 hover:border-[#a855f7]/60 hover:bg-slate-900/90 transition-all shadow-lg hover:shadow-[0_0_24px_rgba(168,85,247,0.2)]"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className="w-10 h-10 rounded-xl bg-[#a855f7]/10 border border-[#a855f7]/30 flex items-center justify-center text-[#a855f7] group-hover:scale-110 transition-transform">
-                <Wand2 className="w-5 h-5" />
-              </div>
-              <ArrowRight className="w-4 h-4 text-[#a855f7] opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-            </div>
-            <h4 className="text-sm font-bold text-slate-100 mb-1 group-hover:text-[#a855f7] transition-colors">
-              ⚡ 热门漫剧灵感模板
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              体验【赛博修仙】、【都市战神】与【规则怪谈】
-            </p>
-          </div>
-
-          <div
-            onClick={() => setIsCreateModalOpen(true)}
-            className="group cursor-pointer p-4 rounded-2xl bg-slate-900/60 border border-slate-700/60 hover:border-slate-500 hover:bg-slate-900/90 transition-all shadow-lg"
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-200 group-hover:scale-110 transition-transform">
-                <Plus className="w-5 h-5" />
-              </div>
-              <ArrowRight className="w-4 h-4 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-            </div>
-            <h4 className="text-sm font-bold text-slate-100 mb-1 group-hover:text-white transition-colors">
-              ➕ 自定义新建项目
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              手动配置画风、分辨率、目标分集与专属 AI 模型
-            </p>
-          </div>
-        </div>
-
-        {/* Hero Banner Key Visual */}
-        <div className={styles.heroBanner}>
-          <img
-            src="/mangav_hero_banner.jpg"
-            alt="MangaV AI Key Visual"
-            className={styles.heroBannerImg}
-          />
-        </div>
-
-        {/* 4-Role Cards */}
-        <div className={styles.roleGrid}>
-          {ROLE_CARDS.map((card) => (
-            <div key={card.alt} className={`${styles.roleCard} ${card.colorClass}`}>
-              <div className={styles.roleCardIconWrap}>
-                <img src={card.imageIcon} alt={card.alt} className="w-full h-full object-cover" />
-              </div>
-              <span className={styles.roleCardTitle}>{card.title}</span>
-              <p className={styles.roleCardDesc}>{card.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className={styles.hint}>多模型适配 · 角色分工 · 质检打回闭环 · 4K 原生画质</p>
-      </div>
-
-      {/* Sample Script Filler Modal */}
+      {/* 剧本范例 Dialog */}
       <Dialog open={isSampleModalOpen} onOpenChange={setIsSampleModalOpen}>
-        <DialogContent className="bg-slate-950/95 border border-[#00f5d4]/30 text-slate-100 max-w-2xl backdrop-blur-xl">
+        <DialogContent className="max-w-2xl studio-card p-6 border-[var(--border)]">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-lg font-bold text-[#00f5d4]">
-              <Sparkles className="w-5 h-5" />
-              选择热门漫剧预设模板
+            <DialogTitle className="text-lg font-bold text-[var(--foreground)] flex items-center gap-2">
+              <Flame className="w-5 h-5 text-indigo-400" />
+              选择热门漫剧剧本范例
             </DialogTitle>
-            <DialogDescription className="text-xs text-slate-400">
-              选择一个预设脚本模板，一键带入 SOP 漫剧流水线体验全流程自动生成
+            <DialogDescription className="text-xs text-[var(--muted-foreground)]">
+              点击下方范例一键载入 AI 创作向导，体验全自动剧本拆解与分镜
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-3 my-2 max-h-[60vh] overflow-y-auto pr-1">
-            {SAMPLE_SCRIPTS.map((sample) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-4">
+            {SAMPLE_SCRIPTS.map((sample, index) => (
               <div
-                key={sample.title}
+                key={index}
                 onClick={() => handleSelectSample(sample)}
-                className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-[#00f5d4]/50 hover:bg-slate-900 transition-all cursor-pointer group"
+                className="p-4 rounded-xl bg-transparent border border-[var(--border)] hover:border-indigo-500/50 cursor-pointer transition-all hover:scale-105 space-y-2 flex flex-col justify-between"
               >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="font-bold text-sm text-slate-100 group-hover:text-[#00f5d4] transition-colors">
+                <div>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 font-bold border border-indigo-500/30">
+                    {sample.genre}
+                  </span>
+                  <h5 className="font-bold text-xs text-[var(--foreground)] mt-2">
                     {sample.title}
-                  </span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00f5d4]/10 text-[#00f5d4] border border-[#00f5d4]/30">
-                    {sample.genre} · {sample.episodes}
-                  </span>
+                  </h5>
+                  <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-3 mt-1 leading-relaxed">
+                    {sample.desc}
+                  </p>
                 </div>
-                <p className="text-xs text-slate-400 mb-2 leading-relaxed">{sample.desc}</p>
-                <div className="p-2.5 rounded-lg bg-slate-950/70 text-[11px] text-slate-300 font-mono line-clamp-2 border border-slate-800/80">
-                  {sample.snippet}
-                </div>
+                <Button size="sm" className="w-full studio-btn-primary text-[11px] py-1 mt-2">
+                  载入范例 ▶
+                </Button>
               </div>
             ))}
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* Create Project Modal */}
+      {/* 新建工程 Modal */}
       <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );

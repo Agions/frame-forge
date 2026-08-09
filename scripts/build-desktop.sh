@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# MangaV (漫织 AI) - Standardized Desktop Packaging & Build Script
+# Novella (Novella AI) - Standardized Desktop Packaging & Build Script
 # Usage: ./scripts/build-desktop.sh [--target macos|windows|linux|all] [--release]
 # ==============================================================================
 
@@ -20,7 +20,7 @@ log_error() { echo -e "${COLOR_ERROR}[ERROR] ${1}${COLOR_RESET}"; }
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${ROOT_DIR}"
 
-log_info "MangaV (漫织 AI) v0.0.1 桌面端打包构建引擎启动..."
+log_info "Novella (Novella AI) v0.0.1 桌面端打包构建引擎启动..."
 log_info "工作区目录: ${ROOT_DIR}"
 
 # 1. 预检依赖环境
@@ -34,8 +34,8 @@ RUST_VER=$(cargo --version)
 log_success "Environment OK: Node ${NODE_VER}, Cargo ${RUST_VER}"
 
 # 2. Rust Workspace 增量校验
-log_info "[2/4] 编译 Rust 后端 Crates (mangav-core, mangav-ai, mangav-media, mangav-ipc)..."
-cargo check -p mangav-ipc -p mangav-ai -p mangav-media -p mangav-core -p mangav-plugin -p mangav-updater --offline
+log_info "[2/4] 编译 Rust 后端 Crates (novella-core, novella-ai, novella-media, novella-ipc)..."
+cargo check -p novella-ipc -p novella-ai -p novella-media -p novella-core -p novella-plugin -p novella-updater --offline
 log_success "Rust Crates 编译校验通过 (0 Errors)"
 
 # 3. 前端 Packages & 主应用构建
@@ -48,5 +48,5 @@ log_info "[4/4] 启动 Tauri v2 原生桌面端构建..."
 pnpm tauri build
 
 BUNDLE_PATH="${ROOT_DIR}/src-tauri/target/release/bundle"
-log_success "MangaV 桌面应用打包全量完成！"
+log_success "Novella 桌面应用打包全量完成！"
 log_info "产物路径: ${BUNDLE_PATH}"

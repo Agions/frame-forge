@@ -1,5 +1,5 @@
 /**
- * MangaV Shared Utils - Request Utilities & Request Cache
+ * Novella Shared Utils - Request Utilities & Request Cache
  */
 import { retry as retryRequest, type RetryOptions } from '@/core/utils/timing';
 

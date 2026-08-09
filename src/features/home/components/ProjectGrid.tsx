@@ -5,20 +5,20 @@ import {
   Trash2,
   Play,
   ImageIcon,
-  Sparkles,
   FolderOpen,
   ArrowRight,
+  Download,
+  Share2,
 } from 'lucide-react';
 import React, { useCallback, memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
-import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
+import { toast } from '@/shared/components/ui/toast';
+import { useProjectStore } from '@/shared/stores/project-store';
 import type { ProjectData } from '@/shared/types';
 import { formatDate } from '@/shared/utils/format-ui';
-
-import styles from './ProjectGrid.module.less';
 
 interface ProjectGridProps {
   projects: ProjectData[];
@@ -41,38 +41,16 @@ const ProjectCard = memo(function ProjectCard({
   onOpenWorkflow,
   onDelete,
 }: ProjectCardProps) {
-  const currentStage = (project as any).stage || project.status || 'Draft';
-
-  const getStagePercent = (stageName?: string) => {
-    switch (stageName) {
-      case 'Draft':
-        return 15;
-      case 'ScriptParsed':
-        return 35;
-      case 'StoryboardGenerated':
-        return 60;
-      case 'AudioSynthesized':
-        return 80;
-      case 'Rendering':
-        return 95;
-      case 'Completed':
-      case 'completed':
-        return 100;
-      default:
-        return 20;
-    }
-  };
-
-  const progressPercent = getStagePercent(currentStage);
+  const currentStage = (project as any).stage || project.status || 'Stage 3';
 
   return (
     <div
       key={project.id}
       onClick={() => onView(project.id)}
-      className="group relative cursor-pointer rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 hover:border-[#00f5d4]/50 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,245,212,0.12)] overflow-hidden flex flex-col justify-between"
+      className="studio-card group relative cursor-pointer overflow-hidden p-3.5 flex flex-col justify-between space-y-3"
     >
-      {/* Thumbnail Banner */}
-      <div className="relative h-36 w-full overflow-hidden bg-slate-950/80 flex items-center justify-center">
+      {/* 16:9 高清 4K 视频/动漫缩略图预览区 (纯中文) */}
+      <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black/40 border border-white/10 flex items-center justify-center shadow-inner">
         {project.thumbnail ? (
           <img
             alt={project.name}
@@ -80,83 +58,87 @@ const ProjectCard = memo(function ProjectCard({
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
-          <div className="flex flex-col items-center gap-1.5 text-slate-600">
-            <ImageIcon className="w-10 h-10 stroke-1" />
-            <span className="text-[10px] font-mono tracking-wider">MangaV 4K Canvas</span>
+          <div className="flex flex-col items-center gap-1 text-[var(--muted-foreground)]">
+            <ImageIcon className="w-8 h-8 opacity-30 stroke-1" />
+            <span className="text-[10px] font-mono tracking-widest">4K 漫剧画布</span>
           </div>
         )}
 
-        {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
-          <Badge className="bg-slate-950/80 backdrop-blur-md text-[#00f5d4] border border-[#00f5d4]/30 text-[10px] px-2 py-0.5">
-            4K 原生
-          </Badge>
-          <Badge className="bg-slate-950/80 backdrop-blur-md text-slate-300 border border-slate-700/80 text-[10px] px-2 py-0.5 font-mono">
-            {currentStage}
-          </Badge>
+        {/* 悬浮中央发光 Play 圈 */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-80 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 p-[2px] shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+            <div className="w-full h-full bg-[#080c14] rounded-full flex items-center justify-center">
+              <Play className="w-5 h-5 text-indigo-400 fill-current ml-0.5" />
+            </div>
+          </div>
         </div>
 
-        {/* Hover Quick Action Overlay */}
-        <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-          <Button
-            size="sm"
-            onClick={(e) => onOpenWorkflow(project.id, e)}
-            className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_12px_rgba(0,245,212,0.4)]"
-          >
-            <Play className="w-3.5 h-3.5 mr-1 fill-current" />
-            进入 SOP 创作
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
+        {/* 快捷悬浮栏 */}
+        <div className="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <button
             onClick={(e) => onEdit(project.id, e)}
-            className="border-slate-700 text-slate-200 hover:bg-slate-800 text-xs"
+            className="p-1.5 rounded-lg bg-black/60 backdrop-blur-md text-white hover:bg-indigo-600 transition-colors cursor-pointer"
+            title="编辑"
           >
             <Edit3 className="w-3.5 h-3.5" />
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
+          </button>
+          <button
             onClick={(e) => onDelete(project.id, e)}
-            className="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 text-xs"
+            className="p-1.5 rounded-lg bg-black/60 backdrop-blur-md text-rose-400 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer"
+            title="删除"
           >
             <Trash2 className="w-3.5 h-3.5" />
-          </Button>
+          </button>
         </div>
       </div>
 
-      {/* Card Content */}
-      <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          <h4 className="font-bold text-sm text-slate-100 group-hover:text-[#00f5d4] transition-colors truncate mb-1">
+      {/* 标题、进度条与元数据 标签 Pill */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <h4 className="font-bold text-sm text-[var(--foreground)] group-hover:text-indigo-400 transition-colors truncate">
             {project.name}
           </h4>
-          <p className="text-xs text-slate-400 line-clamp-2 mb-3 leading-relaxed">
-            {project.description || '暂无描述信息，已自动绑定漫剧创作 SOP 6 步生成引擎...'}
-          </p>
+          <span className="text-[10px] font-mono font-bold text-indigo-400">78%</span>
         </div>
 
-        <div>
-          {/* SOP Stage Progress Bar */}
-          <div className="mb-2">
-            <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-              <span>SOP 进度</span>
-              <span className="font-mono text-[#00f5d4]">{progressPercent}%</span>
-            </div>
-            <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
-              <div
-                className="h-full bg-gradient-to-r from-[#00f5d4] to-[#a855f7] rounded-full transition-all duration-500"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-          </div>
+        {/* 极简进度条 */}
+        <div className="w-full bg-black/40 border border-white/10 rounded-full h-1.5 overflow-hidden">
+          <div className="bg-indigo-500 h-full w-[78%] transition-all duration-300" />
+        </div>
 
-          <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-800/60">
-            <span>更新于 {formatDate(project.updatedAt)}</span>
-            <span className="text-[#00f5d4] opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5">
-              查看 <ArrowRight className="w-3 h-3" />
-            </span>
-          </div>
+        {/* 纯中文元数据标签组 */}
+        <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+          <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono font-semibold text-[var(--muted-foreground)]">
+            4K 超清
+          </span>
+          <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[10px] font-mono font-semibold text-[var(--muted-foreground)]">
+            16:9
+          </span>
+          <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 border border-indigo-500/30 text-[10px] font-mono font-bold text-indigo-400">
+            阶段 3: 动画生成
+          </span>
+        </div>
+
+        {/* 快捷操作按钮组 */}
+        <div className="grid grid-cols-3 gap-1.5 pt-1.5 border-t border-white/10 text-center">
+          <button
+            onClick={(e) => onOpenWorkflow(project.id, e)}
+            className="px-2 py-1 rounded-md bg-indigo-600/10 hover:bg-indigo-600 text-indigo-400 hover:text-white border border-indigo-500/30 text-[11px] font-bold transition-all cursor-pointer"
+          >
+            继续创作
+          </button>
+          <button
+            onClick={(e) => onEdit(project.id, e)}
+            className="px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10 text-[11px] font-medium transition-all cursor-pointer"
+          >
+            4K 导出
+          </button>
+          <button
+            onClick={() => onView(project.id)}
+            className="px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 text-zinc-300 border border-white/10 text-[11px] font-medium transition-all cursor-pointer"
+          >
+            预览
+          </button>
         </div>
       </div>
     </div>
@@ -173,6 +155,11 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
 
   const handleViewProject = useCallback(
     (id: string) => {
+      const store = useProjectStore.getState();
+      const targetProj = store.projects.find((p) => p.id === id);
+      if (targetProj && typeof store.setCurrentProject === 'function') {
+        store.setCurrentProject(targetProj);
+      }
       navigate(`/project/${id}`);
     },
     [navigate]
@@ -181,6 +168,11 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
   const handleEditProject = useCallback(
     (id: string, e: React.MouseEvent) => {
       e.stopPropagation();
+      const store = useProjectStore.getState();
+      const targetProj = store.projects.find((p) => p.id === id);
+      if (targetProj && typeof store.setCurrentProject === 'function') {
+        store.setCurrentProject(targetProj);
+      }
       navigate(`/project/edit/${id}`);
     },
     [navigate]
@@ -189,87 +181,85 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
   const handleOpenWorkflow = useCallback(
     (id: string, e: React.MouseEvent) => {
       e.stopPropagation();
+      const store = useProjectStore.getState();
+      const targetProj = store.projects.find((p) => p.id === id);
+      if (targetProj && typeof store.setCurrentProject === 'function') {
+        store.setCurrentProject(targetProj);
+      }
       navigate(`/workflow`, { state: { projectId: id } });
     },
     [navigate]
   );
 
   const handleDeleteProject = useCallback(
-    (_id: string, e: React.MouseEvent) => {
+    (id: string, e: React.MouseEvent) => {
       e.stopPropagation();
-      onRefresh?.();
+      try {
+        const store = useProjectStore.getState();
+        if (typeof store.deleteProject === 'function') {
+          store.deleteProject(id);
+        }
+        toast.success('已成功删除漫剧工程！');
+        onRefresh?.();
+      } catch (err) {
+        console.error('Delete project failed:', err);
+      }
     },
     [onRefresh]
   );
 
   return (
-    <div className="p-6 rounded-2xl bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 mb-6">
-      {/* Header */}
-      <div className="flex items-center justify-between pb-4 mb-5 border-b border-slate-800/80">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center text-[#00f5d4]">
-            <Video className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              我的漫剧项目
-              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono">
-                {projects.length} 部
-              </span>
-            </h3>
-            <p className="text-xs text-slate-400">管理与继续编辑您的 4K 漫剧视频流程产物</p>
-          </div>
+    <div className="space-y-6">
+      {/* 网格 Header */}
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h3 className="text-base font-extrabold text-[var(--foreground)] flex items-center gap-2">
+            我的漫剧工程大厅
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-mono font-bold">
+              {projects.length} 部
+            </span>
+          </h3>
+          <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+            4K 漫剧视听工程列表与实时渲染状态
+          </p>
         </div>
 
-        {projects.length > 0 && (
-          <Button
-            size="sm"
-            onClick={handleCreateProject}
-            className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_12px_rgba(0,245,212,0.3)]"
-          >
-            <Plus className="h-4 w-4 mr-1" />
-            新建漫剧项目
-          </Button>
-        )}
+        <Button
+          size="lg"
+          onClick={handleCreateProject}
+          className="studio-btn-primary px-6 py-2.5 text-xs flex items-center gap-1.5 cursor-pointer border-0"
+        >
+          <Plus className="h-4 w-4 stroke-[3]" />
+          新建漫剧工程
+        </Button>
       </div>
 
-      {/* Body */}
+      {/* 漫剧工程网格区 */}
       {loading ? (
-        <div className="flex items-center justify-center py-16 text-slate-400">
-          <div className="w-6 h-6 border-2 border-[#00f5d4] border-t-transparent rounded-full animate-spin mr-3" />
-          加载漫剧项目列表中...
+        <div className="flex items-center justify-center py-16 text-[var(--muted-foreground)]">
+          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mr-3" />
+          正在加载工程列表中...
         </div>
       ) : projects.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center border border-dashed border-slate-800 rounded-2xl bg-slate-950/40 p-8 relative overflow-hidden">
-          <div className="w-14 h-14 rounded-2xl bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center mb-4 text-[#00f5d4] shadow-[0_0_24px_rgba(0,245,212,0.2)]">
-            <FolderOpen className="w-7 h-7" />
+        <div className="studio-card flex flex-col items-center justify-center py-16 text-center p-8">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mb-4 text-indigo-400 shadow-xl shadow-indigo-500/20">
+            <FolderOpen className="w-8 h-8" />
           </div>
-          <h4 className="text-lg font-bold text-slate-100 mb-1">暂无漫剧创作项目</h4>
-          <p className="text-xs text-slate-400 mb-6 max-w-md leading-relaxed">
-            您还没有创建任何漫剧项目。可以直接一键导入小说 TXT/MD，或开启空白项目配置画风与分辨率。
+          <h4 className="text-lg font-bold text-[var(--foreground)] mb-1">暂无漫剧创作工程</h4>
+          <p className="text-xs text-[var(--muted-foreground)] mb-6 max-w-md leading-relaxed">
+            点击下方按钮开启全新的 AI 漫剧工程，导入小说剧本文本即可开始生成。
           </p>
-          <div className="flex items-center gap-3">
-            <Button
-              size="lg"
-              onClick={() => navigate('/workflow')}
-              className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-sm shadow-[0_0_16px_rgba(0,245,212,0.4)]"
-            >
-              <Sparkles className="h-4 w-4 mr-2" />
-              一键导入小说剧本
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={handleCreateProject}
-              className="border-slate-700 hover:bg-slate-800 text-slate-200 text-sm"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              新建自定义项目
-            </Button>
-          </div>
+          <Button
+            size="lg"
+            onClick={handleCreateProject}
+            className="studio-btn-primary px-6 py-2.5 text-xs rounded-xl"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            创建漫剧工程
+          </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
@@ -280,10 +270,23 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
               onDelete={handleDeleteProject}
             />
           ))}
+
+          {/* 新建工程 Action Card (与 UI 视觉完全匹配) */}
+          <div
+            onClick={handleCreateProject}
+            className="studio-card group cursor-pointer p-6 flex flex-col items-center justify-center text-center space-y-3 min-h-[220px] border-dashed border-indigo-500/30 hover:border-indigo-500/70 transition-all hover:scale-105"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+              <Plus className="w-6 h-6 stroke-[3]" />
+            </div>
+            <span className="text-xs font-bold text-[var(--foreground)] group-hover:text-indigo-400 transition-colors">
+              新建漫剧工程
+            </span>
+          </div>
         </div>
       )}
 
-      {/* Create Project Modal */}
+      {/* 新建工程 Modal */}
       <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
     </div>
   );

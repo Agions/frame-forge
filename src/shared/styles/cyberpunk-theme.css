@@ -1,62 +1,62 @@
-/* MangaV v0.0.1 Studio - Cyberpunk Dark Design System Tokens */
+/* Novella v0.0.1 Studio - Cyberpunk Dark Design System Tokens */
 
 :root {
-  --mangav-bg-dark: #050810;
-  --mangav-bg-card: rgba(13, 19, 36, 0.75);
-  --mangav-bg-card-hover: rgba(20, 30, 55, 0.85);
-  --mangav-cyan: #00f5d4;
-  --mangav-cyan-glow: rgba(0, 245, 212, 0.35);
-  --mangav-purple: #a855f7;
-  --mangav-purple-glow: rgba(168, 85, 247, 0.35);
-  --mangav-pink: #ec4899;
-  --mangav-amber: #fbbf24;
-  --mangav-border: rgba(255, 255, 255, 0.08);
-  --mangav-border-highlight: rgba(0, 245, 212, 0.3);
+  --novella-bg-dark: #050810;
+  --novella-bg-card: rgba(13, 19, 36, 0.75);
+  --novella-bg-card-hover: rgba(20, 30, 55, 0.85);
+  --novella-cyan: #00f5d4;
+  --novella-cyan-glow: rgba(0, 245, 212, 0.35);
+  --novella-purple: #a855f7;
+  --novella-purple-glow: rgba(168, 85, 247, 0.35);
+  --novella-pink: #ec4899;
+  --novella-amber: #fbbf24;
+  --novella-border: rgba(255, 255, 255, 0.08);
+  --novella-border-highlight: rgba(0, 245, 212, 0.3);
 }
 
 /* Glassmorphic Container Utilities */
-.mangav-glass-card {
-  background: var(--mangav-bg-card);
+.novella-glass-card {
+  background: var(--novella-bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--mangav-border);
+  border: 1px solid var(--novella-border);
   border-radius: 16px;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.mangav-glass-card:hover {
-  border-color: var(--mangav-border-highlight);
+.novella-glass-card:hover {
+  border-color: var(--novella-border-highlight);
   box-shadow: 0 12px 40px 0 rgba(0, 245, 212, 0.15);
   transform: translateY(-2px);
 }
 
 /* Cyberpunk Neon Glow Buttons */
-.mangav-btn-primary {
+.novella-btn-primary {
   background: linear-gradient(135deg, #00f5d4 0%, #00b894 100%);
   color: #050810;
   font-weight: 700;
   border-radius: 12px;
-  box-shadow: 0 0 16px var(--mangav-cyan-glow);
+  box-shadow: 0 0 16px var(--novella-cyan-glow);
   transition: all 0.25s ease;
 }
 
-.mangav-btn-primary:hover {
+.novella-btn-primary:hover {
   box-shadow: 0 0 24px rgba(0, 245, 212, 0.6);
   transform: scale(1.02);
 }
 
 /* Status Pulsing Badge */
-.mangav-pulse-dot {
+.novella-pulse-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background-color: #00f5d4;
   box-shadow: 0 0 10px #00f5d4;
-  animation: mangav-pulse 2s infinite;
+  animation: novella-pulse 2s infinite;
 }
 
-@keyframes mangav-pulse {
+@keyframes novella-pulse {
   0% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(0, 245, 212, 0.7);

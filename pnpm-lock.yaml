@@ -222,6 +222,9 @@ importers:
       prettier:
         specifier: ^3.8.3
         version: 3.8.3
+      tailwindcss:
+        specifier: ^4.1.16
+        version: 4.3.0
       terser:
         specifier: ^5.46.0
         version: 5.46.2
@@ -249,13 +252,13 @@ importers:
 
   packages/ai-engine:
     dependencies:
-      '@mangav/core':
+      '@novella/core':
         specifier: workspace:*
         version: link:../core
 
   packages/audio-studio:
     dependencies:
-      '@mangav/core':
+      '@novella/core':
         specifier: workspace:*
         version: link:../core
 
@@ -263,13 +266,13 @@ importers:
 
   packages/render-pipeline:
     dependencies:
-      '@mangav/core':
+      '@novella/core':
         specifier: workspace:*
         version: link:../core
 
   packages/storyboard:
     dependencies:
-      '@mangav/core':
+      '@novella/core':
         specifier: workspace:*
         version: link:../core
 

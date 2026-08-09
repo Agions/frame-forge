@@ -1,7 +1,7 @@
 {
-  "name": "@mangav/core",
+  "name": "@novella/core",
   "version": "0.0.1",
-  "description": "MangaV 核心领域模型与 WorkflowEngine 状态机",
+  "description": "Novella 核心领域模型与 WorkflowEngine 状态机",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",
   "types": "./src/index.tsx",

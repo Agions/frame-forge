@@ -1,12 +1,12 @@
 {
-  "name": "@mangav/audio-studio",
+  "name": "@novella/audio-studio",
   "version": "0.0.1",
-  "description": "MangaV 音轨合成与 TTS 声音编辑器",
+  "description": "Novella 音轨合成与 TTS 声音编辑器",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",
   "types": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
-    "@mangav/core": "workspace:*"
+    "@novella/core": "workspace:*"
   }
 }

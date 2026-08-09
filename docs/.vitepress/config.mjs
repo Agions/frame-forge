@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'MangaV (漫织 AI)',
+  title: 'Novella (Novella AI)',
   description: 'AI 漫剧创作平台 — 输入一本小说，AI 自动把它拍成一部漫剧',
   srcDir: '.',
   srcExclude: ['plans/**', 'ui-redesign/**', '**/node_modules/**'],
@@ -9,7 +9,7 @@ export default defineConfig({
   appearance: 'light',
   cleanUrls: true,
   ignoreDeadLinks: true,
-  base: '/mangav/',
+  base: '/novella/',
 
   markdown: {
     lineNumbers: true,
@@ -32,27 +32,27 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#0B0E2C' }],
     ['meta', { name: 'color-scheme', content: 'light dark' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:title', content: 'MangaV (漫织 AI) - AI 漫剧创作平台' }],
+    ['meta', { property: 'og:title', content: 'Novella (Novella AI) - AI 漫剧创作平台' }],
     ['meta', { property: 'og:description', content: '基于 Tauri 2.1 桌面端 + 多模型 AI 编排的端到端 AI 漫剧创作工作台' }],
     ['meta', { property: 'og:image', content: '/og-image.png' }],
     ['meta', { property: 'og:image:width', content: '1280' }],
     ['meta', { property: 'og:image:height', content: '640' }],
-    ['meta', { property: 'og:image:alt', content: 'MangaV (漫织 AI) — AI 漫剧创作平台' }],
+    ['meta', { property: 'og:image:alt', content: 'Novella (Novella AI) — AI 漫剧创作平台' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
-    ['meta', { property: 'og:site_name', content: 'MangaV (漫织 AI)' }],
+    ['meta', { property: 'og:site_name', content: 'Novella (Novella AI)' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'MangaV (漫织 AI) - AI 漫剧创作平台' }],
+    ['meta', { name: 'twitter:title', content: 'Novella (Novella AI) - AI 漫剧创作平台' }],
     ['meta', { name: 'twitter:description', content: '输入一本小说，AI 自动把它拍成一部漫剧。基于 Tauri 2.1 桌面端 + 多模型 AI 编排。' }],
     ['meta', { name: 'twitter:image', content: '/og-image.png' }],
     ['meta', { name: 'twitter:creator', content: '@Agions' }],
-    ['meta', { name: 'description', content: 'MangaV (漫织 AI) - AI 漫剧创作平台。基于 Tauri 2.1 桌面端，集成多模型 AI 实现从小说/剧本到成片的端到端自动化。' }],
-    ['meta', { name: 'keywords', content: 'mangav, AI漫剧, 漫剧创作, Tauri, 桌面应用, 多模型AI, 分镜设计, 角色一致性, TTS, FFmpeg' }],
+    ['meta', { name: 'description', content: 'Novella (Novella AI) - AI 漫剧创作平台。基于 Tauri 2.1 桌面端，集成多模型 AI 实现从小说/剧本到成片的端到端自动化。' }],
+    ['meta', { name: 'keywords', content: 'novella, AI漫剧, 漫剧创作, Tauri, 桌面应用, 多模型AI, 分镜设计, 角色一致性, TTS, FFmpeg' }],
     ['meta', { name: 'author', content: 'Agions' }],
   ],
 
   themeConfig: {
-    logo: { src: '/logo.svg', alt: 'MangaV (漫织 AI)' },
-    siteTitle: 'MangaV (漫织 AI)',
+    logo: { src: '/logo.svg', alt: 'Novella (Novella AI)' },
+    siteTitle: 'Novella (Novella AI)',
 
     nav: [
       { text: '首页', link: '/' },
@@ -63,9 +63,9 @@ export default defineConfig({
       {
         text: '更多',
         items: [
-          { text: 'GitHub', link: 'https://github.com/Agions/story-weaver' },
-          { text: '下载桌面端', link: 'https://github.com/Agions/story-weaver/releases' },
-          { text: '报告问题', link: 'https://github.com/Agions/story-weaver/issues/new' },
+          { text: 'GitHub', link: 'https://github.com/Agions/novella' },
+          { text: '下载桌面端', link: 'https://github.com/Agions/novella/releases' },
+          { text: '报告问题', link: 'https://github.com/Agions/novella/issues/new' },
         ],
       },
     ],
@@ -136,12 +136,12 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/Agions/story-weaver' },
+      { icon: 'github', link: 'https://github.com/Agions/novella' },
     ],
 
     footer: {
       message: '基于 MIT 协议开源 · 由 Agions & 社区维护',
-      copyright: `© 2024-${new Date().getFullYear()} MangaV (漫织 AI)`,
+      copyright: `© 2024-${new Date().getFullYear()} Novella (Novella AI)`,
     },
 
     outline: { level: [2, 3], label: '本页目录' },

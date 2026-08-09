@@ -1,4 +1,4 @@
-//! MangaV 视频渲染与媒体处理中心
+//! Novella 视频渲染与媒体处理中心
 
 pub mod ffmpeg;
 pub mod encoder;

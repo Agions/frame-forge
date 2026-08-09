@@ -1,11 +1,11 @@
 [package]
-name = "mangav-media"
+name = "novella-media"
 version = "0.0.1"
 edition = "2021"
-description = "MangaV FFmpeg 硬件加速视频渲染引擎与音轨合成器"
+description = "Novella FFmpeg 硬件加速视频渲染引擎与音轨合成器"
 
 [dependencies]
-mangav-core = { path = "../core" }
+novella-core = { path = "../core" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 log = "0.4"

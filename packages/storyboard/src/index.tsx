@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Shot } from '@mangav/core';
-import { MangaCard, MangaButton } from '@mangav/ui';
+import { Shot } from '@novella/core';
+import { MangaCard, MangaButton } from '@novella/ui';
 import {
   parseNovelToScript,
   parseDirectScript,
   generateScriptFromIdea,
   ArtStylePreset,
   ScriptParseResult,
-} from '@mangav/ai-engine';
+} from '@novella/ai-engine';
 
 export interface StoryboardGridProps {
   shots: Shot[];

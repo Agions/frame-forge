@@ -1,10 +1,10 @@
 [package]
-name = "mangav-desktop"
+name = "novella-desktop"
 version = "0.0.1"
-description = "MangaV - AI 漫剧创作平台 (Tauri v2 + Rust)"
+description = "Novella - AI 漫剧创作平台 (Tauri v2 + Rust)"
 authors = ["Agions"]
 license = "MIT"
-repository = "https://github.com/Agions/story-weaver"
+repository = "https://github.com/Agions/novella"
 edition = "2021"
 
 [lib]
@@ -15,12 +15,12 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = ">=2.6.3", features = [] }
 
 [dependencies]
-mangav-core = { path = "../crates/core" }
-mangav-ai = { path = "../crates/ai" }
-mangav-media = { path = "../crates/media" }
-mangav-plugin = { path = "../crates/plugin" }
-mangav-updater = { path = "../crates/updater" }
-mangav-ipc = { path = "../crates/ipc" }
+novella-core = { path = "../crates/core" }
+novella-ai = { path = "../crates/ai" }
+novella-media = { path = "../crates/media" }
+novella-plugin = { path = "../crates/plugin" }
+novella-updater = { path = "../crates/updater" }
+novella-ipc = { path = "../crates/ipc" }
 
 tauri = { version = "2", features = ["tray-icon"] }
 serde = { version = "1.0", features = ["derive"] }

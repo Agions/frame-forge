@@ -25,35 +25,31 @@ const ART_STYLES = [
     id: 'anime',
     name: '日系二次元',
     desc: '清透光效、细腻线稿与鲜明二次元人设',
-    badge: '热门选单',
-    color: '#00f5d4',
+    badge: '热门推荐',
   },
   {
     id: 'xianxia',
     name: '国风修仙',
     desc: '水墨云雾、玄幻法宝与仙侠宏大场景',
-    badge: '高精推介',
-    color: '#a855f7',
+    badge: '高精画质',
   },
   {
     id: 'cyberpunk',
     name: '赛博朋克',
     desc: '霓虹夜景、高科技机械臂与未来都市',
     badge: '4K 画质',
-    color: '#ec4899',
   },
   {
     id: 'realistic',
     name: '美漫写实',
     desc: '强对比光影、电影级景深与美式剧组风格',
     badge: '硬核画风',
-    color: '#fbbf24',
   },
 ];
 
 const ASPECT_RATIOS = [
-  { id: '16:9', name: '16:9 横屏漫剧', desc: 'B站 / YouTube / 桌面大屏最佳 4K 画幅', icon: Video },
-  { id: '9:16', name: '9:16 竖屏微短剧', desc: '抖音 / 快手 / 视频号竖屏全屏爆款画幅', icon: Film },
+  { id: '16:9', name: '16:9 横屏漫剧', desc: '桌面大屏与视频平台标准 4K 画幅', icon: Video },
+  { id: '9:16', name: '9:16 竖屏微短剧', desc: '移动端短视频竖屏全屏画幅', icon: Film },
 ];
 
 export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, onOpenChange }) => {
@@ -108,7 +104,6 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
       }
 
       onOpenChange(false);
-      // 无缝带入 SOP 创作车间 Step 1 (草稿/小说导入)
       navigate('/workflow', {
         state: { projectId: createdProject.id || newProjectData.id, isNewProject: true },
       });
@@ -121,27 +116,27 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-slate-950/95 border border-[#00f5d4]/30 text-slate-100 max-w-2xl backdrop-blur-2xl p-6 rounded-2xl shadow-[0_0_50px_rgba(0,245,212,0.15)]">
+      <DialogContent className="bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] max-w-2xl backdrop-blur-2xl p-6 rounded-2xl shadow-2xl">
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2 text-lg font-bold text-slate-100">
-              <div className="w-8 h-8 rounded-xl bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center text-[#00f5d4]">
+            <DialogTitle className="flex items-center gap-2 text-lg font-bold text-[var(--foreground)]">
+              <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
                 <Plus className="w-4 h-4" />
               </div>
-              <span>新建漫剧项目 (SOP 极速车间)</span>
+              <span>新建漫剧工程</span>
             </DialogTitle>
             <Button
               size="sm"
               variant="ghost"
               onClick={handleRandomFill}
-              className="text-xs text-[#00f5d4] hover:text-[#00f5d4] hover:bg-[#00f5d4]/10"
+              className="text-xs text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/10"
             >
               <Wand2 className="w-3.5 h-3.5 mr-1" />
               随机灵感
             </Button>
           </div>
-          <DialogDescription className="text-xs text-slate-400">
-            配置漫剧元信息与基础画风，确认后将直接无缝带入 SOP 6 步漫剧生成车间
+          <DialogDescription className="text-xs text-[var(--muted-foreground)]">
+            配置漫剧元信息与基础画风，确认后将直接进入 6 步漫剧生成车间
           </DialogDescription>
         </DialogHeader>
 
@@ -149,33 +144,33 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
           {/* 项目名称与描述 */}
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">
-                项目标题 <span className="text-[#00f5d4]">*</span>
+              <label className="text-xs font-bold text-[var(--foreground)] block mb-1">
+                工程名称 <span className="text-indigo-400">*</span>
               </label>
               <Input
                 placeholder="例如：赛博修仙·第1季 或 龙王归来"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
-                className="bg-slate-900/80 border-slate-800 focus:border-[#00f5d4] text-slate-100 text-xs"
+                className="bg-transparent border border-[var(--border)] focus:outline-none focus:ring-0 text-[var(--foreground)] text-xs rounded-xl py-2.5"
               />
             </div>
             <div>
-              <label className="text-xs font-bold text-slate-300 block mb-1">
-                故事概要 / 剧本简介
+              <label className="text-xs font-bold text-[var(--foreground)] block mb-1">
+                剧情概要 / 看点描述
               </label>
               <Textarea
                 rows={2}
                 placeholder="简述核心故事梗概或看点，AI 将在分析时自动匹配镜头基调..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="bg-slate-900/80 border-slate-800 focus:border-[#00f5d4] text-slate-100 text-xs resize-none"
+                className="bg-transparent border border-[var(--border)] focus:outline-none focus:ring-0 text-[var(--foreground)] text-xs resize-none rounded-xl py-2.5"
               />
             </div>
           </div>
 
           {/* 画风选卡器 */}
           <div>
-            <label className="text-xs font-bold text-slate-300 block mb-2">选择视觉画风预设</label>
+            <label className="text-xs font-bold text-[var(--foreground)] block mb-2">选择视觉画风预设</label>
             <div className="grid grid-cols-2 gap-2.5">
               {ART_STYLES.map((style) => {
                 const isSelected = selectedStyle === style.id;
@@ -185,27 +180,20 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
                     onClick={() => setSelectedStyle(style.id)}
                     className={`p-3 rounded-xl border cursor-pointer transition-all ${
                       isSelected
-                        ? 'bg-slate-900 border-[#00f5d4] shadow-[0_0_16px_rgba(0,245,212,0.2)]'
-                        : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
+                        ? 'bg-indigo-600/10 border-indigo-500 shadow-md shadow-indigo-500/10'
+                        : 'bg-transparent border border-[var(--border)] hover:border-indigo-500/40'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-slate-100 flex items-center gap-1.5">
-                        {isSelected && <Check className="w-3.5 h-3.5 text-[#00f5d4]" />}
+                      <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
+                        {isSelected && <Check className="w-3.5 h-3.5 text-indigo-400" />}
                         {style.name}
                       </span>
-                      <span
-                        className="text-[9px] px-1.5 py-0.2 rounded border"
-                        style={{
-                          background: `${style.color}15`,
-                          borderColor: `${style.color}40`,
-                          color: style.color,
-                        }}
-                      >
+                      <span className="text-[9px] px-1.5 py-0.5 rounded border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 font-bold">
                         {style.badge}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-normal">{style.desc}</p>
+                    <p className="text-[11px] text-[var(--muted-foreground)] leading-normal">{style.desc}</p>
                   </div>
                 );
               })}
@@ -214,7 +202,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
 
           {/* 画幅比例选择 */}
           <div>
-            <label className="text-xs font-bold text-slate-300 block mb-2">目标画幅与分辨率</label>
+            <label className="text-xs font-bold text-[var(--foreground)] block mb-2">目标画幅与分辨率</label>
             <div className="grid grid-cols-2 gap-2.5">
               {ASPECT_RATIOS.map((ratio) => {
                 const isSelected = selectedRatio === ratio.id;
@@ -225,22 +213,22 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
                     onClick={() => setSelectedRatio(ratio.id)}
                     className={`p-3 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
                       isSelected
-                        ? 'bg-slate-900 border-[#00f5d4] shadow-[0_0_16px_rgba(0,245,212,0.2)]'
-                        : 'bg-slate-900/40 border-slate-800 hover:border-slate-700'
+                        ? 'bg-indigo-600/10 border-indigo-500 shadow-md shadow-indigo-500/10'
+                        : 'bg-transparent border border-[var(--border)] hover:border-indigo-500/40'
                     }`}
                   >
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center ${
                         isSelected
-                          ? 'bg-[#00f5d4]/10 text-[#00f5d4]'
-                          : 'bg-slate-800 text-slate-400'
+                          ? 'bg-indigo-500/20 text-indigo-400'
+                          : 'bg-white/5 border border-[var(--border)] text-[var(--muted-foreground)]'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="font-bold text-xs text-slate-100 block">{ratio.name}</span>
-                      <span className="text-[10px] text-slate-400 block">{ratio.desc}</span>
+                      <span className="font-bold text-xs text-[var(--foreground)] block">{ratio.name}</span>
+                      <span className="text-[10px] text-[var(--muted-foreground)] block">{ratio.desc}</span>
                     </div>
                   </div>
                 );
@@ -250,12 +238,12 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
         </div>
 
         {/* Footer actions */}
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+        <div className="flex items-center justify-end gap-2 pt-3 border-t border-[var(--border)]">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => onOpenChange(false)}
-            className="text-slate-400 hover:text-white text-xs"
+            className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] text-xs"
           >
             取消
           </Button>
@@ -263,7 +251,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
             size="sm"
             disabled={isSubmitting}
             onClick={handleCreate}
-            className="bg-[#00f5d4] hover:bg-[#00f5d4]/80 text-slate-950 font-bold text-xs shadow-[0_0_16px_rgba(0,245,212,0.4)] px-5"
+            className="studio-btn-primary px-5 py-2 text-xs rounded-xl border-0"
           >
             <Sparkles className="w-4 h-4 mr-1.5" />
             确认创建并无缝导入剧本

@@ -82,7 +82,7 @@ export const useAppStore = create<AppState>()(
       },
     }),
     {
-      name: 'mangav-app-storage',
+      name: 'novella-app-storage',
       partialize: (state) => ({
         language: state.language,
       }),

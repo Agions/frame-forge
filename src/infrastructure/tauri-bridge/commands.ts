@@ -255,7 +255,7 @@ class TauriService {
     options?: { title?: string; kind?: 'info' | 'warning' | 'error' }
   ): Promise<void> {
     await message(msg, {
-      title: options?.title ?? 'MangaV AI',
+      title: options?.title ?? 'Novella AI',
       kind: options?.kind ?? 'info',
     });
   }

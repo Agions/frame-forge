@@ -259,7 +259,7 @@ export function ModelSelector({
       {/* 头部 */}
       <div className={styles.header}>
         <h4 className={styles.title} style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>
-          <Bot size={20} style={{ marginRight: 8 }} /> 2026 AI 模型矩阵 (文字 / 图片 / 视频)
+          <Bot size={20} style={{ marginRight: 8 }} /> AI 模型选择与配置
         </h4>
         {selectedModel && (
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>

@@ -35,13 +35,13 @@ function applyThemeToDOM(resolved: 'light' | 'dark'): void {
   if (resolved === 'dark') {
     root.classList.add('dark', 'dark-theme');
     root.setAttribute('data-theme', 'dark');
-    document.body.style.backgroundColor = '#0b0f19';
-    document.body.style.color = '#f8fafc';
+    document.body.style.backgroundColor = '#09090b';
+    document.body.style.color = '#f4f4f5';
   } else {
     root.classList.add('light', 'light-theme');
     root.setAttribute('data-theme', 'light');
-    document.body.style.backgroundColor = '#f8fafc';
-    document.body.style.color = '#0f172a';
+    document.body.style.backgroundColor = '#fafafa';
+    document.body.style.color = '#09090b';
   }
 }
 
@@ -51,7 +51,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const [activeTheme, setActiveThemeState] = useState<ThemeMode>(() => {
     if (typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem('mangav-theme') as ThemeMode;
+      const saved = localStorage.getItem('novella-theme') as ThemeMode;
       if (saved) return saved;
     }
     return storeTheme;
@@ -71,7 +71,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const setTheme = (t: ThemeMode) => {
     setActiveThemeState(t);
     if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('mangav-theme', t);
+      localStorage.setItem('novella-theme', t);
     }
     updateSettings?.({ theme: t });
     applyThemeToDOM(resolveTheme(t));

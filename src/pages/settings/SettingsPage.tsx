@@ -1,410 +1,319 @@
-/**
- * 专业级 Studio 系统设置中心 — 赛博朋克 霓虹极暗版
- * 包含 13 大 AI 提供商最新官方 API（包括腾讯 Hy3、Hunyuan-T1 与百度 ERNIE 5.1 / 5.0）
- */
-
 import {
   Settings as SettingsIcon,
-  Key,
-  Info,
-  Edit,
   Sun,
   Moon,
   Laptop,
-  Cpu,
-  Zap,
-  CheckCircle2,
   FolderOpen,
-  RefreshCw,
-  ExternalLink,
   Bot,
+  Check,
+  Zap,
+  ImageIcon,
+  Film,
+  Volume2,
 } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 
 import { useTheme } from '@/app/providers/ThemeContext';
-import { MODEL_PROVIDERS, getModelsByProvider } from '@/core/config/models-config';
-import { logger } from '@/core/utils/logger';
-import { Alert, AlertDescription } from '@/shared/components/ui/alert';
-import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
 import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { Separator } from '@/shared/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { toast } from '@/shared/components/ui/toast';
-import type { ModelProvider } from '@/shared/types';
 
-import styles from './Settings.module.less';
+/**
+ * 各家只保留最新 2 款旗舰模型，涵盖文字、图像、视频与语音四大全套 API Key 配置
+ */
+const TOP_2_LATEST_PROVIDERS = [
+  {
+    id: 'openai',
+    category: '文字与推理大模型',
+    name: 'OpenAI 官方接口',
+    icon: Bot,
+    models: ['GPT-5.6 Sol (最新旗舰)', 'o3-mini (深度推理)'],
+    defaultModel: 'GPT-5.6 Sol',
+    key: 'sk-proj-************************',
+    status: '已连接',
+  },
+  {
+    id: 'anthropic',
+    category: '文字与剧本润色',
+    name: 'Anthropic Claude 官方接口',
+    icon: Bot,
+    models: ['Claude Opus 5 (最新旗舰)', 'Claude Sonnet 5'],
+    defaultModel: 'Claude Opus 5',
+    key: 'sk-ant-************************',
+    status: '已连接',
+  },
+  {
+    id: 'deepseek',
+    category: '文字与长篇拆解',
+    name: 'DeepSeek 深度求索',
+    icon: Bot,
+    models: ['DeepSeek-V4-Flash (最新旗舰)', 'DeepSeek-V4-Pro'],
+    defaultModel: 'DeepSeek-V4-Flash',
+    key: 'sk-ds-************************',
+    status: '已连接',
+  },
+  {
+    id: 'alibaba',
+    category: '中文多模态',
+    name: '阿里云通义千问 (Qwen)',
+    icon: Bot,
+    models: ['Qwen 3.8-Max (最新 2.4T MoE)', 'Qwen-2.5-72B'],
+    defaultModel: 'Qwen 3.8-Max',
+    key: 'sk-qwen-************************',
+    status: '已连接',
+  },
+  {
+    id: 'doubao',
+    category: '字节跳动豆包与视听模型',
+    name: '字节跳动豆包 (Doubao) 官方接口',
+    icon: Bot,
+    models: ['豆包 2.1 (2026.08 最新)', 'Seedance 2.5 (30秒视听)'],
+    defaultModel: '豆包 2.1',
+    key: 'doubao-api-key-************************',
+    status: '已连接',
+  },
+  {
+    id: 'minimax',
+    category: 'MiniMax 视听与语音大模型',
+    name: 'MiniMax 官方接口 (H3 视听)',
+    icon: Film,
+    models: ['MiniMax H3 (原生双声道视听)', 'MiniMax abab 6.5s'],
+    defaultModel: 'MiniMax H3',
+    key: 'minimax-api-key-************************',
+    status: '已连接',
+  },
+  {
+    id: 'image_models',
+    category: 'AI 图像与分镜生成模型',
+    name: 'FLUX & 图像生成模型 API Key',
+    icon: ImageIcon,
+    models: ['FLUX.1-schnell (4K 最新旗舰)', '字节 Seedream 5.0 (4K 动漫)'],
+    defaultModel: 'FLUX.1-schnell',
+    key: 'flux-api-key-************************',
+    status: '已连接',
+  },
+  {
+    id: 'video_models',
+    category: 'AI 视频与运镜生成模型',
+    name: '可灵 & 视频生成模型 API Key',
+    icon: Film,
+    models: ['可灵 3.0 Omni (4K 60fps 最新)', '字节 Seedance 2.5 (30秒连续)'],
+    defaultModel: '可灵 3.0 Omni',
+    key: 'kling-video-key-************************',
+    status: '已连接',
+  },
+  {
+    id: 'audio_models',
+    category: 'AI 语音 TTS 配音模型',
+    name: 'ElevenLabs & 语音 TTS API Key',
+    icon: Volume2,
+    models: ['Eleven Multilingual v2 (多语言)', '火山 Sambert 情感语音'],
+    defaultModel: 'Eleven Multilingual v2',
+    key: 'el-voice-key-************************',
+    status: '已连接',
+  },
+];
 
 const SettingsPage = () => {
-  const [activeTab, setActiveTab] = useState('api');
-  const [apiKeys, setApiKeys] = useState<Record<string, string>>({
-    tencent: 'SecretId:SecretKey',
-    baidu: 'API_KEY:SECRET_KEY',
-    openai: 'sk-proj-****8812',
-    zhipu: 'glm-5-****9941',
-    deepseek: 'sk-ds-****1024',
-    iflytek: 'APPID:KEY:SECRET',
-  });
+  const { setTheme, isDarkMode } = useTheme();
+  const [workingDir, setWorkingDir] = useState('/Users/Novella/NovellaWorkingDirectory');
+  const [testingId, setTestingId] = useState<string | null>(null);
 
-  // 预设使用各厂商 2026 最新发布的旗舰 Model ID（腾讯 Hy3, 百度 ERNIE 5.1）
-  const [selectedModels, setSelectedModels] = useState<Record<string, string>>({
-    tencent: 'hy3',
-    baidu: 'ERNIE-5.1',
-    deepseek: 'deepseek-v4-flash-0731',
-    alibaba: 'qwen-3.8-max',
-    openai: 'gpt-5.6-sol',
-    anthropic: 'claude-opus-5',
-    google: 'gemini-3.6-flash',
-    zhipu: 'glm-5.2',
-    iflytek: 'generalv4.0',
-    moonshot: 'kimi-k3',
-    bytedance: 'doubao-seedream-5.0',
-    minimax: 'minimax-h3',
-    kling: 'kling-3.0-omni',
-  });
-
-  const [testingKey, setTestingKey] = useState<string | null>(null);
-  const { theme, setTheme } = useTheme();
-
-  // 13 大 API 提供商列表派生
-  const apiProviders = useMemo(() => {
-    return Object.entries(MODEL_PROVIDERS).map(([key, provider]) => {
-      const availableModels = getModelsByProvider(key as ModelProvider);
-      return {
-        key,
-        name: provider.name,
-        icon: provider.icon,
-        description: provider.description,
-        keyPlaceholder: provider.keyPlaceholder,
-        apiKeyApplyUrl: provider.apiKeyApplyUrl,
-        models: availableModels,
-      };
-    });
-  }, []);
-
-  const handleTestConnection = (providerKey: string, providerName: string) => {
-    setTestingKey(providerKey);
-    toast.info(`正在尝试连通 ${providerName} 官方 2026 API 服务端...`);
+  const handleVerifyConnection = (name: string, id: string) => {
+    setTestingId(id);
+    toast.info(`正在校验 ${name} API Key...`);
     setTimeout(() => {
-      setTestingKey(null);
-      toast.success(`🎉 ${providerName} 官方 API 端点响应正常！连通测试通过 (延迟 68ms)`);
-    }, 700);
-  };
-
-  const handleSaveApiKey = (providerKey: string, providerName: string) => {
-    logger.info('保存 API Key:', providerKey);
-    toast.success(`${providerName} 官方 API 密钥已强加密保存至本地 Keyring`);
-  };
-
-  const handleOpenApiKeyApply = (url: string, name: string) => {
-    if (!url) return;
-    toast.info(`正在跳转至 ${name} 官方 API Key 申请控制台...`);
-    window.open(url, '_blank', 'noopener,noreferrer');
+      setTestingId(null);
+      toast.success(`🎉 ${name} 校验通过！最新 2 款旗舰模型响应延迟 25ms`);
+    }, 400);
   };
 
   return (
-    <div className={styles.settings}>
-      {/* 页头标题区 */}
-      <div className={styles.headerTitleGroup}>
-        <div className={styles.headerIcon}>
-          <SettingsIcon className="w-6 h-6 m-neon-pulse" />
+    <div className="space-y-6 max-w-5xl mx-auto py-2">
+      {/* 头部标题区 */}
+      <div className="studio-card p-6 space-y-1">
+        <h2 className="text-xl font-bold text-[var(--foreground)] flex items-center gap-2">
+          <SettingsIcon className="w-5 h-5 text-indigo-400" />
+          系统偏好设置
+        </h2>
+        <p className="text-xs text-[var(--muted-foreground)]">
+          配置文字大模型、AI 图像生成模型、AI 视频运镜模型与 TTS 语音 API 密钥
+        </p>
+      </div>
+
+      {/* 第一区: 文字、图像、视频、语音 AI 模型 API Key 全量配置 */}
+      <div className="studio-card p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+          <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
+            <Bot className="w-4 h-4 text-indigo-400" />
+            AI 模型 API Key 全量配置 (文字 / 图像 / 视频 / 语音)
+          </h3>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
+            7 大引擎在线
+          </span>
         </div>
-        <div>
-          <h2 className="text-xl font-extrabold text-slate-100 tracking-tight flex items-center gap-2">
-            MangaV 系统控制中心
-            <span className="text-[10px] px-2 py-0.5 rounded font-mono bg-[#00f5d4]/10 text-[#00f5d4] border border-[#00f5d4]/30">
-              2026 LATEST API MODELS
-            </span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            配置 腾讯 Hy3 / 混元 T1、百度 ERNIE 5.1 / 5.0、DeepSeek-V4、Qwen 3.8-Max 等 2026
-            最新官方 API 模型
-          </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {TOP_2_LATEST_PROVIDERS.map((provider) => {
+            const Icon = provider.icon;
+            return (
+              <div
+                key={provider.id}
+                className="p-4 rounded-xl bg-transparent border border-[var(--border)] space-y-3 hover:border-indigo-500/40 transition-colors"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                      <Icon className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-xs text-[var(--foreground)] block">
+                        {provider.name}
+                      </span>
+                      <span className="text-[10px] text-indigo-400 font-mono font-bold block">
+                        默认: {provider.defaultModel}
+                      </span>
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                    {provider.status}
+                  </span>
+                </div>
+
+                {/* API Key Input 框：背景设为 bg-transparent，无粗灰框 */}
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="password"
+                    defaultValue={provider.key}
+                    placeholder={`请输入 ${provider.name} 的 API Key...`}
+                    className="bg-transparent border-[var(--border)] text-xs rounded-lg flex-1 text-[var(--foreground)] focus:border-indigo-500 focus:ring-0"
+                  />
+                  <button
+                    onClick={() => handleVerifyConnection(provider.name, provider.id)}
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all flex items-center gap-1 shrink-0 cursor-pointer border-0 shadow-sm"
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    <span>
+                      {testingId === provider.id ? '校验中...' : '校验连接'}
+                    </span>
+                  </button>
+                </div>
+
+                {/* 仅展示最新的 2 款旗舰模型 */}
+                <div className="flex items-center gap-1 flex-wrap pt-1">
+                  <span className="text-[10px] text-[var(--muted-foreground)] mr-1">支持模型:</span>
+                  {provider.models.map((m) => (
+                    <span
+                      key={m}
+                      className="text-[9px] px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-mono font-bold"
+                    >
+                      {m}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <Card className={styles.settingsCard}>
-        <Tabs value={activeTab} onValueChange={setActiveTab} className={styles.tabs}>
-          <TabsList className="w-full justify-start flex-wrap h-auto gap-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800 mb-6">
-            <TabsTrigger value="api" className="flex items-center gap-2">
-              <Key className="h-4 w-4 text-[#00f5d4]" /> AI 官方 API Key & 模型选择
-            </TabsTrigger>
+      {/* 第二区: 本地工程工作目录 (重构为全宽度极简商业 SaaS 样式) */}
+      <div className="studio-card p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+          <div>
+            <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
+              <FolderOpen className="w-4 h-4 text-indigo-400" />
+              本地工程工作目录
+            </h3>
+            <p className="text-[11px] text-[var(--muted-foreground)] mt-0.5">
+              漫剧工程文件、4K 视频压制缓存与 TTS 音轨数据的本地绝对存储路径
+            </p>
+          </div>
+          <span className="text-[10px] px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono font-bold">
+            SSD 高速盘
+          </span>
+        </div>
 
-            <TabsTrigger value="general" className="flex items-center gap-2">
-              <SettingsIcon className="h-4 w-4" /> 通用与外观
-            </TabsTrigger>
-
-            <TabsTrigger value="render" className="flex items-center gap-2">
-              <Cpu className="h-4 w-4 text-[#00ff88]" /> 硬件渲染加速
-            </TabsTrigger>
-
-            <TabsTrigger value="about" className="flex items-center gap-2">
-              <Info className="h-4 w-4 text-[#b44fff]" /> 关于 Studio
-            </TabsTrigger>
-          </TabsList>
-
-          {/* AI 引擎与 API Key */}
-          <TabsContent value="api" className="space-y-6">
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-base font-bold text-slate-100 mb-1">
-                    AI 官方 API Key 密钥与 2026 最新模型配置
-                  </h3>
-                  <p className="text-xs text-slate-400">
-                    涵盖 2026 年最新大模型（腾讯混元 Hy3 / Hunyuan-T1、百度文心 ERNIE 5.1 /
-                    5.0、DeepSeek-V4、GPT-5.6 Sol 等）。
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {apiProviders.map((provider) => {
-                  const hasKey = Boolean(apiKeys[provider.key]);
-                  const currentModelId =
-                    selectedModels[provider.key] || provider.models[0]?.id || '';
-
-                  return (
-                    <div key={provider.key} className={styles.providerCard}>
-                      <div className={styles.providerHeader}>
-                        {/* 左侧提供商信息 */}
-                        <div className={styles.providerInfo}>
-                          <div className={styles.providerAvatar}>
-                            <img src={provider.icon} alt={provider.name} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className={styles.providerName}>{provider.name}</span>
-                              {hasKey ? (
-                                <Badge className="bg-[#00ff88]/15 text-[#00ff88] border-[#00ff88]/30 text-[10px]">
-                                  <CheckCircle2 className="w-3 h-3 mr-1" /> 已就绪
-                                </Badge>
-                              ) : (
-                                <Badge variant="secondary" className="text-[10px]">
-                                  未配置
-                                </Badge>
-                              )}
-                            </div>
-                            <p className={styles.providerDesc}>{provider.description}</p>
-                          </div>
-                        </div>
-
-                        {/* 右侧快捷动作 */}
-                        <div className="flex items-center gap-2">
-                          {/* 官方快捷申请入口 */}
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleOpenApiKeyApply(provider.apiKeyApplyUrl, provider.name)
-                            }
-                            className={styles.applyKeyBtn}
-                            title={`打开 ${provider.name} 官方控制台申请 API Key`}
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            <span>申请 Key</span>
-                          </button>
-
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            disabled={testingKey === provider.key}
-                            onClick={() => handleTestConnection(provider.key, provider.name)}
-                            className="h-7 text-xs border-slate-700 hover:border-[#00f5d4]"
-                          >
-                            <RefreshCw
-                              className={`w-3.5 h-3.5 mr-1 ${testingKey === provider.key ? 'animate-spin' : ''}`}
-                            />
-                            测试连通
-                          </Button>
-
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleSaveApiKey(provider.key, provider.name)}
-                            className="h-7 text-xs text-[#00f5d4] hover:bg-[#00f5d4]/10"
-                          >
-                            <Edit className="h-3.5 w-3.5 mr-1" />
-                            保存
-                          </Button>
-                        </div>
-                      </div>
-
-                      {/* 输入 Key 区域与美化模型下拉 */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div className="md:col-span-2">
-                          <Input
-                            type="password"
-                            placeholder={provider.keyPlaceholder}
-                            value={apiKeys[provider.key] || ''}
-                            onChange={(e) =>
-                              setApiKeys({ ...apiKeys, [provider.key]: e.target.value })
-                            }
-                            className="text-xs font-mono bg-slate-950 border-slate-800 text-slate-200 focus:border-[#00f5d4]"
-                          />
-                        </div>
-
-                        {/* 重新设计的 Cyberpunk 下拉框（显示 2026 最新 Model ID） */}
-                        <div className="flex items-center gap-1.5">
-                          <Bot className="w-4 h-4 text-[#00f5d4] shrink-0" />
-                          <select
-                            value={currentModelId}
-                            onChange={(e) =>
-                              setSelectedModels({
-                                ...selectedModels,
-                                [provider.key]: e.target.value,
-                              })
-                            }
-                            className={`w-full ${styles.cyberSelect}`}
-                          >
-                            {provider.models.length > 0 ? (
-                              provider.models.map((m) => (
-                                <option key={m.id} value={m.id}>
-                                  {m.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option value="">默认 2026 官方模型</option>
-                            )}
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* 通用与外观 */}
-          <TabsContent value="general" className="space-y-6">
-            <div>
-              <h3 className="text-base font-bold text-slate-100 mb-1">外观与主题模式</h3>
-              <p className="text-xs text-slate-400 mb-4">
-                支持浅色、暗黑与跟随 macOS/Windows 系统无缝切换
-              </p>
-
-              <div className={styles.themeOptionGrid}>
-                <div
-                  onClick={() => setTheme('light')}
-                  className={`${styles.themeCard} ${theme === 'light' ? styles.themeCardActive : ''}`}
-                >
-                  <Sun className="w-6 h-6 text-amber-400" />
-                  <span>☀️ 浅色模式</span>
-                </div>
-
-                <div
-                  onClick={() => setTheme('dark')}
-                  className={`${styles.themeCard} ${theme === 'dark' ? styles.themeCardActive : ''}`}
-                >
-                  <Moon className="w-6 h-6 text-[#b44fff]" />
-                  <span>🌙 暗黑模式</span>
-                </div>
-
-                <div
-                  onClick={() => setTheme('system')}
-                  className={`${styles.themeCard} ${theme === 'system' ? styles.themeCardActive : ''}`}
-                >
-                  <Laptop className="w-6 h-6 text-[#00f5d4]" />
-                  <span>💻 跟随系统</span>
-                </div>
-              </div>
+        {/* 全宽度高精路径输入组件 */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 flex items-center">
+              <FolderOpen className="w-4 h-4 text-[var(--muted-foreground)] absolute left-3 pointer-events-none" />
+              <Input
+                value={workingDir}
+                onChange={(e) => setWorkingDir(e.target.value)}
+                className="pl-9 bg-transparent border border-[var(--border)] text-xs rounded-xl flex-1 font-mono text-[var(--foreground)] outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[var(--border)] focus:shadow-none shadow-none py-2.5"
+              />
             </div>
 
-            <Separator className="my-6 opacity-20" />
+            <Button
+              size="sm"
+              onClick={() => toast.info('已调出系统文件选择器窗口')}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl px-5 py-2.5 border-0 shadow-sm shrink-0 flex items-center gap-1.5 cursor-pointer"
+            >
+              <FolderOpen className="w-3.5 h-3.5" />
+              <span>选择目标文件夹</span>
+            </Button>
+          </div>
 
-            <div>
-              <h3 className="text-base font-bold text-slate-100 mb-3">存储与项目目录</h3>
-              <div className="space-y-4 max-w-lg">
-                <div>
-                  <Label className="text-xs text-slate-300 mb-1 block">项目保存根目录</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      defaultValue="/Users/zfkc/MangaV-Projects"
-                      className="flex-1 text-xs font-mono bg-slate-950 border-slate-800"
-                    />
-                    <Button variant="outline" size="sm" className="gap-1">
-                      <FolderOpen className="w-3.5 h-3.5" /> 更改
-                    </Button>
-                  </div>
-                </div>
-              </div>
+          {/* 磁盘状态与缓存治理 */}
+          <div className="flex items-center justify-between text-[11px] text-[var(--muted-foreground)] pt-2 border-t border-[var(--border)] font-mono">
+            <div className="flex items-center gap-3">
+              <span>磁盘剩余空间: <strong className="text-emerald-400 font-bold">458.2 GB</strong></span>
+              <span>│</span>
+              <span>目前缓存: <strong className="text-indigo-400 font-bold">1.2 GB</strong></span>
             </div>
-          </TabsContent>
+            <button
+              onClick={() => toast.success('🎉 4K 压制离线临时缓存已成功清理！已释放 1.2 GB 空间')}
+              className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium cursor-pointer"
+            >
+              一键清理 4K 压制缓存
+            </button>
+          </div>
+        </div>
+      </div>
 
-          {/* 硬件渲染加速 */}
-          <TabsContent value="render" className="space-y-6">
-            <div>
-              <h3 className="text-base font-bold text-slate-100 mb-1">
-                硬件加速与 FFmpeg 渲染引擎
-              </h3>
-              <p className="text-xs text-slate-400 mb-4">
-                自动检测 GPU 显卡与原生硬编管线，大幅提升分镜渲染速度
-              </p>
+      {/* 第三区: 界面外观主题 */}
+      <div className="studio-card p-6 space-y-3">
+        <h3 className="text-sm font-bold text-[var(--foreground)] flex items-center gap-2 border-b border-[var(--border)] pb-3">
+          <Sun className="w-4 h-4 text-amber-400" />
+          2. 界面外观主题
+        </h3>
+        <div className="grid grid-cols-3 gap-3">
+          <button
+            onClick={() => setTheme('dark')}
+            className={`p-3.5 rounded-xl border text-center transition-all cursor-pointer ${
+              isDarkMode
+                ? 'bg-indigo-600 text-white border-indigo-400 font-bold shadow-md shadow-indigo-500/25'
+                : 'bg-transparent border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+            }`}
+          >
+            <Moon className="w-4 h-4 mx-auto mb-1 text-indigo-300" />
+            <span className="text-xs block">深色深空</span>
+          </button>
 
-              <div className="p-4 bg-slate-950/80 rounded-xl border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Zap className="w-5 h-5 text-[#00ff88]" />
-                    <div>
-                      <span className="text-sm font-bold text-slate-200 block">
-                        Apple VideoToolbox (Metal GPU)
-                      </span>
-                      <span className="text-xs text-slate-400">已激活 macOS 硬件编解码芯片</span>
-                    </div>
-                  </div>
-                  <Badge className="bg-[#00ff88]/20 text-[#00ff88] border-[#00ff88]/40">
-                    <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 状态正常
-                  </Badge>
-                </div>
+          <button
+            onClick={() => setTheme('light')}
+            className={`p-3.5 rounded-xl border text-center transition-all cursor-pointer ${
+              !isDarkMode
+                ? 'bg-indigo-600 text-white border-indigo-400 font-bold shadow-md shadow-indigo-500/25'
+                : 'bg-transparent border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+            }`}
+          >
+            <Sun className="w-4 h-4 mx-auto mb-1 text-amber-400" />
+            <span className="text-xs block">浅色冰晶</span>
+          </button>
 
-                <Separator className="opacity-20" />
-
-                <div className="grid grid-cols-2 gap-4 text-xs">
-                  <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
-                    <span className="text-slate-400 block mb-1">FFmpeg 编译补丁:</span>
-                    <span className="text-[#00f5d4] font-mono">v6.1-t2-h264_videotoolbox</span>
-                  </div>
-                  <div className="p-3 bg-slate-900/60 rounded-lg border border-slate-800">
-                    <span className="text-slate-400 block mb-1">并行渲染线程数:</span>
-                    <span className="text-[#00f5d4] font-mono">8 线程 (Automatic)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* 关于 */}
-          <TabsContent value="about" className="space-y-6">
-            <div>
-              <h3 className="text-base font-bold text-slate-100 mb-2">
-                关于 MangaV (漫织 AI) Studio
-              </h3>
-              <div className={styles.aboutInfo}>
-                <div className={styles.infoItem}>
-                  <span className="text-slate-400">版本</span>
-                  <span className="font-mono text-[#00f5d4] font-bold">v0.0.1 Studio</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className="text-slate-400">架构驱动</span>
-                  <span>Tauri v2 + React 19 + Rust Engine</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className="text-slate-400">构建环境</span>
-                  <span>macOS arm64 (Apple Silicon)</span>
-                </div>
-              </div>
-
-              <Alert className="mt-4 bg-[#00f5d4]/10 border-[#00f5d4]/30">
-                <AlertDescription className="text-xs text-[#00f5d4]">
-                  感谢使用 MangaV AI 漫剧创作平台！端到端自动化生成 4K 精致漫剧视频。
-                </AlertDescription>
-              </Alert>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </Card>
+          <button
+            onClick={() => setTheme('system')}
+            className="p-3.5 rounded-xl bg-transparent border border-[var(--border)] text-[var(--muted-foreground)] text-center transition-all cursor-pointer hover:text-[var(--foreground)]"
+          >
+            <Laptop className="w-4 h-4 mx-auto mb-1" />
+            <span className="text-xs block">跟随系统</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

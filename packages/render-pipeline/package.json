@@ -1,12 +1,12 @@
 {
-  "name": "@mangav/render-pipeline",
+  "name": "@novella/render-pipeline",
   "version": "0.0.1",
-  "description": "MangaV 硬件加速渲染管线与控制台",
+  "description": "Novella 硬件加速渲染管线与控制台",
   "main": "./src/index.tsx",
   "module": "./src/index.tsx",
   "types": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
-    "@mangav/core": "workspace:*"
+    "@novella/core": "workspace:*"
   }
 }

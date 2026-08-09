@@ -10,7 +10,7 @@ import { useProject } from '@/core/hooks/useProject';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Card } from '@/shared/components/ui/card';
-import { AudioStudio, AudioTimeline } from '@mangav/audio-studio';
+import { AudioStudio, AudioTimeline } from '@novella/audio-studio';
 
 function StepAudio() {
   const { setCurrentStep } = useProject();

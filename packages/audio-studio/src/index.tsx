@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MangaCard, MangaButton } from '@mangav/ui';
+import { MangaCard, MangaButton } from '@novella/ui';
 
 export interface AudioTrack {
   id: string;

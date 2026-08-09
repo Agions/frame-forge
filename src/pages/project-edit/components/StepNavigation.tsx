@@ -17,8 +17,8 @@ import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { secureStorage } from '@/core/services/project/secure-storage-service';
-import { RoleType, WorkflowEngine } from '@mangav/core';
-import { StatusBadge } from '@mangav/ui';
+import { RoleType, WorkflowEngine } from '@novella/core';
+import { StatusBadge } from '@novella/ui';
 
 interface StepDefinition {
   key: string;

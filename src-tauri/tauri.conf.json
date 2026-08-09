@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
-  "productName": "MangaV",
+  "productName": "Novella",
   "version": "0.0.1",
-  "identifier": "ai.mangav.desktop",
+  "identifier": "ai.novella.desktop",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "MangaV (漫织 AI) - AI 漫剧创作平台",
+        "title": "Novella (Novella AI) - AI 漫剧创作平台",
         "width": 1280,
         "height": 800,
         "minWidth": 960,
@@ -41,7 +41,7 @@
   "bundle": {
     "active": true,
     "category": "Video",
-    "copyright": "Copyright © 2024-2026 MangaV Team",
+    "copyright": "Copyright © 2024-2026 Novella Team",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -49,8 +49,8 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "longDescription": "MangaV (漫织 AI) - AI 漫剧创作平台。采用 Tauri v2 + React 19 + Rust + Packages Monorepo 模块化架构，将小说一键转化为专业级漫剧视频。",
-    "shortDescription": "MangaV 漫织 AI 漫剧创作平台",
+    "longDescription": "Novella (Novella AI) - AI 漫剧创作平台。采用 Tauri v2 + React 19 + Rust + Packages Monorepo 模块化架构，将小说一键转化为专业级漫剧视频。",
+    "shortDescription": "Novella Novella AI 漫剧创作平台",
     "targets": "all",
     "linux": {
       "deb": {
@@ -69,8 +69,8 @@
     },
     "fileAssociations": [
       {
-        "name": "MangaV Project",
-        "ext": ["mangav", "drama"],
+        "name": "Novella Project",
+        "ext": ["novella", "drama"],
         "mimeType": "application/json"
       }
     ]

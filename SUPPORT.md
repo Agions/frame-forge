@@ -1,6 +1,6 @@
 # Support
 
-> MangaV (漫织 AI) 用户支持渠道与资源
+> Novella (Novella AI) 用户支持渠道与资源
 
 ## 快速获取帮助
 
@@ -8,7 +8,7 @@
 
 | 资源                  | 链接                                                                         |
 | --------------------- | ---------------------------------------------------------------------------- |
-| **在线文档站**        | [agions.github.io/story-weaver](https://agions.github.io/story-weaver/)      |
+| **在线文档站**        | [agions.github.io/novella](https://agions.github.io/novella/)      |
 | **快速开始 (5 分钟)** | [/getting-started/quick-start.md](./docs/getting-started/quick-start.md)     |
 | **安装指南**          | [/getting-started/installation.md](./docs/getting-started/installation.md)   |
 | **配置说明**          | [/getting-started/configuration.md](./docs/getting-started/configuration.md) |
@@ -25,11 +25,11 @@
 
 ### 🐛 报告 Bug
 
-请在 [GitHub Issues](https://github.com/Agions/story-weaver/issues/new) 提交，包含：
+请在 [GitHub Issues](https://github.com/Agions/novella/issues/new) 提交，包含：
 
 1. **环境信息**：
    - 操作系统 + 版本（macOS 14.5 / Windows 11 / Ubuntu 24.04）
-   - MangaV 版本（v0.0.1）
+   - Novella 版本（v0.0.1）
    - Tauri 版本（v2.0）
 
 2. **复现步骤**：
@@ -45,7 +45,7 @@
 
 4. **截图/录屏**（强烈推荐）
 
-5. **日志**（`~/.mangav/logs/` 目录下）
+5. **日志**（`~/.novella/logs/` 目录下）
 
 ## 贡献代码
 
@@ -53,9 +53,9 @@
 
 ## 致谢
 
-MangaV (漫织 AI) 由以下项目启发 / 使用：
+Novella (Novella AI) 由以下项目启发 / 使用：
 
 - [ComfyUI](https://github.com/comfyanonymous/ComfyUI) — 节点化工作流理念
 - [Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) — 创作者工具设计
 - [剪映专业版](https://www.capcut.cn/) — 视频编辑交互模式
-- 所有 [贡献者](https://github.com/Agions/story-weaver/graphs/contributors) ❤️
+- 所有 [贡献者](https://github.com/Agions/novella/graphs/contributors) ❤️

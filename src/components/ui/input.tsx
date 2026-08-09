@@ -46,16 +46,37 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
+    if (!icon && !prefix && !suffix && !allowClear) {
+      return (
+        <input
+          type={type}
+          className={cn(
+            'flex w-full rounded-xl border border-[var(--border)] bg-transparent px-3 text-xs text-[var(--foreground)] placeholder:text-muted-foreground outline-none focus:outline-none focus:ring-0 focus:border-[var(--border)]',
+            sizeClassMap[inputSize],
+            className
+          )}
+          ref={ref}
+          value={effectiveValue}
+          onChange={handleChange}
+          {...props}
+        />
+      );
+    }
+
     return (
-      <div className="relative flex items-center border border-input rounded-md bg-background px-3 focus-within:ring-2 focus-within:ring-ring">
+      <div
+        className={cn(
+          'relative flex items-center border border-[var(--border)] rounded-xl bg-transparent px-3 outline-none focus-within:outline-none focus-within:border-[var(--border)]',
+          className
+        )}
+      >
         {icon && <span className="mr-2 text-muted-foreground">{icon}</span>}
         {prefix && <span className="mr-2 text-muted-foreground shrink-0">{prefix}</span>}
         <input
           type={type}
           className={cn(
-            'flex-1 bg-transparent outline-none text-sm placeholder:text-muted-foreground',
-            sizeClassMap[inputSize],
-            className
+            'flex-1 bg-transparent outline-none border-0 text-xs text-[var(--foreground)] placeholder:text-muted-foreground focus:outline-none focus:ring-0',
+            sizeClassMap[inputSize]
           )}
           ref={ref}
           value={effectiveValue}

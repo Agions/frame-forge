@@ -1,9 +1,9 @@
 /**
- * MangaV AI Engine Package
+ * Novella AI Engine Package
  * 双模（Tauri IPC 原生 + Web 纯端）AI 剧本解析与提示词推理引擎
  */
 
-import { Shot, Episode, CharacterAsset } from '@mangav/core';
+import { Shot, Episode, CharacterAsset } from '@novella/core';
 
 export interface PromptGenerationRequest {
   sceneDescription: string;

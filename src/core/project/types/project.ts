@@ -104,6 +104,10 @@ export interface ProjectData {
   exportSettings?: Partial<ExportSettings>;
   // Script text (plain string form)
   script?: string;
+  novelText?: string;
+  parsedScenes?: any[];
+  sopStep?: number;
+  stage?: string;
   // Pipeline progress tracking
   currentStep?: PipelineStep;
 }

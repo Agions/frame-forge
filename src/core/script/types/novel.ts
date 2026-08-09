@@ -1,5 +1,5 @@
 /**
- * MangaV Novel Types
+ * Novella Novel Types
  * Extracted from src/shared/types/index.ts
  * Novel/script analysis and processing types
  */

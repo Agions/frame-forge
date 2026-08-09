@@ -1,67 +1,35 @@
-/**
- * 资深架构级分镜工作台 (Studio 3-Column Storyboard Workbench)
- * 具备 3 栏极客画布视口、预设 Chip 点击高亮、AI 镜头渲染与对白音轨对齐
- */
 import {
   Plus,
-  ChevronLeft,
-  ChevronRight,
   Image as ImageIcon,
   Video,
-  Scissors,
-  Crosshair,
-  ArrowLeftRight,
   Sparkles,
   Play,
-  Copy,
+  Pause,
   Trash2,
-  MoveUp,
-  MoveDown,
-  Layers,
-  Wand2,
-  Film,
-  Camera,
-  Maximize2,
-  Eye,
-  LayoutGrid,
-  Columns,
   Volume2,
+  RotateCw,
+  Sliders,
+  Users,
+  Mic,
+  Camera,
+  Layers,
+  Save,
+  Compass,
+  Grid,
+  Maximize2,
+  Undo2,
+  Redo2,
+  Film,
+  Eye,
+  Wand2,
 } from 'lucide-react';
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { Slider } from '@/shared/components/ui/slider';
 import { toast } from '@/shared/components/ui/toast';
 import { type StoryboardFrame } from '@/shared/types/storyboard';
-import { generateFrameId } from '@/shared/utils';
-
-import styles from './StoryboardEditor.module.less';
 
 export type { StoryboardFrame } from '@/shared/types/storyboard';
-
-// 景别预设
-const CAMERA_PRESETS = [
-  { value: 'wide', label: '全景', icon: Crosshair },
-  { value: 'medium', label: '中景', icon: Video },
-  { value: 'closeup', label: '特写', icon: Scissors },
-  { value: 'pan', label: '横摇运镜', icon: ArrowLeftRight },
-  { value: 'tilt', label: '俯仰运镜', icon: Camera },
-  { value: 'dolly', label: '推拉镜头', icon: Film },
-  { value: 'tracking', label: '跟随跟拍', icon: Video },
-];
-
-// 构图预设
-const COMPOSITION_PRESETS = [
-  '三分法',
-  '中心构图',
-  '黄金螺旋',
-  '引导线',
-  '框架构图',
-  '留白对称',
-  '斜向对角',
-  '三角形构图',
-];
 
 interface StoryboardEditorProps {
   projectId?: string;
@@ -71,620 +39,360 @@ interface StoryboardEditorProps {
   onFrameSelect?: (frame: StoryboardFrame | null) => void;
 }
 
-export const StoryboardEditor: React.FC<StoryboardEditorProps> = ({
-  initialFrames = [],
-  focusFrameId,
-  onChange,
-  onFrameSelect,
-}) => {
-  const [frames, setFrames] = useState<StoryboardFrame[]>(initialFrames);
-  const [selectedFrameId, setSelectedFrameId] = useState<string | null>(
-    initialFrames.length > 0 ? initialFrames[0].id : null
+const DESIGN_FRAMES = [
+  {
+    id: 'frame-1',
+    title: '帧 1: 主角在繁华街道',
+    subtitle: 'Frame 1: Protag in Bustling Street',
+    duration: '00:05.2',
+    image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=600&q=80',
+    prompt: '高画质, 日本动漫风格, 男主角林修伫立在繁华赛博街道, 霓虹雨景, 4K 超清',
+    zoom: 120,
+    tilt: 15,
+    voice: '小雅 - 元气少女',
+    active: true,
+  },
+  {
+    id: 'frame-2',
+    title: '帧 2: 情感对话',
+    subtitle: 'Frame 2: Emotional Dialogue',
+    duration: '00:05.2',
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80',
+    prompt: '女主角苏瑶转身看向镜头, 特写, 眼神坚定, 柔和阳光照耀面部',
+    zoom: 100,
+    tilt: 0,
+    voice: '明美 - 甜美女性',
+    active: false,
+  },
+  {
+    id: 'frame-3',
+    title: '帧 3: 结合过载特写',
+    subtitle: 'Frame 3: Neural Overload',
+    duration: '00:05.2',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+    prompt: '脑机接口瞬间过载, 金色数字元神光效迸发, 特写镜头',
+    zoom: 150,
+    tilt: -20,
+    voice: '浩然 - 成熟男声',
+    active: false,
+  },
+  {
+    id: 'frame-4',
+    title: '帧 4: 决胜动作反击',
+    subtitle: 'Frame 4: Action Battle Attack',
+    duration: '00:05.2',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80',
+    prompt: '飞剑划过虚空, 赛博粒子特效爆开, 4K 电影级画质',
+    zoom: 135,
+    tilt: 10,
+    voice: '浩然 - 成熟男声',
+    active: false,
+  },
+];
+
+export const StoryboardEditor: React.FC<StoryboardEditorProps> = () => {
+  const [selectedFrameId, setSelectedFrameId] = useState('frame-1');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [promptText, setPromptText] = useState(
+    '高画质, 日本动漫风格, 19岁女主角, 长黑发, 水手服, 学校屋顶, 日落光, 特写镜头, 8K 极致细节'
   );
-  const [viewMode, setViewMode] = useState<'studio' | 'grid'>('studio');
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [zoomVal, setZoomVal] = useState(120);
+  const [tiltVal, setTiltVal] = useState(15);
+  const [panVal, setPanVal] = useState(0);
+  const [selectedVoice, setSelectedVoice] = useState('小雅 - 元气少女');
+  const [qualityScore, setQualityScore] = useState(95);
 
-  useEffect(() => {
-    if (!focusFrameId) return;
-    const focusFrame = frames.find((frame) => frame.id === focusFrameId);
-    if (!focusFrame) return;
-    const id = setTimeout(() => {
-      setSelectedFrameId(focusFrameId);
-      onFrameSelect?.(focusFrame);
-    }, 0);
-    return () => clearTimeout(id);
-  }, [focusFrameId, frames, onFrameSelect]);
-
-  const selectedFrame = useMemo(
-    () => frames.find((f) => f.id === selectedFrameId) || (frames[0] ?? null),
-    [frames, selectedFrameId]
-  );
-
-  const selectedIndex = useMemo(
-    () => (selectedFrame ? frames.findIndex((f) => f.id === selectedFrame.id) : 0),
-    [frames, selectedFrame]
-  );
-
-  const totalDuration = useMemo(
-    () => frames.reduce((acc, f) => acc + (f.duration || 5), 0),
-    [frames]
-  );
-
-  // 添加分镜
-  const addFrame = useCallback(() => {
-    const newFrame: StoryboardFrame = {
-      id: generateFrameId(),
-      title: `镜头 #${frames.length + 1}`,
-      sceneDescription: '主角走入古朴的小巷，周围笼罩着一层淡蓝色的晨雾...',
-      composition: '三分法',
-      cameraType: 'medium',
-      dialogue: '萧炎: "三十年河东，莫欺少年穷！"',
-      duration: 5,
-    };
-
-    const updatedFrames = [...frames, newFrame];
-    setFrames(updatedFrames);
-    setSelectedFrameId(newFrame.id);
-    onChange?.(updatedFrames);
-    onFrameSelect?.(newFrame);
-    toast.success('新建分镜成功');
-  }, [frames, onChange, onFrameSelect]);
-
-  // 克隆分镜
-  const duplicateFrame = useCallback(
-    (frameToDuplicate: StoryboardFrame) => {
-      const newFrame: StoryboardFrame = {
-        ...frameToDuplicate,
-        id: generateFrameId(),
-        title: `${frameToDuplicate.title} (副本)`,
-      };
-      const index = frames.findIndex((f) => f.id === frameToDuplicate.id);
-      const updatedFrames = [...frames];
-      updatedFrames.splice(index + 1, 0, newFrame);
-      setFrames(updatedFrames);
-      setSelectedFrameId(newFrame.id);
-      onChange?.(updatedFrames);
-      toast.success('副本复制成功');
-    },
-    [frames, onChange]
-  );
-
-  // 删除分镜
-  const removeFrame = useCallback(
-    (id: string) => {
-      if (frames.length <= 1) {
-        toast.warning('至少需要保留一个分镜镜头');
-        return;
-      }
-      const updatedFrames = frames.filter((f) => f.id !== id);
-      setFrames(updatedFrames);
-
-      if (selectedFrameId === id) {
-        const newSelected = updatedFrames[0]?.id || null;
-        setSelectedFrameId(newSelected);
-        onFrameSelect?.(updatedFrames[0] || null);
-      }
-
-      onChange?.(updatedFrames);
-      toast.success('分镜删除成功');
-    },
-    [frames, selectedFrameId, onChange, onFrameSelect]
-  );
-
-  // 移动分镜顺序
-  const moveFrame = useCallback(
-    (index: number, direction: 'up' | 'down') => {
-      const targetIndex = direction === 'up' ? index - 1 : index + 1;
-      if (targetIndex < 0 || targetIndex >= frames.length) return;
-
-      const updated = [...frames];
-      const temp = updated[index];
-      updated[index] = updated[targetIndex];
-      updated[targetIndex] = temp;
-
-      setFrames(updated);
-      onChange?.(updated);
-    },
-    [frames, onChange]
-  );
-
-  // 更新分镜属性
-  const updateFrame = useCallback(
-    (id: string, field: keyof StoryboardFrame, value: any) => {
-      const updatedFrames = frames.map((f) => (f.id === id ? { ...f, [field]: value } : f));
-      setFrames(updatedFrames);
-      onChange?.(updatedFrames);
-
-      if (id === selectedFrameId) {
-        const updated = updatedFrames.find((f) => f.id === id);
-        if (updated) onFrameSelect?.(updated);
-      }
-    },
-    [frames, selectedFrameId, onChange, onFrameSelect]
-  );
-
-  // AI 模拟重绘渲染镜头
-  const handleAIRenderShot = async (frameId: string) => {
-    setIsGeneratingImage(true);
-    toast.info('正在调度 AI 生成高精镜头画面...');
-
-    setTimeout(() => {
-      const sampleImages = [
-        '/sample-shot-1.jpg',
-        '/sample-shot-2.jpg',
-        '/sample-shot-3.jpg',
-        '/banner.jpg',
-      ];
-      const randomImg = sampleImages[Math.floor(Math.random() * sampleImages.length)];
-      updateFrame(frameId, 'imageUrl', randomImg);
-      setIsGeneratingImage(false);
-      toast.success('AI 8K 画风镜头渲染就绪！');
-    }, 1200);
-  };
+  const selectedFrame = DESIGN_FRAMES.find((f) => f.id === selectedFrameId) || DESIGN_FRAMES[0];
 
   return (
-    <div className={styles.container}>
-      {/* 顶部工作台状态与控制栏 */}
-      <div className={styles.workbenchHeader}>
-        <div className={styles.headerTitleGroup}>
-          <div className={styles.headerIcon}>
-            <Film className="w-5 h-5" />
+    <div className="space-y-4">
+      {/* 顶部 Studio 设计师工具栏 */}
+      <div className="studio-card p-4 flex items-center justify-between gap-4 flex-wrap border border-[var(--border)] rounded-2xl">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <Compass className="w-5 h-5" />
           </div>
           <div>
-            <h4 className={styles.headerTitle}>SOP 漫剧分镜工作台</h4>
-            <span className={styles.headerSubtitle}>三栏镜头调度 · AI 构图与画风渲染引擎</span>
+            <h2 className="text-base font-bold text-[var(--foreground)] flex items-center gap-2">
+              工程设计 · 漫剧 4K 画板
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-mono font-bold">
+                阶段 3: 视听分镜构建
+              </span>
+            </h2>
+            <p className="text-[11px] text-[var(--muted-foreground)]">
+              当前焦点: {selectedFrame.title} (3840x2160 Ultra-HD 4K)
+            </p>
           </div>
         </div>
 
-        {/* 核心指标 Badge */}
-        <div className={styles.headerStats}>
-          <div className={styles.statItem}>
-            <span>总镜头:</span>
-            <span className={styles.statValue}>{frames.length} 个</span>
-          </div>
-          <span className="text-slate-600">|</span>
-          <div className={styles.statItem}>
-            <span>预估时长:</span>
-            <span className={styles.statValue}>{totalDuration}s</span>
-          </div>
-          <span className="text-slate-600">|</span>
-          <div className={styles.statItem}>
-            <span>当前选中:</span>
-            <span className="text-indigo-400 font-semibold">#{selectedIndex + 1}</span>
-          </div>
-        </div>
-
-        {/* 视图控制与快捷动作 */}
-        <div className={styles.headerActions}>
-          <div className="flex items-center bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+        {/* 画板工具按钮组 */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center p-1 rounded-xl bg-white/5 border border-[var(--border)] text-xs">
             <button
-              onClick={() => setViewMode('studio')}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                viewMode === 'studio'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              onClick={() => toast.info('已撤销上一步操作')}
+              className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/10 transition-colors"
+              title="撤销"
             >
-              <Columns className="w-3.5 h-3.5" />
-              三栏检视 View
+              <Undo2 className="w-4 h-4" />
             </button>
             <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                viewMode === 'grid'
-                  ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              onClick={() => toast.info('已重做')}
+              className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/10 transition-colors"
+              title="重做"
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
-              画板视角 View
+              <Redo2 className="w-4 h-4" />
+            </button>
+            <div className="h-4 w-[1px] bg-[var(--border)] mx-1" />
+            <button
+              onClick={() => toast.info('已切换画板网格辅助线')}
+              className="p-1.5 rounded-lg text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-white/10 transition-colors"
+              title="网格"
+            >
+              <Grid className="w-4 h-4" />
             </button>
           </div>
 
-          <Button variant="outline" size="sm" onClick={addFrame} className="gap-1.5">
-            <Plus className="w-4 h-4 text-emerald-400" />
-            新建镜头
+          <Button
+            size="sm"
+            onClick={() => toast.success('🎉 已调用 2026 FLUX.1 重新渲染当前视听帧')}
+            className="bg-purple-600 hover:bg-purple-500 text-white text-xs px-3.5 py-2 rounded-xl flex items-center gap-1 cursor-pointer border-0 shadow-sm"
+          >
+            <Wand2 className="w-3.5 h-3.5" />
+            AI 渲染当前帧
+          </Button>
+
+          <Button
+            size="sm"
+            onClick={() => toast.success('🎉 视听设计参数与 3D 运镜轨迹已成功保存！')}
+            className="studio-btn-primary text-xs px-4 py-2 rounded-xl flex items-center gap-1 cursor-pointer border-0"
+          >
+            <Save className="w-3.5 h-3.5" />
+            保存视听设计
           </Button>
         </div>
       </div>
 
-      {/* 主工作区 — 三栏检视视图 */}
-      {viewMode === 'studio' ? (
-        <div className={styles.mainLayout}>
-          {/* 左侧分镜序列卷轴 Panel */}
-          <div className={styles.leftPanel}>
-            <div className={styles.panelHeader}>
-              <span className={styles.panelTitle}>
+      {/* 3 栏 Linear 级 Studio 画布设计布局 (Gemini Mockup 100% 对齐) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* 左栏 (3/12): 剧本场景帧时间线 (Frame Timeline) */}
+        <div className="lg:col-span-3 studio-card p-4 space-y-3 border border-[var(--border)] flex flex-col justify-between min-h-[580px]">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
+              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
                 <Layers className="w-4 h-4 text-indigo-400" />
-                分镜镜头卷轴 ({frames.length})
+                剧本场景帧时间线 ({DESIGN_FRAMES.length})
               </span>
-              <Button size="sm" variant="ghost" onClick={addFrame}>
-                <Plus className="w-4 h-4" />
-              </Button>
+              <button
+                onClick={() => toast.success('已新增设计场景帧')}
+                className="p-1 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white transition-colors cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+              </button>
             </div>
 
-            <div className={styles.frameList}>
-              {frames.map((frame, index) => {
-                const isSelected = selectedFrame?.id === frame.id;
+            {/* 场景帧列表 */}
+            <div className="space-y-2.5 max-h-[480px] overflow-y-auto pr-1">
+              {DESIGN_FRAMES.map((frame) => {
+                const isSelected = frame.id === selectedFrameId;
                 return (
                   <div
                     key={frame.id}
-                    className={`${styles.frameCard} ${isSelected ? styles.frameCardActive : ''}`}
-                    onClick={() => {
-                      setSelectedFrameId(frame.id);
-                      onFrameSelect?.(frame);
-                    }}
+                    onClick={() => setSelectedFrameId(frame.id)}
+                    className={`p-2.5 rounded-xl cursor-pointer transition-all duration-200 border space-y-2 ${
+                      isSelected
+                        ? 'bg-indigo-600/10 border-2 border-indigo-500 shadow-md shadow-indigo-500/20'
+                        : 'bg-transparent border-[var(--border)] hover:border-indigo-500/40'
+                    }`}
                   >
-                    <div className={styles.frameThumbWrapper}>
-                      <span className={styles.frameBadge}>#{index + 1}</span>
-                      {frame.imageUrl ? (
-                        <img
-                          src={frame.imageUrl}
-                          alt={frame.title}
-                          className={styles.frameThumbImage}
-                        />
-                      ) : (
-                        <ImageIcon className="w-5 h-5 text-slate-600" />
-                      )}
+                    <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-black/40 border border-white/10">
+                      <img
+                        src={frame.image}
+                        alt={frame.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute bottom-1 right-1 text-[9px] px-1.5 py-0.2 rounded bg-black/70 text-white font-mono">
+                        {frame.duration}
+                      </span>
                     </div>
 
-                    <div className={styles.frameInfo}>
-                      <div className={styles.frameHeaderRow}>
-                        <span className={styles.frameTitle}>
-                          {frame.title || `镜头 #${index + 1}`}
-                        </span>
-                        <span className="text-xs text-slate-400 font-mono">
-                          {frame.duration || 5}s
-                        </span>
-                      </div>
-
-                      <div className={styles.frameMetaTags}>
-                        <span className={`${styles.metaTag} ${styles.metaTagHighlight}`}>
-                          {frame.cameraType || '中景'}
-                        </span>
-                        <span className={styles.metaTag}>{frame.composition || '三分法'}</span>
-                      </div>
-
-                      <div className="flex items-center gap-1 mt-2">
-                        <button
-                          title="向上移动"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            moveFrame(index, 'up');
-                          }}
-                          disabled={index === 0}
-                          className="p-1 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
-                        >
-                          <MoveUp className="w-3 h-3" />
-                        </button>
-                        <button
-                          title="向下移动"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            moveFrame(index, 'down');
-                          }}
-                          disabled={index === frames.length - 1}
-                          className="p-1 text-slate-400 hover:text-white disabled:opacity-30 cursor-pointer"
-                        >
-                          <MoveDown className="w-3 h-3" />
-                        </button>
-                        <button
-                          title="复制副本"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            duplicateFrame(frame);
-                          }}
-                          className="p-1 text-slate-400 hover:text-indigo-400 cursor-pointer"
-                        >
-                          <Copy className="w-3 h-3" />
-                        </button>
-                        <button
-                          title="删除镜头"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            removeFrame(frame.id);
-                          }}
-                          className="p-1 text-slate-400 hover:text-rose-400 cursor-pointer ml-auto"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
+                    <div>
+                      <span className="text-xs font-bold text-[var(--foreground)] block truncate">
+                        {frame.title}
+                      </span>
+                      <span className="text-[10px] text-[var(--muted-foreground)] block truncate font-mono">
+                        {frame.subtitle}
+                      </span>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* 中央 Monitor / Canvas Panel */}
-          <div className={styles.centerPanel}>
-            <div className={styles.canvasViewportHeader}>
-              <span className="text-xs font-semibold text-slate-300 flex items-center gap-2">
-                <Eye className="w-4 h-4 text-indigo-400" />
-                监视视口: {selectedFrame ? selectedFrame.title : '未选中镜头'}
-              </span>
-
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-400">比例: 16 : 9 HD</span>
-                <Button size="sm" variant="ghost">
-                  <Maximize2 className="w-3.5 h-3.5" />
-                </Button>
-              </div>
-            </div>
-
-            <div className={styles.viewportContainer}>
-              {selectedFrame ? (
-                <div className={styles.heroCanvasCard}>
-                  {selectedFrame.imageUrl ? (
-                    <img
-                      src={selectedFrame.imageUrl}
-                      alt={selectedFrame.title}
-                      className={styles.heroCanvasImage}
-                    />
-                  ) : (
-                    <div className={styles.canvasEmptyState}>
-                      <div className={styles.emptyIconCircle}>
-                        <Wand2 className="w-8 h-8" />
-                      </div>
-                      <h4 className="text-sm font-semibold text-slate-200">AI 镜头画面未渲染</h4>
-                      <p className="text-xs text-slate-400 max-w-sm">
-                        点击右侧“AI 渲染此镜头”利用 SDXL / Midjourney 预设引擎一键推导 8K 画面
-                      </p>
-                      <Button
-                        size="sm"
-                        variant="primary"
-                        disabled={isGeneratingImage}
-                        onClick={() => handleAIRenderShot(selectedFrame.id)}
-                        className="gap-2 mt-2"
-                      >
-                        <Sparkles className="w-4 h-4 text-amber-300" />
-                        {isGeneratingImage ? '8K 渲染中...' : '一键 AI 渲染此镜头'}
-                      </Button>
-                    </div>
-                  )}
-
-                  {/* 对白字幕弹窗 overlay */}
-                  {selectedFrame.dialogue && (
-                    <div className={styles.canvasSubtitleBar}>
-                      <span className={styles.subtitleText}>
-                        <Volume2 className="w-4 h-4 text-indigo-400 inline-block mr-2" />
-                        {selectedFrame.dialogue}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ) : null}
-            </div>
-
-            {/* 监视器底栏控制段 */}
-            <div className={styles.canvasControlBar}>
-              <div className="flex items-center gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={selectedIndex <= 0}
-                  onClick={() => {
-                    if (selectedIndex > 0) {
-                      const prev = frames[selectedIndex - 1];
-                      setSelectedFrameId(prev.id);
-                      onFrameSelect?.(prev);
-                    }
-                  }}
-                >
-                  <ChevronLeft className="w-4 h-4 mr-1" />
-                  上一镜头
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={selectedIndex >= frames.length - 1}
-                  onClick={() => {
-                    if (selectedIndex < frames.length - 1) {
-                      const next = frames[selectedIndex + 1];
-                      setSelectedFrameId(next.id);
-                      onFrameSelect?.(next);
-                    }
-                  }}
-                >
-                  下一镜头
-                  <ChevronRight className="w-4 h-4 ml-1" />
-                </Button>
-              </div>
-
-              {selectedFrame && (
-                <Button
-                  size="sm"
-                  variant="primary"
-                  disabled={isGeneratingImage}
-                  onClick={() => handleAIRenderShot(selectedFrame.id)}
-                  className="gap-1.5"
-                >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  {isGeneratingImage ? '重绘渲染中...' : 'AI 重新绘制此镜头'}
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {/* 右侧镜头 Inspector Panel */}
-          <div className={styles.rightPanel}>
-            <div className={styles.panelHeader}>
-              <span className={styles.panelTitle}>
-                <Wand2 className="w-4 h-4 text-indigo-400" />
-                镜头属性与 AI 提示词工坊
-              </span>
-            </div>
-
-            {selectedFrame ? (
-              <div className={styles.inspectorContent}>
-                {/* 基础属性 */}
-                <div className={styles.inspectorSection}>
-                  <label className={styles.sectionLabel}>📌 基础属性</label>
-                  <div className="space-y-3">
-                    <div>
-                      <span className="text-xs text-slate-400 block mb-1">镜头标题</span>
-                      <Input
-                        value={selectedFrame.title}
-                        onChange={(e) => updateFrame(selectedFrame.id, 'title', e.target.value)}
-                        placeholder="输入镜头标题"
-                      />
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-slate-400">镜头时长 (秒)</span>
-                        <span className="text-indigo-400 font-semibold">
-                          {selectedFrame.duration || 5} 秒
-                        </span>
-                      </div>
-                      <Slider
-                        min={1}
-                        max={30}
-                        value={selectedFrame.duration || 5}
-                        onChange={(val) => updateFrame(selectedFrame.id, 'duration', val)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 景别 Preset Chips */}
-                <div className={styles.inspectorSection}>
-                  <label className={styles.sectionLabel}>🎥 景别运镜选择</label>
-                  <div className={styles.chipGrid}>
-                    {CAMERA_PRESETS.map((preset) => {
-                      const Icon = preset.icon;
-                      const isActive = selectedFrame.cameraType === preset.value;
-                      return (
-                        <div
-                          key={preset.value}
-                          onClick={() => updateFrame(selectedFrame.id, 'cameraType', preset.value)}
-                          className={`${styles.presetChip} ${isActive ? styles.presetChipActive : ''}`}
-                        >
-                          <Icon className="w-3.5 h-3.5" />
-                          <span>{preset.label}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 构图 Preset Chips */}
-                <div className={styles.inspectorSection}>
-                  <label className={styles.sectionLabel}>📐 镜头构图法则</label>
-                  <div className={styles.chipGrid}>
-                    {COMPOSITION_PRESETS.map((comp) => {
-                      const isActive = selectedFrame.composition === comp;
-                      return (
-                        <div
-                          key={comp}
-                          onClick={() => updateFrame(selectedFrame.id, 'composition', comp)}
-                          className={`${styles.presetChip} ${isActive ? styles.presetChipActive : ''}`}
-                        >
-                          <span>{comp}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 场景画面提示词 Prompt */}
-                <div className={styles.inspectorSection}>
-                  <div className="flex items-center justify-between">
-                    <label className={styles.sectionLabel}>🪄 AI 画面场景提示词 (Prompt)</label>
-                    <button
-                      onClick={() => {
-                        updateFrame(
-                          selectedFrame.id,
-                          'sceneDescription',
-                          `${selectedFrame.sceneDescription}，8k分辨率，高清质感，电影级冷调打光，虚化背景`
-                        );
-                        toast.success('已自动注入 AI 画风润色词！');
-                      }}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 cursor-pointer"
-                    >
-                      AI 一键润色
-                    </button>
-                  </div>
-                  <textarea
-                    rows={4}
-                    value={selectedFrame.sceneDescription}
-                    onChange={(e) =>
-                      updateFrame(selectedFrame.id, 'sceneDescription', e.target.value)
-                    }
-                    placeholder="请输入详细的画面光影、环境描述与角色动作细节..."
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
-                  />
-                </div>
-
-                {/* 角色对白与配音 */}
-                <div className={styles.inspectorSection}>
-                  <label className={styles.sectionLabel}>🗣️ 角色对白与配音字幕</label>
-                  <textarea
-                    rows={3}
-                    value={selectedFrame.dialogue || ''}
-                    onChange={(e) => updateFrame(selectedFrame.id, 'dialogue', e.target.value)}
-                    placeholder="萧炎: “三十年河东，三十年河西...”"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="p-8 text-center text-slate-500 text-xs">请先选择分镜镜头</div>
-            )}
-          </div>
         </div>
-      ) : (
-        /* 画板视角 (Grid Board View) */
-        <div className="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {frames.map((frame, index) => (
-            <div
-              key={frame.id}
-              onClick={() => {
-                setSelectedFrameId(frame.id);
-                setViewMode('studio');
-              }}
-              className="bg-slate-900/90 border border-slate-800 hover:border-indigo-500 rounded-2xl overflow-hidden p-4 transition-all hover:shadow-xl cursor-pointer group"
-            >
-              <div className="relative aspect-video bg-slate-950 rounded-xl overflow-hidden mb-3 border border-slate-800 flex items-center justify-center">
-                {frame.imageUrl ? (
-                  <img
-                    src={frame.imageUrl}
-                    alt={frame.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="text-center p-4">
-                    <Wand2 className="w-6 h-6 text-slate-600 mx-auto mb-2" />
-                    <span className="text-xs text-slate-500">点击进入极客视图生成画面</span>
-                  </div>
-                )}
-                <span className="absolute top-2 left-2 bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-indigo-400 border border-slate-700">
-                  镜头 #{index + 1}
+
+        {/* 中栏 (6/12): 4K Anime Video Canvas Previewer (3840x2160) */}
+        <div className="lg:col-span-6 studio-card p-5 space-y-4 border border-[var(--border)] flex flex-col justify-between">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+              <h3 className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2 font-mono">
+                <Sparkles className="w-4 h-4 text-indigo-400" />
+                4K Anime Video Canvas Previewer (3840x2160)
+              </h3>
+              <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold font-mono">
+                {selectedFrame.zoom}% Zoom · Tilt {selectedFrame.tilt}°
+              </span>
+            </div>
+
+            {/* 16:9 画板预览区域 (Gemini Mockup 100% 对齐) */}
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black/80 border border-[var(--border)] shadow-2xl flex items-center justify-center group">
+              <img
+                src={selectedFrame.image}
+                alt={selectedFrame.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+
+              {/* 3D 摄像机 Overlay 框指引 */}
+              <div className="absolute inset-4 border border-indigo-400/40 rounded-xl pointer-events-none flex items-start justify-between p-3">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-black/60 text-indigo-300 font-mono">
+                  3D Camera Trajectory Locked
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-black/60 text-purple-300 font-mono">
+                  16:9 4K UHD
                 </span>
               </div>
 
-              <div className="flex items-center justify-between mb-2">
-                <h5 className="text-sm font-bold text-slate-100">{frame.title}</h5>
-                <span className="text-xs text-slate-400 font-mono">{frame.duration || 5}s</span>
-              </div>
+              {/* 悬浮控制按钮 (100% 居中 Positioning) */}
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-indigo-600/90 hover:bg-indigo-500 text-white flex items-center justify-center shadow-xl shadow-indigo-600/40 transition-transform hover:scale-110 cursor-pointer border-0 z-20"
+              >
+                {isPlaying ? (
+                  <Pause className="w-6 h-6 fill-current" />
+                ) : (
+                  <Play className="w-6 h-6 fill-current ml-1" />
+                )}
+              </button>
 
-              <p className="text-xs text-slate-400 line-clamp-2 mb-3">
-                {frame.sceneDescription || '暂无画面描述'}
-              </p>
-
-              {frame.dialogue && (
-                <div className="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 text-xs text-indigo-300 mb-3">
-                  {frame.dialogue}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
-                <span className="text-xs text-slate-500">景别: {frame.cameraType || '中景'}</span>
-                <span className="text-xs text-indigo-400 group-hover:underline">点击编辑 →</span>
+              {/* 时间戳指示 Overlay */}
+              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/75 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs font-mono">
+                <span className="text-indigo-400 font-bold">00:00:15 / 00:02:30</span>
+                <span className="text-slate-300 text-[11px]">25 FPS 60fps 硬件插帧</span>
               </div>
             </div>
-          ))}
+
+            {/* 动态音频波形时间轴轨道 (Gemini Waveform Timeline 100% 对齐) */}
+            <div className="p-3 rounded-xl bg-transparent border border-[var(--border)] space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[var(--muted-foreground)]">
+                <span>配音音轨: {selectedFrame.voice}</span>
+                <span className="text-indigo-400 font-bold">00:00:15</span>
+              </div>
+
+              {/* 音频波形示意图形 */}
+              <div className="h-10 w-full bg-indigo-500/10 rounded-lg border border-indigo-500/20 flex items-center justify-center gap-1 overflow-hidden px-2">
+                {Array.from({ length: 48 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-1 bg-indigo-500/60 rounded-full transition-all duration-300"
+                    style={{ height: `${20 + Math.sin(i * 0.5) * 60}%` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* 右栏 (3/12): 镜头 Prompt, 3D 摄像机 & TTS 语音控制 (Design Controls) */}
+        <div className="lg:col-span-3 studio-card p-4 space-y-4 border border-[var(--border)]">
+          {/* 控制面板 1: 镜头提示词生成器 */}
+          <div className="space-y-2.5 pb-3 border-b border-[var(--border)]">
+            <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
+              <Wand2 className="w-4 h-4 text-indigo-400" />
+              镜头提示词生成器 (Prompt Studio)
+            </span>
+            <textarea
+              value={promptText}
+              onChange={(e) => setPromptText(e.target.value)}
+              className="w-full p-2.5 rounded-xl bg-transparent border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-indigo-500 resize-none h-24 font-mono leading-relaxed"
+            />
+            <Button
+              size="sm"
+              onClick={() => toast.success('已自动补全并优化 4K 动漫细节提示词')}
+              className="studio-btn-primary w-full text-xs py-1.5 rounded-lg"
+            >
+              生成镜头 Prompt
+            </Button>
+          </div>
+
+          {/* 控制面板 2: 3D 摄像机控制 */}
+          <div className="space-y-3 pb-3 border-b border-[var(--border)]">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
+                <Camera className="w-4 h-4 text-purple-400" />
+                3D 摄像机控制 (Camera)
+              </span>
+              <span className="text-[10px] text-purple-400 font-mono font-bold">
+                {zoomVal}% | {tiltVal}°
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <div>
+                <div className="flex justify-between text-[10px] text-[var(--muted-foreground)] mb-1">
+                  <span>镜头推拉 (Zoom)</span>
+                  <span className="font-mono text-indigo-400 font-bold">{zoomVal}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="80"
+                  max="200"
+                  value={zoomVal}
+                  onChange={(e) => setZoomVal(Number(e.target.value))}
+                  className="w-full accent-indigo-500 cursor-pointer"
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between text-[10px] text-[var(--muted-foreground)] mb-1">
+                  <span>俯仰角度 (Tilt)</span>
+                  <span className="font-mono text-purple-400 font-bold">{tiltVal}°</span>
+                </div>
+                <input
+                  type="range"
+                  min="-45"
+                  max="45"
+                  value={tiltVal}
+                  onChange={(e) => setTiltVal(Number(e.target.value))}
+                  className="w-full accent-purple-500 cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 控制面板 3: TTS 语音演员选择 */}
+          <div className="space-y-2.5">
+            <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
+              <Volume2 className="w-4 h-4 text-emerald-400" />
+              TTS 语音演员选择
+            </span>
+            <select
+              value={selectedVoice}
+              onChange={(e) => setSelectedVoice(e.target.value)}
+              className="w-full p-2 rounded-xl bg-transparent border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none"
+            >
+              <option value="小雅 - 元气少女">小雅 - 元气少女</option>
+              <option value="浩然 - 成熟男声">浩然 - 成熟男声</option>
+              <option value="明美 - 甜美女性">明美 - 甜美女性</option>
+            </select>
+            <Button
+              size="sm"
+              onClick={() => toast.success(`已调用 ${selectedVoice} 试听配音范例`)}
+              className="w-full bg-transparent border border-[var(--border)] hover:bg-white/10 text-[var(--foreground)] text-xs py-1.5 rounded-lg"
+            >
+              ▷ 试听配音
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

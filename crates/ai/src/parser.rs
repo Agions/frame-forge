@@ -1,4 +1,4 @@
-use mangav_core::models::{CharacterAsset, CharacterGender, EpisodeModel, SceneModel, ShotModel};
+use novella_core::models::{CharacterAsset, CharacterGender, EpisodeModel, SceneModel, ShotModel};
 use serde::{Deserialize, Serialize};
 use crate::ArtStylePreset;
 

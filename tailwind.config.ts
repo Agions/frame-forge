@@ -1,8 +1,8 @@
 
 /**
- * story-weaver Tailwind Config
+ * novella Tailwind Config
  *
- * Migrated from CJS module.exports to ESM in Phase 1 of story-weaver refactor.
+ * Migrated from CJS module.exports to ESM in Phase 1 of novella refactor.
  * Tailwind v4 (via @tailwindcss/vite plugin) handles base/components/utilities
  * automatically; this config only defines design tokens that extend the theme.
  */
