@@ -238,25 +238,25 @@ export const WorkflowPage: React.FC = () => {
   const selectedScene = scenes.find((s) => s.id === selectedSceneId) || scenes[0];
 
   return (
-    <div className="space-y-4 font-sans text-slate-100 bg-[#090A0F] min-h-[calc(100vh-5rem)] p-2 rounded-2xl border border-[#1E202B]">
-      {/* V2 Sleek Dark Studio Top Navigation Bar */}
-      <div className="flex items-center justify-between gap-4 px-4 py-3 bg-[#12131A] rounded-xl border border-[#1E202B] overflow-x-auto min-w-0">
+    <div className="space-y-4 font-sans text-[var(--foreground)] bg-[var(--background)] min-h-[calc(100vh-5rem)] p-2 rounded-2xl border border-[var(--border)]">
+      {/* V2 Sleek Theme-Adaptive Studio Top Navigation Bar */}
+      <div className="flex items-center justify-between gap-4 px-4 py-3 bg-[var(--card)] rounded-xl border border-[var(--border)] overflow-x-auto min-w-0">
         <div className="flex items-center gap-3 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
             <Film className="w-4 h-4" />
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <h2 className="text-sm font-semibold tracking-tight text-white whitespace-nowrap">
+            <h2 className="text-sm font-semibold tracking-tight text-[var(--foreground)] whitespace-nowrap">
               Novella AI 漫剧创作工作台
             </h2>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium whitespace-nowrap shrink-0">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium whitespace-nowrap shrink-0">
               7 大步骤专业 SOP 车间
             </span>
           </div>
         </div>
 
         {/* 7-Step SOP Progress Bar (Linear Style) */}
-        <div className="flex items-center gap-1 bg-[#0D0E14] px-3 py-1.5 rounded-lg border border-[#1E202B] text-xs shrink-0 overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1 bg-[var(--accent)] px-3 py-1.5 rounded-lg border border-[var(--border)] text-xs shrink-0 overflow-x-auto max-w-full">
           {WORKFLOW_STEPS.map((step, idx) => {
             const isActive = activeStep === step.id;
             const isFinal = activeStep > step.id;
