@@ -100,9 +100,13 @@ class ReviewExportService {
     lines.push('');
     lines.push('## 成本摘要');
     lines.push('');
-    lines.push(`- 总成本: $${input.costStats.total.toFixed(4)}`);
+    const totalCost = (input.costStats?.total ?? 0).toFixed(4);
+    const todayCost = (input.costStats?.today ?? 0).toFixed(4);
+    const thisWeekCost = (input.costStats?.thisWeek ?? 0).toFixed(4);
+    const thisMonthCost = (input.costStats?.thisMonth ?? 0).toFixed(4);
+    lines.push(`- 总成本: $${totalCost}`);
     lines.push(
-      `- 今日: $${input.costStats.today.toFixed(4)} | 本周: $${input.costStats.thisWeek.toFixed(4)} | 本月: $${input.costStats.thisMonth.toFixed(4)}`
+      `- 今日: $${todayCost} | 本周: $${thisWeekCost} | 本月: $${thisMonthCost}`
     );
     lines.push('');
     lines.push('## 成本记录（最近30条）');
