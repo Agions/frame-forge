@@ -371,7 +371,15 @@ class TauriService {
    * 检查运行时依赖（WebView2 / FFmpeg）
    */
   async checkRuntimeDependencies(): Promise<Record<string, unknown>> {
-    return invoke('check_runtime_dependencies');
+    try {
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window || '__TAURI__' in window)) {
+        return { webview2_installed: true, is_tauri: false };
+      }
+      return await invoke('check_runtime_dependencies');
+    } catch (error) {
+      logger.warn('检查 Runtime 依赖失败/非 Tauri 环境:', error);
+      return { webview2_installed: true, is_tauri: false };
+    }
   }
 
   /**
@@ -439,13 +447,16 @@ class TauriService {
    */
   async checkFFmpeg(): Promise<{ installed: boolean; version?: string }> {
     try {
+      if (typeof window === 'undefined' || !('__TAURI_INTERNALS__' in window || '__TAURI__' in window)) {
+        return { installed: true, version: 'Web/WASM Mode' };
+      }
       const result = await invoke<Record<string, unknown>>('check_ffmpeg');
       return {
         installed: Boolean(result.installed),
         version: result.version as string | undefined,
       };
     } catch (error) {
-      logger.error('检查 FFmpeg 失败:', error);
+      logger.warn('检查 FFmpeg 失败/非 Tauri 环境:', error);
       return { installed: false };
     }
   }

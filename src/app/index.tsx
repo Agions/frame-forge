@@ -126,6 +126,12 @@ const App = () => {
   useEffect(() => {
     let isMounted = true;
 
+    // 清理原生 HTML Splash 元素
+    const splashEl = document.querySelector('.app-splash-container');
+    if (splashEl && splashEl.parentNode) {
+      splashEl.parentNode.removeChild(splashEl);
+    }
+
     const checkDependencies = async () => {
       try {
         logger.info('应用初始化...');
