@@ -93,50 +93,19 @@ export const WorkflowPage: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'sop' | 'modular'>('modular');
 
-  // 小说文本状态
+  // 小说文本状态（默认全空白）
   const [novelText, setNovelText] = useState<string>(() => {
-    return (
-      (location.state as any)?.sampleContent ||
-      `【第一章：数字元神觉醒】
-
-夜色笼罩着深霄市的钛合金高楼，霓虹雨打在林修的金属手臂上，迸发出刺目的火花。
-林修：“天道服务器的防护墙，也不过如此。”
-他闭上双眼，脑机接口瞬间过载，一道金色的数字元神化作飞剑，径直刺入黑神轨财阀的核心数据中枢！
-
-苏瑶在后方联络道：“林修，敌方的黑客舰队正在包围你的接入点，只有30秒倒计时！”
-林修嘴角扬起微弧：“足够了。”`
-    );
+    return (location.state as any)?.sampleContent || '';
   });
 
-  // 解析后的分镜列表状态 (真实计算与存储)
-  const [scenes, setScenes] = useState<ParsedScene[]>([
-    {
-      id: 'sc-1',
-      title: '第 1 集 场景 1: 初次遭遇战',
-      location: '深霄市钛合金高楼 Roof',
-      summary: '霓虹雨打在林修的金属手臂上，迸发出刺目火花',
-      prompt: 'Cyberpunk anime scene, male protagonist Lin Xiu with metal arm, neon rain background, 4K highly detailed',
-      cameraMotion: '推镜头 (Zoom In)',
-      zoom: 125,
-      tilt: 10,
-    },
-    {
-      id: 'sc-2',
-      title: '第 1 集 场景 2: 脑机过载与数字元神',
-      location: '数据中枢虚拟空间',
-      summary: '林修脑机接口过载，金色数字元神化作飞剑刺向数据中枢',
-      prompt: 'Golden digital sword piercing futuristic dark server core, glowing cyan lines, cinematic anime style',
-      cameraMotion: '俯仰特写 (Tilt Up)',
-      zoom: 150,
-      tilt: -20,
-    },
-  ]);
+  // 解析后的分镜列表状态（默认全空白）
+  const [scenes, setScenes] = useState<ParsedScene[]>([]);
 
-  // 角色 Anchor 锚点列表
-  const [characters, setCharacters] = useState<CharacterAnchor[]>(INITIAL_CHARACTERS);
+  // 角色 Anchor 锚点列表（默认全空白）
+  const [characters, setCharacters] = useState<CharacterAnchor[]>([]);
 
   // 选中的分镜
-  const [selectedSceneId, setSelectedSceneId] = useState('sc-1');
+  const [selectedSceneId, setSelectedSceneId] = useState<string>('');
   const [selectedVoice, setSelectedVoice] = useState('ElevenLabs Multilingual - 热血少男');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
@@ -153,6 +122,10 @@ export const WorkflowPage: React.FC = () => {
 
   // 真实文本解析算法 (Real Novel Text Parsing Algorithm)
   const handleRealNovelParse = async () => {
+    if (!novelText.trim()) {
+      toast.error('⚠️ 请先在文本框中输入或粘贴小说内容，再点击启动 AI 智能拆解。');
+      return;
+    }
     if (!checkModelConfigGate()) return;
 
     setIsProcessing(true);
@@ -223,6 +196,14 @@ export const WorkflowPage: React.FC = () => {
 
   // 保存当前流程并进入编辑器
   const handleSaveAndEdit = () => {
+    if (!novelText.trim()) {
+      toast.error('⚠️ 当前项目尚未输入小说文本内容，无法进入编辑器。');
+      return;
+    }
+    if (scenes.length === 0) {
+      toast.error('⚠️ 尚未生成任何视听分镜！请先点击【开始 AI 智能拆解】。');
+      return;
+    }
     if (!checkModelConfigGate()) return;
     let targetProject = currentProject;
 
