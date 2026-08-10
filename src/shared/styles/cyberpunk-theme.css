@@ -1,17 +1,17 @@
 /* Novella v0.0.1 Studio - Cyberpunk Dark Design System Tokens */
 
 :root {
-  --novella-bg-dark: #050810;
-  --novella-bg-card: rgba(13, 19, 36, 0.75);
-  --novella-bg-card-hover: rgba(20, 30, 55, 0.85);
-  --novella-cyan: #00f5d4;
-  --novella-cyan-glow: rgba(0, 245, 212, 0.35);
-  --novella-purple: #a855f7;
-  --novella-purple-glow: rgba(168, 85, 247, 0.35);
+  --novella-bg-dark: #0b0d14;
+  --novella-bg-card: rgba(18, 21, 34, 0.78);
+  --novella-bg-card-hover: rgba(28, 32, 52, 0.88);
+  --novella-purple: #7c3aed;
+  --novella-purple-glow: rgba(124, 58, 237, 0.45);
+  --novella-cyan: #06b6d4;
+  --novella-cyan-glow: rgba(6, 182, 212, 0.45);
   --novella-pink: #ec4899;
-  --novella-amber: #fbbf24;
-  --novella-border: rgba(255, 255, 255, 0.08);
-  --novella-border-highlight: rgba(0, 245, 212, 0.3);
+  --novella-amber: #f59e0b;
+  --novella-border: rgba(124, 58, 237, 0.2);
+  --novella-border-highlight: rgba(6, 182, 212, 0.5);
 }
 
 /* Glassmorphic Container Utilities */
