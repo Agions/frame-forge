@@ -20,6 +20,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { toast } from '@/components/ui/toast';
+import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
+import { ModelConfigGuardModal } from '@/shared/components/model/ModelConfigGuardModal';
 import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { Button } from '@/shared/components/ui/button';
 import { useProjectStore } from '@/shared/stores/project-store';
@@ -137,9 +139,21 @@ export const WorkflowPage: React.FC = () => {
   const [selectedSceneId, setSelectedSceneId] = useState('sc-1');
   const [selectedVoice, setSelectedVoice] = useState('ElevenLabs Multilingual - 热血少男');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
+
+  // 校验模型配置门禁，未配置 Key 无法进入下一步或启动 AI 生成
+  const checkModelConfigGate = (): boolean => {
+    if (!hasAnyConfiguredModelProvider()) {
+      toast.error('⚠️ 未检测到有效 AI 模型 Key 配置！无法进入下一步或启动 AI 生成。');
+      setIsModelGuardOpen(true);
+      return false;
+    }
+    return true;
+  };
 
   // 真实文本解析算法 (Real Novel Text Parsing Algorithm)
   const handleRealNovelParse = () => {
+    if (!checkModelConfigGate()) return;
     setIsProcessing(true);
     toast.info('正在调用 2026 AI 大模型进行小说文本实体抽离与分镜拆解...');
 
@@ -203,6 +217,7 @@ export const WorkflowPage: React.FC = () => {
 
   // 保存当前流程并进入编辑器
   const handleSaveAndEdit = () => {
+    if (!checkModelConfigGate()) return;
     let targetProject = currentProject;
 
     if (!targetProject) {
@@ -607,6 +622,12 @@ export const WorkflowPage: React.FC = () => {
 
       {/* 新建工程 Modal */}
       <CreateProjectModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
+
+      {/* 模型未配置防坍塌校验门禁 Modal */}
+      <ModelConfigGuardModal
+        isOpen={isModelGuardOpen}
+        onClose={() => setIsModelGuardOpen(false)}
+      />
     </div>
   );
 };

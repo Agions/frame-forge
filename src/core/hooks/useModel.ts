@@ -5,6 +5,7 @@
 
 import { useState, useCallback, useMemo } from 'react';
 
+import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
 import {
   AI_MODELS,
   MODEL_PROVIDERS,
@@ -58,10 +59,10 @@ export function useModel(): UseModelReturn {
   // 获取当前选中的提供商
   const selectedProvider = selectedModel?.provider;
 
-  // 检查是否已配置
+  // 检查是否已配置有效 API Key
   const isConfigured = useMemo(() => {
-    return !!selectedModel;
-  }, [selectedModel]);
+    return hasAnyConfiguredModelProvider();
+  }, []);
 
   // 按提供商分组的模型
   const modelsByProvider = useMemo(() => {

@@ -1,5 +1,5 @@
 /**
- * AI 模型提供商配置（包含官方 API Key 快捷申请入口）
+ * AI 模型提供商配置（包含官方 API Key 快捷申请入口与校验门禁）
  */
 import type { ModelProvider } from '@/shared/types';
 
@@ -146,3 +146,40 @@ export const MODEL_PROVIDERS: Record<ModelProvider, ModelProviderInfo> = {
     description: 'Seedance 2.5 30秒连续视频控制引擎',
   },
 };
+
+/**
+ * 检查系统是否已配置至少一个有效的 AI 提供商 API Key（本地存储或环境变量）
+ */
+export function hasAnyConfiguredModelProvider(): boolean {
+  if (typeof window === 'undefined') return true;
+
+  const providers = Object.keys(MODEL_PROVIDERS) as ModelProvider[];
+
+  for (const p of providers) {
+    try {
+      const stored = localStorage.getItem(`ai_model_settings_${p}`);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (
+          parsed?.apiKey &&
+          typeof parsed.apiKey === 'string' &&
+          parsed.apiKey.trim().length > 3
+        ) {
+          return true;
+        }
+      }
+    } catch (e) {
+      // ignore JSON parse error
+    }
+
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      const envKeyName = `VITE_${p.toUpperCase()}_API_KEY`;
+      const envVal = import.meta.env[envKeyName as keyof ImportMetaEnv];
+      if (typeof envVal === 'string' && envVal.trim().length > 3) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
