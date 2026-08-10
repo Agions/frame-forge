@@ -182,6 +182,18 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
               <Settings className="w-3.5 h-3.5" />
               <span>系统偏好设置</span>
             </button>
+
+            <button
+              onClick={() => navigate('/docs')}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                activePath.includes('docs')
+                  ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-500/20'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)]'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span>使用文档</span>
+            </button>
           </div>
 
           {/* 右侧系统服务正常状态指示与主题切换 */}
@@ -230,11 +242,11 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
                     className="w-full flex items-center gap-2 px-3 py-2 text-xs rounded-lg hover:bg-[var(--accent)] text-[var(--foreground)] transition-colors cursor-pointer"
                     onClick={() => {
                       setIsHelpMenuOpen(false);
-                      setShowDocsModal(true);
+                      navigate('/docs');
                     }}
                   >
                     <BookOpen className="w-4 h-4 text-[var(--neon-cyan)]" />
-                    <span>📖 操作使用文档</span>
+                    <span>📖 完整使用文档中心</span>
                   </button>
                   <button
                     className="w-full flex items-center gap-2 px-3 py-2 text-xs rounded-lg hover:bg-[var(--accent)] text-[var(--foreground)] transition-colors cursor-pointer"

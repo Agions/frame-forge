@@ -6,10 +6,12 @@ const pageImporters = {
   projectEdit: () => import('@/pages/project-edit/ProjectEditPage'),
   projectDetail: () => import('@/pages/project-detail/ProjectDetailPage'),
   settings: () => import('@/pages/settings/SettingsPage'),
+  docs: () => import('@/pages/docs/DocsPage'),
 } as const;
 
 const routeImporterMap: Array<{ prefix: string; importer: Importer }> = [
   { prefix: '/workflow', importer: pageImporters.workflow },
+  { prefix: '/docs', importer: pageImporters.docs },
   { prefix: '/project/new', importer: pageImporters.projectEdit },
   { prefix: '/project/edit', importer: pageImporters.projectEdit },
   { prefix: '/project/', importer: pageImporters.projectDetail },

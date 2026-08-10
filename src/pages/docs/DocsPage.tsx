@@ -1,0 +1,591 @@
+/**
+ * Novella 桌面端内置使用文档与帮助中心 (Desktop Documentation Center)
+ * 采用黑曜石极客风 UI (#0b0d14 & #7c3aed & #06b6d4)
+ */
+
+import {
+  BookOpen,
+  Search,
+  Zap,
+  Layers,
+  Cpu,
+  Keyboard,
+  HelpCircle,
+  ChevronRight,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  Sparkles,
+  ShieldCheck,
+  Film,
+  Music,
+  UserCheck,
+  FileText,
+  Settings,
+} from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '@/shared/components/ui/button';
+import { Card } from '@/shared/components/ui/card';
+import { Input } from '@/shared/components/ui/input';
+
+interface DocArticle {
+  id: string;
+  title: string;
+  category: string;
+  categoryIcon: React.ElementType;
+  tags: string[];
+  summary: string;
+  content: React.ReactNode;
+}
+
+export const DocsPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [activeArticleId, setActiveArticleId] = useState<string>('getting-started');
+
+  // 完整桌面端内置文档数据
+  const docArticles: DocArticle[] = useMemo(
+    () => [
+      {
+        id: 'getting-started',
+        category: 'quickstart',
+        categoryIcon: Zap,
+        title: '🚀 快速入门与软件简介',
+        tags: ['入门', '简介', '系统配置'],
+        summary: '了解 Novella AI 漫剧视频生成器的核心架构、环境需求与零门槛快速上手步骤。',
+        content: (
+          <div className="space-y-6 text-slate-300">
+            <div className="p-4 rounded-xl bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border border-purple-500/30 backdrop-blur-md">
+              <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-cyan-400" />
+                欢迎使用 Novella (Novella AI)
+              </h3>
+              <p className="text-sm leading-relaxed text-slate-300">
+                Novella 是一款专为漫剧、动画短剧与小说视频化打造的{' '}
+                <strong className="text-cyan-300">全流程 AI Agent 创作桌面端软件</strong>。
+                支持从网文小说/短剧剧本导入、多 Agent 分镜规划、角色一致性锚定、多音轨 TTS 混音、到
+                4K 硬件加速渲染导出的一站式极速创作。
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-md font-semibold text-white border-l-4 border-[#7c3aed] pl-3">
+                硬件与环境最低要求
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <div className="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
+                  <span className="font-bold text-purple-400 block mb-1">macOS 环境</span>
+                  <p>• 操作系统：macOS 12.0 (Monterey) 或更高版本</p>
+                  <p>• 芯片推荐：Apple Silicon M1/M2/M3/M4 系列（支持 VideoToolbox 硬件压制）</p>
+                  <p>• 内存：8GB RAM 及以上</p>
+                </div>
+                <div className="p-3 bg-slate-900/80 rounded-lg border border-slate-800">
+                  <span className="font-bold text-cyan-400 block mb-1">Windows 环境</span>
+                  <p>• 操作系统：Windows 10 / 11 64-bit</p>
+                  <p>• 显卡推荐：NVIDIA GTX 1060 / RTX 2060+（支持 NVENC 硬编加速）</p>
+                  <p>• 运行时：WebView2 Runtime（系统自带或自动检测）</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="text-md font-semibold text-white border-l-4 border-[#06b6d4] pl-3">
+                三步极速开始第一部漫剧
+              </h4>
+              <ol className="list-decimal list-inside space-y-2 text-sm text-slate-300">
+                <li>
+                  点击顶部导航或首页的 <strong className="text-purple-400">“新建漫剧项目”</strong>{' '}
+                  按钮；
+                </li>
+                <li>
+                  粘贴小说文本或输入剧本灵感，选择所需的画风预设（如现代日漫、修仙玄幻、赛博朋克）；
+                </li>
+                <li>
+                  选择 <strong className="text-cyan-400">全自动一键生成</strong> 或{' '}
+                  <strong className="text-purple-400">分步审查模式</strong>，启动 AI Agent
+                  自动化流水线！
+                </li>
+              </ol>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'sop-workflow',
+        category: 'workflow',
+        categoryIcon: Layers,
+        title: '🎬 SOP 6 阶工作流完全指南',
+        tags: ['SOP', '流水线', '状态机'],
+        summary: '详解 Draft -> Parse -> Board -> Audio -> Build -> Final 6 大标准制作环节。',
+        content: (
+          <div className="space-y-6 text-slate-300">
+            <p className="text-sm leading-relaxed">
+              Novella 内部集成了符合工业级动画制片标准的 <strong>6 阶规范 SOP 状态机</strong>。
+              每个阶段具备独立的任务逻辑与质量打回机制：
+            </p>
+
+            <div className="space-y-4">
+              {[
+                {
+                  stage: '1. Draft (草稿导入)',
+                  badge: 'Draft',
+                  color: 'border-slate-700 bg-slate-900/60',
+                  icon: FileText,
+                  desc: '上传 txt / docx / md 格式小说全文，或输入核心灵感大纲。AI 智能分析章节字数与拆分逻辑。',
+                },
+                {
+                  stage: '2. Parse (剧本解析)',
+                  badge: 'Parse',
+                  color: 'border-blue-500/30 bg-blue-950/20',
+                  icon: Sparkles,
+                  desc: 'Script Analyst Agent 提取对白、旁白、角色情绪、出场人物，自动推导全场景景别与镜头脚本。',
+                },
+                {
+                  stage: '3. Board (分镜与角色)',
+                  badge: 'Board',
+                  color: 'border-purple-500/30 bg-purple-950/20',
+                  icon: UserCheck,
+                  desc: 'Storyboard Master 锁定角色三视图与 Anchor 锚点防飘移，生成高清动漫分镜图与 Trajectory 运镜动效。',
+                },
+                {
+                  stage: '4. Audio (音轨与 TTS)',
+                  badge: 'Audio',
+                  color: 'border-cyan-500/30 bg-cyan-950/20',
+                  icon: Music,
+                  desc: 'Audio Master 为各角色分配情感音色，生成 EdgeTTS / CosyVoice 配音，并在时间轴上毫秒级对齐 BGM 与音效轨。',
+                },
+                {
+                  stage: '5. Build (硬件渲染)',
+                  badge: 'Build',
+                  color: 'border-amber-500/30 bg-amber-950/20',
+                  icon: Film,
+                  desc: 'Compositor 调度 Apple VideoToolbox / NVENC GPU 硬件压制，合成 60fps 高清视频片段与 2.5D 视差转场。',
+                },
+                {
+                  stage: '6. Final (完工导出)',
+                  badge: 'Final',
+                  color: 'border-emerald-500/30 bg-emerald-950/20',
+                  icon: CheckCircle2,
+                  desc: '经过编剧、分镜、导演四视角 Quality Gate 审查后，一键打满打包导出 4K MP4 视频与多格式字幕包。',
+                },
+              ].map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`p-4 rounded-xl border ${item.color} flex items-start gap-4 transition-all hover:scale-[1.01]`}
+                  >
+                    <div className="p-2.5 rounded-lg bg-slate-800 border border-slate-700 text-purple-400 mt-0.5">
+                      <IconComponent className="w-5 h-5 text-cyan-400" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <h5 className="font-bold text-white text-sm">{item.stage}</h5>
+                        <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                          {item.badge}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'agent-modes',
+        category: 'modes',
+        categoryIcon: Cpu,
+        title: '🤖 Agent 渐进式双模式指南',
+        tags: ['Agent', '全自动', '分步审查'],
+        summary: '全自动极速一键生成 vs 导演审查精细打磨模式的区别与最佳实践。',
+        content: (
+          <div className="space-y-6 text-slate-300">
+            <p className="text-sm leading-relaxed">
+              Novella 支持两种灵活的创作模式，满足从极速批量出片到精细艺术创作的不同需求：
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <Zap className="w-5 h-5 text-purple-400" />
+                  <h4 className="font-bold text-white text-sm">全自动一键极速模式</h4>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    适合：短剧批量试水、长篇小说自动剪辑
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    特点：用户只需上传文本，AI 全流程挂机自动推演
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    耗时：标准 1000 字片段约 2-3 分钟全量出片
+                  </li>
+                </ul>
+              </div>
+
+              <div className="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <UserCheck className="w-5 h-5 text-cyan-400" />
+                  <h4 className="font-bold text-white text-sm">导演分步审查模式</h4>
+                </div>
+                <ul className="space-y-2 text-xs text-slate-300">
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                    适合：高品质精品漫剧、长篇 IP 创作
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                    特点：每个 SOP 阶段暂停，允许人工微调 Prompt 与音轨
+                  </li>
+                  <li className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                    保障：具备审核员打回重新生成机制
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'keyboard-shortcuts',
+        category: 'shortcuts',
+        categoryIcon: Keyboard,
+        title: '⌨️ 桌面端快捷键大全',
+        tags: ['快捷键', '效率', '提速'],
+        summary: '掌握全局与视频编辑工作台快捷键，提升 300% 创作效率。',
+        content: (
+          <div className="space-y-6 text-slate-300">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-800 text-purple-300 font-bold bg-slate-900/60">
+                    <th className="py-2.5 px-4">操作功能</th>
+                    <th className="py-2.5 px-4">macOS 快捷键</th>
+                    <th className="py-2.5 px-4">Windows / Linux 快捷键</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">新建漫剧项目</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">⌘ + N</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Ctrl + N</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">保存当前项目</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">⌘ + S</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Ctrl + S</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">打开设置中心</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">⌘ + ,</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Ctrl + ,</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">打开帮助/使用文档</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">⌘ + H / F1</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Ctrl + H / F1</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">时间轴播放 / 暂停</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Space (空格键)</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">Space (空格键)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2.5 px-4 font-medium">时间轴逐帧微调</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">← / → 方向键</td>
+                    <td className="py-2.5 px-4 font-mono text-cyan-400">← / → 方向键</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'faq-troubleshooting',
+        category: 'faq',
+        categoryIcon: HelpCircle,
+        title: '❓ 常见问题与故障排查',
+        tags: ['FAQ', 'FFmpeg', '硬件压制', '报错'],
+        summary: '解决 FFmpeg 安装检测、硬件编解码与 API 网络连接常见问题。',
+        content: (
+          <div className="space-y-6 text-slate-300">
+            <div className="space-y-4">
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                <h5 className="font-bold text-white text-sm mb-2 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-400" />
+                  1. 未检测到 FFmpeg 运行时该怎么办？
+                </h5>
+                <p className="text-xs text-slate-400 leading-relaxed mb-3">
+                  Novella 内置了自动自适应环境防护机制。即使您的系统未手动配置全局
+                  FFmpeg，应用也会自动回退使用内置 WASM/Web-Audio 模块，保障软件不会崩溃停滞。
+                </p>
+                <div className="p-2.5 bg-slate-950 rounded-lg border border-slate-800 text-[11px] font-mono text-cyan-300">
+                  推荐安装方式 (macOS): brew install ffmpeg
+                  <br />
+                  推荐安装方式 (Windows): winget install Gyan.FFmpeg
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                <h5 className="font-bold text-white text-sm mb-2 flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-cyan-400" />
+                  2. 如何开启 GPU 硬件加速压制？
+                </h5>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  系统启动时会自动扫描 Mac VideoToolbox 及 Windows NVIDIA NVENC / Intel QSV
+                  支持。 您可以在 <strong className="text-purple-400">“系统设置”</strong>{' '}
+                  页面中将编码器切换为 <code className="text-cyan-300">h264_videotoolbox</code> 或{' '}
+                  <code className="text-cyan-300">h264_nvenc</code> 开启 4K 秒级渲染。
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800">
+                <h5 className="font-bold text-white text-sm mb-2 flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  3. 如何保障角色不“变脸”？
+                </h5>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  在 <strong className="text-purple-400">“角色与画幅资产”</strong>{' '}
+                  步骤中，上传角色正面、侧面三视图，并将 Prompt 标签设置为包含{' '}
+                  <code className="text-emerald-300">@Character_Anchor</code>{' '}
+                  核心特征码，AI 生成分镜时将自动注入一致性矩阵。
+                </p>
+              </div>
+            </div>
+          </div>
+        ),
+      },
+    ],
+    []
+  );
+
+  // 过滤文章
+  const filteredArticles = useMemo(() => {
+    return docArticles.filter((art) => {
+      const matchSearch =
+        searchQuery.trim() === '' ||
+        art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        art.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        art.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      const matchCategory = activeCategory === 'all' || art.category === activeCategory;
+      return matchSearch && matchCategory;
+    });
+  }, [docArticles, searchQuery, activeCategory]);
+
+  const currentArticle = useMemo(() => {
+    return (
+      docArticles.find((art) => art.id === activeArticleId) ||
+      filteredArticles[0] ||
+      docArticles[0]
+    );
+  }, [docArticles, activeArticleId, filteredArticles]);
+
+  return (
+    <div className="min-h-screen bg-[#0b0d14] text-slate-100 p-6 flex flex-col gap-6">
+      {/* 顶部 Banner Header */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#131726] via-[#1a1033] to-[#0f1d38] border border-purple-500/20 p-6 shadow-2xl">
+        <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute right-40 -top-10 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono">
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Novella Desktop Help & Documentation Center</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
+              Novella 桌面端使用文档与帮助中心
+            </h1>
+            <p className="text-xs md:text-sm text-slate-300 max-w-2xl">
+              探索从小说剧本导入、多 Agent 拆解、角色一致性锚定到 4K
+              硬件渲染压制的全流程指南与快捷键技巧。
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => navigate('/workflow')}
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-purple-900/30 cursor-pointer"
+            >
+              <Zap className="w-4 h-4 text-cyan-300" />
+              启动创作向导
+            </Button>
+            <Button
+              onClick={() => navigate('/settings')}
+              variant="outline"
+              className="border-slate-700 bg-slate-900/80 hover:bg-slate-800 text-slate-200 text-xs px-4 py-2 rounded-xl flex items-center gap-2 cursor-pointer"
+            >
+              <Settings className="w-4 h-4 text-purple-400" />
+              模型与硬件设置
+            </Button>
+          </div>
+        </div>
+
+        {/* 搜索框与分类 Pills */}
+        <div className="mt-6 pt-6 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="relative w-full md:w-96">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="搜索文档关键词、SOP 阶段、快捷键或 FAQ..."
+              className="pl-10 bg-slate-950/80 border-slate-800 text-xs rounded-xl focus:border-[#7c3aed] text-slate-200"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
+            {[
+              { id: 'all', label: '全部文档' },
+              { id: 'quickstart', label: '🚀 快速入门' },
+              { id: 'workflow', label: '🎬 6 阶 SOP' },
+              { id: 'modes', label: '🤖 Agent 模式' },
+              { id: 'shortcuts', label: '⌨️ 快捷键' },
+              { id: 'faq', label: '❓ FAQ 排错' },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all shrink-0 cursor-pointer ${
+                  activeCategory === cat.id
+                    ? 'bg-purple-600 text-white font-bold shadow-md shadow-purple-900/40'
+                    : 'bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 主体两栏布局 (文档列表 + 富文本视图) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+        {/* 左侧文档目录 Sidebar (4 列) */}
+        <div className="lg:col-span-4 space-y-3">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400 px-1 flex items-center justify-between">
+            <span>文档目录列表</span>
+            <span>{filteredArticles.length} 篇相关文章</span>
+          </h3>
+
+          <div className="space-y-2">
+            {filteredArticles.map((art) => {
+              const IconComp = art.categoryIcon;
+              const isActive = art.id === currentArticle?.id;
+              return (
+                <Card
+                  key={art.id}
+                  onClick={() => setActiveArticleId(art.id)}
+                  className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-gradient-to-r from-purple-950/40 to-slate-900 border-purple-500/50 shadow-lg shadow-purple-950/40'
+                      : 'bg-slate-900/50 hover:bg-slate-900/90 border-slate-800/80'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`p-2 rounded-lg mt-0.5 shrink-0 ${
+                        isActive
+                          ? 'bg-purple-600/30 text-cyan-300 border border-purple-500/40'
+                          : 'bg-slate-800 text-slate-400'
+                      }`}
+                    >
+                      <IconComp className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <h4
+                          className={`text-sm font-bold truncate ${
+                            isActive ? 'text-white' : 'text-slate-200'
+                          }`}
+                        >
+                          {art.title}
+                        </h4>
+                        <ChevronRight
+                          className={`w-4 h-4 shrink-0 transition-transform ${
+                            isActive ? 'text-cyan-400 translate-x-0.5' : 'text-slate-600'
+                          }`}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-2">
+                        {art.summary}
+                      </p>
+
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {art.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700/60"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 右侧文档主内容区域 (8 列) */}
+        <div className="lg:col-span-8">
+          <Card className="p-6 rounded-2xl bg-slate-900/80 border-slate-800/90 backdrop-blur-xl shadow-2xl min-h-[520px] flex flex-col justify-between">
+            <div>
+              {/* 文章标题 Header */}
+              <div className="border-b border-slate-800 pb-4 mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs font-mono text-cyan-400 px-2.5 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30">
+                    Novella Docs v0.0.1
+                  </span>
+                  <span className="text-xs text-slate-400">
+                    最后更新：2026-08
+                  </span>
+                </div>
+                <h2 className="text-xl md:text-2xl font-black text-white">
+                  {currentArticle.title}
+                </h2>
+              </div>
+
+              {/* 文章内容 */}
+              <div className="prose prose-invert max-w-none">
+                {currentArticle.content}
+              </div>
+            </div>
+
+            {/* 文章底部 Action Footer */}
+            <div className="mt-8 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                Novella AI 桌面官方使用指南
+              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => navigate('/workflow')}
+                  className="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-1 cursor-pointer"
+                >
+                  前往 AI 漫剧向导
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DocsPage;

@@ -23,6 +23,7 @@ const WorkflowPage = lazy(importers.workflow);
 const ProjectEditPage = lazy(importers.projectEdit);
 const ProjectDetailPage = lazy(importers.projectDetail);
 const SettingsPage = lazy(importers.settings);
+const DocsPage = lazy(importers.docs);
 
 // 加载时的占位组件
 const PageLoader = () => (
@@ -116,6 +117,11 @@ const router = createBrowserRouter([
   {
     path: '/settings',
     element: <AppRoute page={SettingsPage} />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: '/docs',
+    element: <AppRoute page={DocsPage} />,
     errorElement: <RouteErrorBoundary />,
   },
   { path: '*', element: <Navigate to="/" replace /> },
