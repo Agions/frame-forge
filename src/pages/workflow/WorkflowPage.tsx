@@ -194,7 +194,7 @@ export const WorkflowPage: React.FC = () => {
     }
   }, [activeProjectId]);
 
-  // 保存当前流程并进入编辑器
+  // 保存当前流程并进入分镜编辑器 (无缝打通数据，无需重复上传剧本)
   const handleSaveAndEdit = () => {
     if (!novelText.trim()) {
       toast.error('⚠️ 当前项目尚未输入小说文本内容，无法进入编辑器。');
@@ -207,32 +207,30 @@ export const WorkflowPage: React.FC = () => {
     if (!checkModelConfigGate()) return;
     let targetProject = currentProject;
 
+    const projectPayload = {
+      name: (location.state as any)?.sampleTitle || '漫剧工程 · 最新 SOP',
+      description: novelText.slice(0, 60),
+      status: 'processing',
+      stage: 'In_Progress',
+      content: novelText,
+      novelText,
+      script: novelText,
+      parsedScenes: scenes,
+      storyboardFrames: scenes,
+      characters,
+      sopStep: activeStep,
+      updatedAt: new Date().toISOString(),
+    };
+
     if (!targetProject) {
-      targetProject = store.createProject({
-        name: (location.state as any)?.sampleTitle || '漫剧工程 · 最新 SOP',
-        description: novelText.slice(0, 60),
-        status: 'processing',
-        stage: 'In_Progress',
-        novelText,
-        parsedScenes: scenes,
-        characters,
-        sopStep: activeStep,
-      } as any);
+      targetProject = store.createProject(projectPayload as any);
     } else {
-      store.updateProject(targetProject.id, {
-        novelText,
-        parsedScenes: scenes,
-        characters: characters as any,
-        sopStep: activeStep,
-        status: 'processing',
-        stage: 'In_Progress',
-        updatedAt: new Date().toISOString(),
-      });
+      store.updateProject(targetProject.id, projectPayload as any);
     }
 
     store.setCurrentProject(targetProject);
-    toast.success('🎉 已实时同步 SOP 流程数据，准备进入分镜拆解编辑器...');
-    navigate(`/project/edit/${targetProject.id}`);
+    toast.success('🎉 已无缝打通文本与分镜数据，直接进入【4. 分镜编辑】！');
+    navigate(`/project/edit/${targetProject.id}?step=3`);
   };
 
   const selectedScene = scenes.find((s) => s.id === selectedSceneId) || scenes[0];
@@ -504,8 +502,8 @@ export const WorkflowPage: React.FC = () => {
             </div>
             <Button
               size="sm"
-              onClick={() => navigate('/project/edit/demo')}
-              className="w-full bg-transparent border border-[var(--border)] hover:bg-white/10 text-[var(--foreground)] text-xs py-2 rounded-lg"
+              onClick={handleSaveAndEdit}
+              className="w-full bg-transparent border border-[var(--border)] hover:bg-white/10 text-[var(--foreground)] text-xs py-2 rounded-lg cursor-pointer"
             >
               打开漫剧分镜编辑
             </Button>

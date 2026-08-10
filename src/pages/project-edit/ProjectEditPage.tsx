@@ -140,18 +140,21 @@ const ProjectEdit = () => {
 };
 
 export const ProjectEditPage = () => {
+  const { projectId } = useParams();
+  const { data: loaderData } = useProjectLoader(projectId);
+
   const projectMetadata = useMemo(
     () => ({
-      name: 'Novella AI 漫剧工程',
-      description: '',
-      exportPreset: '16:9' as const,
-      exportSettings: {},
+      name: loaderData?.name || 'Novella AI 漫剧工程',
+      description: loaderData?.description || '',
+      exportPreset: loaderData?.exportPreset || ('16:9' as const),
+      exportSettings: loaderData?.exportSettings || {},
     }),
-    []
+    [loaderData]
   );
 
   return (
-    <ProjectEditProvider projectMetadata={projectMetadata}>
+    <ProjectEditProvider projectMetadata={projectMetadata} initialData={loaderData}>
       <ProjectEdit />
     </ProjectEditProvider>
   );

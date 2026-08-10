@@ -6,7 +6,7 @@
  * and exposes the context value.
  */
 
-import { createContext, useContext, useMemo, useState, useTransition } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, useTransition } from 'react';
 
 import type { AudioTrackConfig } from '@/core/audio/types/audio';
 import type { CompositionProject } from '@/core/audio/types/composition';
@@ -47,6 +47,7 @@ export interface ProviderProps {
     characters?: Character[];
     composition?: CompositionProject | null;
     script?: string;
+    initialStep?: number;
   } | null;
 }
 
@@ -94,6 +95,24 @@ export function ProjectEditProvider({
   const [composition, setComposition] = useState<CompositionProject | null>(
     initialData?.composition ?? initialProjectEditState.composition
   );
+
+  // 动态同步异步加载的项目数据与指定初始步骤 (Step 0 -> Step 3)
+  useEffect(() => {
+    if (initialData) {
+      if (initialData.content) {
+        setContent(initialData.content);
+      }
+      if (initialData.storyAnalysis) {
+        setStoryAnalysis(initialData.storyAnalysis);
+      }
+      if (initialData.characters && initialData.characters.length > 0) {
+        setCharacters(initialData.characters);
+      }
+      if (typeof initialData.initialStep === 'number') {
+        setCurrentStep(initialData.initialStep);
+      }
+    }
+  }, [initialData, setCurrentStep]);
 
   // ─── Actions (extracted) ─────────────────────────────────────────────────
   const actions = useProjectEditActions({
