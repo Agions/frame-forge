@@ -1,59 +1,56 @@
 /**
  * Step 2: AI 角色与故事结构分析 (StepAnalysis)
- * Cyber Midnight 高高感角色卡片提炼与故事脉络生成
+ * 真实的 AI 角色与剧情三幕式提炼，无硬编码 Mock 假数据
  */
 
 import { User, Sparkles, Wand2, ArrowRight, ArrowLeft, Layers } from 'lucide-react';
 import React, { useState } from 'react';
 
+import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
 import { useProject } from '@/core/hooks/useProject';
+import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Card } from '@/shared/components/ui/card';
+import { toast } from '@/shared/components/ui/toast';
 
 import { useStepAnalysisContext } from '../context/selectors';
 
-const DEMO_CHARACTERS = [
-  {
-    id: 'c1',
-    name: '萧炎',
-    role: '男主角',
-    gender: '男',
-    tags: '热血少年, 黑色战袍, 坚毅眼神',
-    voice: '云希 (热血青年)',
-  },
-  {
-    id: 'c2',
-    name: '药老',
-    role: '导师',
-    gender: '男',
-    tags: '灵魂体, 白发老者, 仙风道骨',
-    voice: '云健 (沉稳老者)',
-  },
-  {
-    id: 'c3',
-    name: '纳兰嫣然',
-    role: '对手',
-    gender: '女',
-    tags: '宗门天骄, 青色长裙, 傲骨凛然',
-    voice: '晓晓 (高傲女声)',
-  },
-];
-
 function StepAnalysis() {
-  const { content, onAnalyze } = useStepAnalysisContext();
+  const { content, storyAnalysis, onAnalyze } = useStepAnalysisContext();
   const { setCurrentStep } = useProject();
   const [analyzing, setAnalyzing] = useState(false);
-  const [analyzed, setAnalyzed] = useState(true);
+  const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
 
-  const handleStartAnalysis = () => {
+  const handleStartAnalysis = async () => {
+    if (!content || content.trim().length === 0) {
+      toast.error('⚠️ 当前项目尚未导入任何小说/剧本文本，请先在步骤 1 中输入或导入素材。');
+      setCurrentStep(0);
+      return;
+    }
+
+    if (!hasAnyConfiguredModelProvider()) {
+      toast.error('⚠️ 未检测到有效 AI 模型 API Key！无法调用大模型进行实体提炼。');
+      setIsModelGuardOpen(true);
+      return;
+    }
+
     setAnalyzing(true);
-    setTimeout(() => {
+    try {
+      if (onAnalyze) {
+        await onAnalyze();
+        toast.success('🎉 真实 AI 剧本与角色提炼完成！');
+      }
+    } catch (err: any) {
+      toast.error(`❌ 提炼失败: ${err?.message || '请检查 AI Key 是否配置正确。'}`);
+      setIsModelGuardOpen(true);
+    } finally {
       setAnalyzing(false);
-      setAnalyzed(true);
-      onAnalyze?.();
-    }, 1200);
+    }
   };
+
+  const displayCharacters = storyAnalysis?.characters || [];
+  const chapters = storyAnalysis?.chapters || [];
 
   return (
     <div className="space-y-6">
@@ -69,7 +66,7 @@ function StepAnalysis() {
                 Step 2: AI 角色与剧情结构提炼
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                基于深度 LLM 模型自动提取剧本中的主要人物、性格特征、性别音色与核心剧情节点
+                基于深度 LLM 大模型自动从导入的小说文本中抽离主要角色、性格特征、性别音色与视听镜头节点
               </p>
             </div>
           </div>
@@ -77,89 +74,104 @@ function StepAnalysis() {
             variant="primary"
             disabled={analyzing}
             onClick={handleStartAnalysis}
-            className="gap-2 shadow-lg shadow-indigo-500/20"
+            className="gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
           >
             <Wand2 className={`w-4 h-4 ${analyzing ? 'animate-spin' : ''}`} />
-            {analyzing ? '智能分析推演中...' : '重新智能提炼'}
+            {analyzing ? '智能分析推演中...' : '开始 AI 智能提炼'}
           </Button>
         </div>
 
         {/* 提炼的主要角色卡片列表 */}
-        {analyzed && (
+        {displayCharacters.length > 0 ? (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
                 <User className="w-4 h-4 text-indigo-400" />
-                提取到的核心角色 ({DEMO_CHARACTERS.length} 位)
+                提取到的核心角色 ({displayCharacters.length} 位)
               </span>
               <Badge variant="outline" className="text-[11px] border-indigo-500/40 text-indigo-300">
                 Master Consistency Protocol 准备就绪
               </Badge>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
-              {DEMO_CHARACTERS.map((char) => (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {displayCharacters.map((char, idx) => (
                 <div
-                  key={char.id}
+                  key={idx}
                   className="bg-slate-950 p-4 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition-all space-y-2"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-slate-100">{char.name}</span>
                     <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 text-[10px]">
-                      {char.role}
+                      {char.role || '主要角色'}
                     </Badge>
                   </div>
                   <p className="text-xs text-slate-400 line-clamp-2">
-                    <span className="text-slate-500">外貌特征: </span>
-                    {char.tags}
+                    <span className="text-slate-500">性格特征: </span>
+                    {char.traits ? char.traits.join(', ') : '二次元风格, 专属质感'}
                   </p>
-                  <div className="text-[11px] text-indigo-400 font-mono pt-1 border-t border-slate-900 flex justify-between">
-                    <span>推荐音色:</span>
-                    <span>{char.voice}</span>
-                  </div>
                 </div>
               ))}
+            </div>
+          </div>
+        ) : (
+          <div className="p-8 text-center bg-slate-950/60 rounded-xl border border-dashed border-slate-800 space-y-3">
+            <User className="w-8 h-8 text-slate-600 mx-auto" />
+            <div className="text-xs text-slate-400">
+              暂无已提炼的角色实体。请确保步骤 1 已导入小说文本，并点击右上角【开始 AI 智能提炼】。
             </div>
           </div>
         )}
       </Card>
 
       {/* 剧情脉络纲要 */}
-      <Card className="bg-slate-900/90 border-slate-800 p-6 rounded-2xl shadow-xl space-y-3">
-        <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-          <Layers className="w-4 h-4 text-emerald-400" />
-          推导故事剧情三幕式脉络
-        </span>
+      {chapters.length > 0 && (
+        <Card className="bg-slate-900/90 border-slate-800 p-6 rounded-2xl shadow-xl space-y-3">
+          <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+            <Layers className="w-4 h-4 text-emerald-400" />
+            推导章节与剧情节点列表 ({chapters.length} 个节点)
+          </span>
 
-        <div className="space-y-2 text-xs">
-          <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
-            <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold text-[10px]">
-              序幕起因
-            </span>
-            <span className="text-slate-300 flex-1">
-              萧炎在纳兰嫣然强势退婚的屈辱下，于家族大殿立下三年之约，立誓发愤图强。
-            </span>
+          <div className="space-y-2 text-xs">
+            {chapters.slice(0, 5).map((chap, idx) => (
+              <div
+                key={idx}
+                className="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3"
+              >
+                <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 font-bold text-[10px]">
+                  {chap.title || `节点 ${idx + 1}`}
+                </span>
+                <span className="text-slate-300 flex-1">{chap.summary}</span>
+              </div>
+            ))}
           </div>
-          <div className="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-start gap-3">
-            <span className="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 font-bold text-[10px]">
-              发展转折
-            </span>
-            <span className="text-slate-300 flex-1">
-              戒指中药老觉醒，传授焚诀功法与炼药禁术，萧炎踏上魔兽山脉生死苦修。
-            </span>
-          </div>
-        </div>
-      </Card>
+        </Card>
+      )}
 
       {/* 底部步骤导航 */}
       <div className="flex justify-between items-center pt-2">
-        <Button variant="outline" onClick={() => setCurrentStep(0)} className="gap-1.5">
+        <Button variant="outline" onClick={() => setCurrentStep(0)} className="gap-1.5 cursor-pointer">
           <ArrowLeft className="w-4 h-4" /> 上一步: 剧本导入
         </Button>
-        <Button variant="primary" onClick={() => setCurrentStep(2)} className="gap-1.5">
-          下一步: 镜头拆解 <ArrowRight className="w-4 h-4" />
+        <Button
+          variant="primary"
+          onClick={() => {
+            if (displayCharacters.length === 0 && chapters.length === 0) {
+              toast.error('⚠️ 尚未进行 AI 提炼，请先点击【开始 AI 智能提炼】');
+              return;
+            }
+            setCurrentStep(2);
+          }}
+          className="gap-1.5 cursor-pointer"
+        >
+          下一步: 剧本审阅 <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
+
+      <ModelConfigGuardModal
+        isOpen={isModelGuardOpen}
+        onClose={() => setIsModelGuardOpen(false)}
+      />
     </div>
   );
 }

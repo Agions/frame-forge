@@ -16,9 +16,14 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
 import { secureStorage } from '@/core/services/project/secure-storage-service';
+import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
+import { toast } from '@/shared/components/ui/toast';
 import { RoleType, WorkflowEngine } from '@novella/core';
 import { StatusBadge } from '@novella/ui';
+
+import { useStepImportContext } from '../context/selectors';
 
 interface StepDefinition {
   key: string;
@@ -77,6 +82,9 @@ export function StepNavigation({
   onRoleChange,
   projectId,
 }: StepNavigationProps) {
+  const { content } = useStepImportContext();
+  const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
+
   const [checkpointStatuses, setCheckpointStatuses] = useState<Map<string, CheckpointStatus>>(
     new Map()
   );
@@ -90,6 +98,23 @@ export function StepNavigation({
       setCheckpointStatuses(new Map(statuses));
     });
   }, [projectId]);
+
+  const handleStepClick = (index: number) => {
+    // 门禁校验 1：跨越 Step 0 前必须导入小说/剧本文本
+    if (index > 0 && (!content || content.trim().length === 0)) {
+      toast.error('⚠️ 必须先在「1. 导入」步骤导入或填入小说/剧本文本素材！');
+      return;
+    }
+
+    // 门禁校验 2：进入 AI 步骤前必须配置 API Key
+    if (index >= 1 && !hasAnyConfiguredModelProvider()) {
+      toast.error('⚠️ 未检测到有效 AI 模型 API Key！无法使用 AI 处理步骤。');
+      setIsModelGuardOpen(true);
+      return;
+    }
+
+    onStepChange(index);
+  };
 
   const roleStepIndices = WorkflowEngine.getRoleStepIndices(activeRole);
 
@@ -138,7 +163,7 @@ export function StepNavigation({
           return (
             <div
               key={step.key}
-              onClick={() => onStepChange(index)}
+              onClick={() => handleStepClick(index)}
               className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer transition-all border text-xs font-medium relative ${
                 isCurrent
                   ? 'bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-600/30 font-semibold'
@@ -163,6 +188,11 @@ export function StepNavigation({
           );
         })}
       </div>
+
+      <ModelConfigGuardModal
+        isOpen={isModelGuardOpen}
+        onClose={() => setIsModelGuardOpen(false)}
+      />
     </div>
   );
 }
