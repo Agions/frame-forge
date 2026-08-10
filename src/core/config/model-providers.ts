@@ -172,9 +172,9 @@ export function hasAnyConfiguredModelProvider(): boolean {
       // ignore JSON parse error
     }
 
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
+    if (typeof process !== 'undefined' && process.env) {
       const envKeyName = `VITE_${p.toUpperCase()}_API_KEY`;
-      const envVal = import.meta.env[envKeyName as keyof ImportMetaEnv];
+      const envVal = process.env[envKeyName];
       if (typeof envVal === 'string' && envVal.trim().length > 3) {
         return true;
       }

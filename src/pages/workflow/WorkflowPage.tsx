@@ -152,29 +152,35 @@ export const WorkflowPage: React.FC = () => {
   };
 
   // 真实文本解析算法 (Real Novel Text Parsing Algorithm)
-  const handleRealNovelParse = () => {
+  const handleRealNovelParse = async () => {
     if (!checkModelConfigGate()) return;
-    setIsProcessing(true);
-    toast.info('正在调用 2026 AI 大模型进行小说文本实体抽离与分镜拆解...');
 
-    setTimeout(() => {
-      // 从文本中提取段落与对话
-      const paragraphs = novelText.split('\n').filter((p) => p.trim().length > 0);
-      const parsedScenes: ParsedScene[] = paragraphs.map((p, idx) => ({
-        id: `sc-auto-${Date.now()}-${idx}`,
-        title: `第 1 集 场景 ${idx + 1}: ${p.slice(0, 12)}...`,
-        location: idx % 2 === 0 ? '深霄市钛合金高楼' : '数据中枢虚拟空间',
-        summary: p,
-        prompt: `Anime scene illustration: ${p.slice(0, 30)}, masterpiece, 4k resolution, high dynamic lighting`,
+    setIsProcessing(true);
+    toast.info('正在调用 AI 大模型进行小说文本实体抽离与分镜拆解...');
+
+    try {
+      const { novelAnalyzer } = await import('@/core/services/ai/text/novel-analyze-service');
+      const analysisResult = await novelAnalyzer.parseNovelContent(novelText);
+
+      const parsedScenes: ParsedScene[] = (analysisResult.scenes || []).map((sc, idx) => ({
+        id: sc.id || `sc-auto-${Date.now()}-${idx}`,
+        title: `第 1 集 场景 ${idx + 1}: ${sc.title || sc.content.slice(0, 12)}...`,
+        location: sc.location || '动画分镜画面',
+        summary: sc.content,
+        prompt: (sc as any).prompt || `Anime scene illustration: ${sc.content.slice(0, 30)}, masterpiece, 4k resolution`,
         cameraMotion: idx % 2 === 0 ? '推镜头 (Zoom In)' : '摇镜头 (Pan Right)',
         zoom: 100 + (idx % 3) * 15,
         tilt: (idx % 2 === 0 ? 1 : -1) * 10,
       }));
 
       setScenes(parsedScenes);
+      toast.success(`🎉 真实 AI 解析完成！已成功拆解 ${parsedScenes.length} 个视听分镜与场景！`);
+    } catch (err: any) {
+      toast.error(`❌ AI 拆解失败: ${err?.message || '请检查模型 API Key 配置是否生效。'}`);
+      setIsModelGuardOpen(true);
+    } finally {
       setIsProcessing(false);
-      toast.success(`🎉 真实解析完成！已成功拆解 ${parsedScenes.length} 个视听分镜与场景！`);
-    }, 800);
+    }
   };
 
   // 添加新角色 Anchor

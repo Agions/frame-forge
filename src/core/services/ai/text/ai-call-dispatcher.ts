@@ -49,18 +49,20 @@ export async function dispatchAIRequest(
   config: AIRequestConfig,
   requestId?: string
 ): Promise<AIResponse> {
+  if (!settings?.apiKey || settings.apiKey.trim().length === 0) {
+    throw new Error('未配置 API Key！请先进入【系统设置】配置对应 AI 模型提供商的 API Key。');
+  }
+
   try {
     const strategy = providerRegistry.get(model.provider);
     if (strategy) {
-      // 百度需要把 apiSecret 注入 config（历史约定）
       if (model.provider === 'baidu') {
         const baiduConfig = { ...config, apiSecret: settings.apiSecret };
-        return await strategy.call(settings.apiKey!, baiduConfig as AIRequestConfig, requestId);
+        return await strategy.call(settings.apiKey, baiduConfig as AIRequestConfig, requestId);
       }
-      return await strategy.call(settings.apiKey!, config, requestId);
+      return await strategy.call(settings.apiKey, config, requestId);
     }
-    // 未找到 provider，回退到 mock（与原行为一致）
-    return await mockStrategy.call('', config, requestId);
+    throw new Error(`暂不支持的 AI 提供商: ${model.provider}，请检查模型配置。`);
   } catch (error) {
     logger.error('AI provider call failed:', error);
     throw error;
