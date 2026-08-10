@@ -28,7 +28,7 @@ export function StepNavigation({
     <nav className={cn('flex items-center gap-2 overflow-x-auto py-4', className)}>
       {steps.map((step, index) => {
         const isActive = index === currentStep;
-        const isCompleted = index < currentStep;
+        const isFinal = index < currentStep;
         return (
           <button
             key={step.key}
@@ -36,8 +36,8 @@ export function StepNavigation({
             className={cn(
               'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
               isActive && 'bg-primary text-primary-foreground',
-              isCompleted && 'bg-muted text-muted-foreground hover:bg-muted/80',
-              !isActive && !isCompleted && 'text-muted-foreground hover:bg-muted/50'
+              isFinal && 'bg-muted text-muted-foreground hover:bg-muted/80',
+              !isActive && !isFinal && 'text-muted-foreground hover:bg-muted/50'
             )}
           >
             <span

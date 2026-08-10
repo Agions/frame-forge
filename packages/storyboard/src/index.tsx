@@ -142,11 +142,11 @@ export function calculateTotalDuration(shots: Shot[]): number {
 }
 
 export interface ScriptSourceManagerProps {
-  onScriptParsed?: (result: ScriptParseResult) => void;
+  onParse?: (result: ScriptParseResult) => void;
 }
 
 /** 剧本全路径获取与控制中心组件 (小说上传 / 直接上传剧本 / AI 生成剧本) */
-export const ScriptSourceManager: React.FC<ScriptSourceManagerProps> = ({ onScriptParsed }) => {
+export const ScriptSourceManager: React.FC<ScriptSourceManagerProps> = ({ onParse }) => {
   const [activeTab, setActiveTab] = useState<'novel' | 'direct' | 'ai'>('novel');
   const [content, setContent] = useState('');
   const [ideaText, setIdeaText] = useState('');
@@ -165,7 +165,7 @@ export const ScriptSourceManager: React.FC<ScriptSourceManagerProps> = ({ onScri
       } else {
         res = await generateScriptFromIdea(ideaText, episodesCount, style);
       }
-      onScriptParsed?.(res);
+      onParse?.(res);
     } catch (e) {
       console.error('剧本解析生成失败', e);
     } finally {

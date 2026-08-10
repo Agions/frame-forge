@@ -237,7 +237,7 @@ export class PipelineEngine {
   isRunning(): boolean {
     return this.status === PipelineStatus.RUNNING;
   }
-  isCompleted(): boolean {
+  isFinal(): boolean {
     return this.status === PipelineStatus.COMPLETED;
   }
   isFailed(): boolean {

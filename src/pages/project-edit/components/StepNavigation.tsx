@@ -129,7 +129,7 @@ export function StepNavigation({
         {STEPS.map((step, index) => {
           const Icon = step.icon;
           const isCurrent = index === currentStep;
-          const isCompleted = index < currentStep;
+          const isFinal = index < currentStep;
           const isRelevantToRole = roleStepIndices.includes(index);
           const isCheckpointed = checkpointStatuses.has(CHECKPOINTABLE_STEP_IDS[index]);
           const hasCheckpoint =
@@ -142,7 +142,7 @@ export function StepNavigation({
               className={`flex items-center gap-2 px-3 py-2 rounded-xl cursor-pointer transition-all border text-xs font-medium relative ${
                 isCurrent
                   ? 'bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-600/30 font-semibold'
-                  : isCompleted
+                  : isFinal
                     ? 'bg-slate-900/80 text-emerald-400 border-emerald-500/30 hover:border-emerald-500/60'
                     : isRelevantToRole
                       ? 'bg-slate-900/60 text-slate-200 border-indigo-500/30 hover:border-indigo-500/50'
@@ -150,7 +150,7 @@ export function StepNavigation({
               }`}
             >
               <Icon
-                className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : isCompleted ? 'text-emerald-400' : ''}`}
+                className={`w-3.5 h-3.5 ${isCurrent ? 'text-white' : isFinal ? 'text-emerald-400' : ''}`}
               />
               <span>{step.title}</span>
               {hasCheckpoint && (

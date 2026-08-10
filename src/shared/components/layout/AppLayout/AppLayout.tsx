@@ -31,11 +31,11 @@ import { AppLayoutProps } from './types';
 
 const STAGES = [
   { key: 'Draft', label: '① 文本导入' },
-  { key: 'ScriptParsed', label: '② 剧本拆解' },
-  { key: 'StoryboardGenerated', label: '③ 分镜构建' },
-  { key: 'AudioSynthesized', label: '④ 音轨合成' },
-  { key: 'Rendering', label: '⑤ 场景渲染' },
-  { key: 'Completed', label: '⑥ 完工导出' },
+  { key: 'Parse', label: '② 剧本拆解' },
+  { key: 'Board', label: '③ 分镜构建' },
+  { key: 'Audio', label: '④ 音轨合成' },
+  { key: 'Build', label: '⑤ 场景渲染' },
+  { key: 'Final', label: '⑥ 完工导出' },
 ];
 
 const NAV_ITEMS = [
@@ -103,9 +103,9 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
   const activePath = location.pathname;
 
   const currentStage = activePath.includes('edit')
-    ? 'StoryboardGenerated'
+    ? 'Board'
     : activePath.includes('workflow')
-      ? 'ScriptParsed'
+      ? 'Parse'
       : activePath.includes('new')
         ? 'Draft'
         : 'Draft';

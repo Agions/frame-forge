@@ -109,7 +109,7 @@ export class RenderQueueService {
   }
 
   /** 清理已完成任务（保留 pending / running / failed） */
-  clearCompleted(): void {
+  clearFinal(): void {
     const pendingJobs = this.state.jobs.filter((job) => job.status !== 'completed');
     this.updateState({ jobs: pendingJobs });
   }

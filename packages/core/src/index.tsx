@@ -8,15 +8,15 @@ export type WorkflowStage =
   | 'Draft'
   | 'ScriptPendingReview'
   | 'ScriptRejected'
-  | 'ScriptParsed'
+  | 'Parse'
   | 'StoryboardPendingReview'
   | 'StoryboardRejected'
-  | 'StoryboardGenerated'
+  | 'Board'
   | 'ProductionPendingReview'
   | 'ProductionRejected'
-  | 'AudioSynthesized'
-  | 'Rendering'
-  | 'Completed';
+  | 'Audio'
+  | 'Build'
+  | 'Final';
 
 export type AuditReviewStatus = 'approved' | 'rejected' | 'pending';
 
@@ -130,15 +130,15 @@ export class WorkflowEngine {
       'Draft',
       'ScriptPendingReview',
       'ScriptRejected',
-      'ScriptParsed',
+      'Parse',
       'StoryboardPendingReview',
       'StoryboardRejected',
-      'StoryboardGenerated',
+      'Board',
       'ProductionPendingReview',
       'ProductionRejected',
-      'AudioSynthesized',
-      'Rendering',
-      'Completed',
+      'Audio',
+      'Build',
+      'Final',
     ];
     return stages.indexOf(stage);
   }
@@ -148,26 +148,26 @@ export class WorkflowEngine {
       case 'Draft':
         return 'ScriptPendingReview';
       case 'ScriptPendingReview':
-        return 'ScriptParsed';
+        return 'Parse';
       case 'ScriptRejected':
         return 'ScriptPendingReview';
-      case 'ScriptParsed':
+      case 'Parse':
         return 'StoryboardPendingReview';
       case 'StoryboardPendingReview':
-        return 'StoryboardGenerated';
+        return 'Board';
       case 'StoryboardRejected':
         return 'StoryboardPendingReview';
-      case 'StoryboardGenerated':
+      case 'Board':
         return 'ProductionPendingReview';
       case 'ProductionPendingReview':
-        return 'AudioSynthesized';
+        return 'Audio';
       case 'ProductionRejected':
         return 'ProductionPendingReview';
-      case 'AudioSynthesized':
-        return 'Rendering';
-      case 'Rendering':
-        return 'Completed';
-      case 'Completed':
+      case 'Audio':
+        return 'Build';
+      case 'Build':
+        return 'Final';
+      case 'Final':
         return null;
       default:
         return null;
@@ -196,15 +196,15 @@ export class WorkflowEngine {
       Draft: '草稿/导入',
       ScriptPendingReview: '剧本待审核',
       ScriptRejected: '剧本已驳回',
-      ScriptParsed: '剧本已通过',
+      Parse: '剧本已通过',
       StoryboardPendingReview: '分镜待审核',
       StoryboardRejected: '分镜已驳回',
-      StoryboardGenerated: '分镜已通过',
+      Board: '分镜已通过',
       ProductionPendingReview: '制作待审核',
       ProductionRejected: '制作已驳回',
-      AudioSynthesized: '音频合成完成',
-      Rendering: '硬件渲染中',
-      Completed: '完工导出',
+      Audio: '音频合成完成',
+      Build: '硬件渲染中',
+      Final: '完工导出',
     };
     return labels[stage] || stage;
   }
@@ -217,23 +217,23 @@ export class WorkflowEngine {
         return 20;
       case 'ScriptRejected':
         return 15;
-      case 'ScriptParsed':
+      case 'Parse':
         return 30;
       case 'StoryboardPendingReview':
         return 45;
       case 'StoryboardRejected':
         return 40;
-      case 'StoryboardGenerated':
+      case 'Board':
         return 60;
       case 'ProductionPendingReview':
         return 75;
       case 'ProductionRejected':
         return 70;
-      case 'AudioSynthesized':
+      case 'Audio':
         return 85;
-      case 'Rendering':
+      case 'Build':
         return 95;
-      case 'Completed':
+      case 'Final':
         return 100;
       default:
         return 0;

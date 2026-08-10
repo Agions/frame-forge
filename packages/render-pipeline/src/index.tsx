@@ -28,11 +28,11 @@ export const RenderPipelinePanel: React.FC<RenderPipelinePanelProps> = ({
   onStartRender,
 }) => {
   const [config, setConfig] = useState<RenderJobConfig>(defaultRenderConfig());
-  const [isRendering, setIsRendering] = useState(false);
+  const [isBuild, setIsBuild] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const handleRender = () => {
-    setIsRendering(true);
+    setIsBuild(true);
     setProgress(10);
     onStartRender?.(config);
 
@@ -40,7 +40,7 @@ export const RenderPipelinePanel: React.FC<RenderPipelinePanelProps> = ({
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setIsRendering(false);
+          setIsBuild(false);
           return 100;
         }
         return prev + 15;
@@ -81,7 +81,7 @@ export const RenderPipelinePanel: React.FC<RenderPipelinePanelProps> = ({
         </div>
       </div>
 
-      {isRendering && (
+      {isBuild && (
         <div className="mb-4">
           <div className="flex justify-between text-xs text-slate-300 mb-1">
             <span>渲染中...</span>
@@ -101,9 +101,9 @@ export const RenderPipelinePanel: React.FC<RenderPipelinePanelProps> = ({
         size="lg"
         className="w-full"
         onClick={handleRender}
-        disabled={isRendering}
+        disabled={isBuild}
       >
-        {isRendering ? '正在导出漫剧视频...' : '开始硬件加速渲染导出'}
+        {isBuild ? '正在导出漫剧视频...' : '开始硬件加速渲染导出'}
       </MangaButton>
     </MangaCard>
   );
@@ -119,19 +119,19 @@ export interface RenderProgress {
 export function useRenderPipeline() {
   const [config, setConfig] = useState<RenderJobConfig>(defaultRenderConfig());
   const [progress, setProgress] = useState<RenderProgress | null>(null);
-  const [isRendering, setIsRendering] = useState(false);
+  const [isBuild, setIsBuild] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hardwareInfo, setHardwareInfo] = useState<any>(null);
 
   const startRender = async (projectId: string) => {
-    setIsRendering(true);
+    setIsBuild(true);
     setError(null);
     try {
       await invoke('execute_advanced_pipeline', { projectId, config });
     } catch (e: any) {
       setError(e.toString());
     } finally {
-      setIsRendering(false);
+      setIsBuild(false);
     }
   };
 
@@ -156,7 +156,7 @@ export function useRenderPipeline() {
     config,
     setConfig,
     progress,
-    isRendering,
+    isBuild,
     error,
     startRender,
     cancelRender,

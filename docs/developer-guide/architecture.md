@@ -78,11 +78,11 @@ packages/
 
 ```
 Draft (草稿导入)
-  └──> ScriptParsed (剧本拆分)
-        └──> StoryboardGenerated (分镜构建)
-              └──> AudioSynthesized (音轨合成)
-                    └──> Rendering (硬件加速渲染)
-                          └──> Completed (完工导出)
+  └──> Parse (剧本拆分)
+        └──> Board (分镜构建)
+              └──> Audio (音轨合成)
+                    └──> Build (硬件加速渲染)
+                          └──> Final (完工导出)
 ```
 
 - **单向向性**: 仅允许从前一阶段向后一阶段顺序推导，防止状态混乱。

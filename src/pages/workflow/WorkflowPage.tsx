@@ -257,7 +257,7 @@ export const WorkflowPage: React.FC = () => {
         <div className="flex items-center gap-1 bg-[#0D0E14] px-3 py-1.5 rounded-lg border border-[#1E202B] text-xs shrink-0 overflow-x-auto max-w-full">
           {WORKFLOW_STEPS.map((step, idx) => {
             const isActive = activeStep === step.id;
-            const isCompleted = activeStep > step.id;
+            const isFinal = activeStep > step.id;
             return (
               <React.Fragment key={step.id}>
                 <button
@@ -265,7 +265,7 @@ export const WorkflowPage: React.FC = () => {
                   className={`flex items-center gap-1.5 px-2.5 py-1 rounded transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                     isActive
                       ? 'bg-blue-600 text-white font-medium shadow-sm'
-                      : isCompleted
+                      : isFinal
                       ? 'text-blue-400 hover:text-white'
                       : 'text-slate-500 hover:text-slate-300'
                   }`}
@@ -274,7 +274,7 @@ export const WorkflowPage: React.FC = () => {
                     className={`w-4 h-4 rounded-full text-[10px] font-mono font-bold flex items-center justify-center shrink-0 ${
                       isActive
                         ? 'bg-white text-blue-600'
-                        : isCompleted
+                        : isFinal
                         ? 'bg-blue-500/20 text-blue-400'
                         : 'bg-slate-800 text-slate-400'
                     }`}

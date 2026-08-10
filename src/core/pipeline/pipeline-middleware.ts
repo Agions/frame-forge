@@ -11,7 +11,7 @@ import type { PipelineMiddleware } from './pipeline-engine-types';
 export const LoggerMiddleware: PipelineMiddleware = {
   name: 'logger',
   onStepStart: (stepId) => logger.info(`[Pipeline:Step] Starting: ${stepId}`),
-  onStepComplete: (stepId) => logger.info(`[Pipeline:Step] Completed: ${stepId}`),
+  onStepComplete: (stepId) => logger.info(`[Pipeline:Step] Final: ${stepId}`),
   onStepError: (stepId, error) => logger.error(`[Pipeline:Step] Error in ${stepId}:`, error),
   onPipelineStart: () => {
     resetMetrics();

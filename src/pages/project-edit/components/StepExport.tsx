@@ -35,7 +35,7 @@ const PLATFORMS: Array<{ id: PublishPlatform; label: string; desc: string }> = [
 function StepExport() {
   const { setCurrentStep } = useProject();
   const [selectedPlatforms, setSelectedPlatforms] = useState<PublishPlatform[]>(['bilibili']);
-  const [rendering, setRendering] = useState(false);
+  const [rendering, setBuild] = useState(false);
   const [renderProgress, setRenderProgress] = useState(0);
 
   const togglePlatform = (id: PublishPlatform) => {
@@ -47,13 +47,13 @@ function StepExport() {
   };
 
   const handleStartExport = () => {
-    setRendering(true);
+    setBuild(true);
     setRenderProgress(0);
     const timer = setInterval(() => {
       setRenderProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setRendering(false);
+          setBuild(false);
           toast.success('🎉 4K 漫剧视频与 SRT 字幕导出成功！');
           return 100;
         }

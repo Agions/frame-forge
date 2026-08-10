@@ -162,7 +162,7 @@ function RenderCenter({ frames, projectId, onApplyRenderedFrame }: RenderCenterP
             >
               开始渲染
             </Button>
-            <Button onClick={() => renderQueueService.clearCompleted()} size="sm" variant="outline">
+            <Button onClick={() => renderQueueService.clearFinal()} size="sm" variant="outline">
               清理已完成
             </Button>
           </div>

@@ -33,7 +33,7 @@ export function buildFailedResult(
 }
 
 /** 构造成功的 PipelineResult */
-export function buildCompletedResult(
+export function buildFinalResult(
   scenes: PipelineScene[],
   startTime: number
 ): PipelineResult {
@@ -96,7 +96,7 @@ export async function runPipeline(
 
   try {
     const output = (await engine.run(input)) as unknown as { scenes: PipelineScene[]; durationMs: number };
-    return buildCompletedResult(output.scenes, startTime);
+    return buildFinalResult(output.scenes, startTime);
   } catch (error) {
     const errorMessage = isPipelineCancelled(error)
       ? '流水线已被取消'

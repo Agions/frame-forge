@@ -84,11 +84,11 @@ impl ProjectStore {
 
     pub fn validate_stage_transition(current: &WorkflowStage, new: &WorkflowStage) -> Result<()> {
         let valid = match (current, new) {
-            (WorkflowStage::Draft, WorkflowStage::ScriptParsed) => true,
-            (WorkflowStage::ScriptParsed, WorkflowStage::StoryboardGenerated) => true,
-            (WorkflowStage::StoryboardGenerated, WorkflowStage::AudioSynthesized) => true,
-            (WorkflowStage::AudioSynthesized, WorkflowStage::Rendering) => true,
-            (WorkflowStage::Rendering, WorkflowStage::Completed) => true,
+            (WorkflowStage::Draft, WorkflowStage::Parse) => true,
+            (WorkflowStage::Parse, WorkflowStage::Board) => true,
+            (WorkflowStage::Board, WorkflowStage::Audio) => true,
+            (WorkflowStage::Audio, WorkflowStage::Build) => true,
+            (WorkflowStage::Build, WorkflowStage::Final) => true,
             _ => false,
         };
 

@@ -2,12 +2,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum WorkflowStage {
-    Draft,                 // 1. 草稿阶段 (小说导入)
-    ScriptParsed,          // 2. 剧本分集拆解完成
-    StoryboardGenerated,   // 3. 分镜与 Prompt 画面构建完成
-    AudioSynthesized,      // 4. TTS 配音与音轨对齐完成
-    Rendering,             // 5. 视频渲染导出中
-    Completed,             // 6. 漫剧最终导出完成
+    Draft,                 // 1. 草稿阶段 (5 letters)
+    Parse,                 // 2. 剧本解析拆解 (5 letters)
+    Board,                 // 3. 分镜构建完成 (5 letters)
+    Audio,                 // 4. 音频配音对齐 (5 letters)
+    Build,                 // 5. 视频合成渲染 (5 letters)
+    Final,                 // 6. 完工导出完成 (5 letters)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
