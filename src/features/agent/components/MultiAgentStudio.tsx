@@ -1,0 +1,359 @@
+/**
+ * MultiAgentStudio.tsx — 门面级 Multi-Agent 多智能体协作工作台
+ *
+ * 替代原有的 SOP 线性流程，以 Hub-and-Spoke 架构的多智能体大盘为核心：
+ * 支持现成剧本、小说文本、AI 提示词三类输入，自动调起各专门智能体协作，
+ * 实时同步 Blackboard 共享黑板，并支持用户动态扩展自定义 Agent。
+ */
+
+import {
+  Bot,
+  Sparkles,
+  Zap,
+  Plus,
+  Play,
+  CheckCircle2,
+  FileText,
+  Users,
+  Film,
+  Volume2,
+  Share2,
+  Clapperboard,
+  Terminal,
+  Activity,
+  Layers,
+  Settings,
+} from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
+import { agentRegistry } from '@/core/services/agent/AgentRegistry';
+import type { BaseAgent } from '@/core/services/agent/BaseAgent';
+import { MasterDirectorAgent } from '@/core/services/agent/MasterDirectorAgent';
+import type { BlackboardData, InputContentType } from '@/core/services/agent/ProjectBlackboard';
+import AgentConfigModal from '@/shared/components/agent/AgentConfigModal';
+import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Textarea } from '@/shared/components/ui/textarea';
+import { toast } from '@/shared/components/ui/toast';
+import { useProjectStore } from '@/shared/stores/project-store';
+
+export const MultiAgentStudio: React.FC = () => {
+  const navigate = useNavigate();
+  const store = useProjectStore();
+
+  const [rawInput, setRawInput] = useState<string>('');
+  const [inputType, setInputType] = useState<InputContentType>('novel_text');
+  const [isExecuting, setIsExecuting] = useState(false);
+  const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
+  const [isAgentConfigModalOpen, setIsAgentConfigModalOpen] = useState(false);
+
+  // 实例化 MasterDirectorAgent 调度中心
+  const [director] = useState(() => new MasterDirectorAgent());
+  const [blackboardData, setBlackboardData] = useState<BlackboardData>(() =>
+    director.getBlackboard().getData()
+  );
+
+  // 获取所有已注册 Agent（包含原生 + 自定义）
+  const [registeredAgents, setRegisteredAgents] = useState<BaseAgent[]>(() =>
+    agentRegistry.getAll()
+  );
+
+  const refreshAgents = () => {
+    setRegisteredAgents(agentRegistry.getAll());
+  };
+
+  useEffect(() => {
+    // 订阅 Blackboard 共享黑板数据变更
+    const unsubscribe = director.getBlackboard().subscribe((data) => {
+      setBlackboardData(data);
+    });
+    return () => unsubscribe();
+  }, [director]);
+
+  // 校验模型 Key
+  const checkModelConfigGate = (): boolean => {
+    if (!hasAnyConfiguredModelProvider()) {
+      toast.error('⚠️ 未检测到有效 AI 模型 Key！无法启动 Multi-Agent 智能体协作推导。');
+      setIsModelGuardOpen(true);
+      return false;
+    }
+    return true;
+  };
+
+  // 启动多智能体协作循环 (Multi-Agent Dispatch Cycle)
+  const handleStartMultiAgentPipeline = async () => {
+    if (!rawInput.trim()) {
+      toast.error('⚠️ 请先在输入框中填入或上传小说文本、剧本文件或 AI 提示词！');
+      return;
+    }
+    if (!checkModelConfigGate()) return;
+
+    setIsExecuting(true);
+    toast.info('🎬 正在调起 MasterDirectorAgent 主控导演智能体...');
+
+    try {
+      // 1. 初始化黑板数据
+      director.getBlackboard().update(
+        {
+          rawInput,
+          scriptContent: rawInput,
+          inputType,
+          stage: 'Ingest',
+        },
+        'system',
+        'System',
+        '用户提交全新输入，黑板状态拉起...'
+      );
+
+      // 2. 执行 Hub-and-Spoke 智能体协同推导
+      await director.execute();
+
+      toast.success('🎉 多智能体 (Multi-Agent) 协同推导与视听分镜拆解全量完成！');
+    } catch (err: any) {
+      toast.error(`❌ Multi-Agent 推导异常: ${err?.message || '协作中断'}`);
+    } finally {
+      setIsExecuting(false);
+    }
+  };
+
+  // 无缝保存并进入分镜 Studio (跳过重复上传)
+  const handleEnterStudio = () => {
+    const data = director.getBlackboard().getData();
+    if (!data.scriptContent || data.scenes.length === 0) {
+      toast.error('⚠️ 尚未完成 Multi-Agent 智能体推导，请先点击【启动 Multi-Agent 协同推导】！');
+      return;
+    }
+
+    const projectPayload = {
+      name: data.projectName || '漫剧工程 · 多 Agent 协作',
+      description: data.scriptContent.slice(0, 60),
+      status: 'processing',
+      stage: 'In_Progress',
+      content: data.scriptContent,
+      novelText: data.scriptContent,
+      script: data.scriptContent,
+      parsedScenes: data.scenes,
+      storyboardFrames: data.scenes,
+      characters: data.characters,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const targetProject = store.createProject(projectPayload as any);
+    store.setCurrentProject(targetProject);
+    toast.success('🎉 已无缝打通多智能体推导数据，直接进入分镜编辑器！');
+    navigate(`/project/edit/${targetProject.id}?step=3`);
+  };
+
+  return (
+    <div className="space-y-6 font-sans text-[var(--foreground)] bg-[var(--background)] min-h-[calc(100vh-5rem)] p-4 rounded-2xl border border-[var(--border)] shadow-xl">
+      {/* 顶部 Header Toolbar */}
+      <div className="flex items-center justify-between gap-4 p-4 bg-[var(--card)] rounded-2xl border border-[var(--border)] flex-wrap shadow-lg">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+            <Bot className="w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="text-base font-extrabold text-[var(--foreground)] flex items-center gap-2">
+              Novella Multi-Agent 多智能体协作创作中心
+              <Badge className="bg-indigo-500/15 text-indigo-400 border-indigo-500/30 font-mono text-[10px]">
+                Hub-and-Spoke 模式
+              </Badge>
+            </h2>
+            <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+              去除线性 SOP 限制 · 由主控导演 Agent 调起专门智能体与自定义 Agent 共享 Blackboard 协作
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            onClick={() => setIsAgentConfigModalOpen(true)}
+            className="bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            扩展自定义 Agent
+          </Button>
+          <Button
+            size="sm"
+            onClick={handleEnterStudio}
+            className="studio-btn-primary text-xs px-4 py-2 rounded-xl border-0 shadow-lg shadow-indigo-500/20 flex items-center gap-1.5 cursor-pointer font-bold"
+          >
+            <Clapperboard className="w-3.5 h-3.5" />
+            进入分镜 Studio
+          </Button>
+        </div>
+      </div>
+
+      {/* 两栏大格局：左侧输入与主控控制台，右侧 Multi-Agent Swarm 状态 */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 左栏：输入源选择与智能识别框 */}
+        <div className="lg:col-span-1 space-y-4">
+          <div className="studio-card p-5 space-y-4 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
+                <FileText className="w-4 h-4 text-indigo-400" />
+                素材内容输入 (支持三类输入)
+              </span>
+            </div>
+
+            {/* 输入类型 Selector */}
+            <div className="grid grid-cols-3 gap-1.5 p-1 bg-[var(--accent)] rounded-xl border border-[var(--border)] text-[11px]">
+              <button
+                onClick={() => setInputType('novel_text')}
+                className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                  inputType === 'novel_text'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                }`}
+              >
+                小说文本
+              </button>
+              <button
+                onClick={() => setInputType('script_file')}
+                className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                  inputType === 'script_file'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                }`}
+              >
+                现成剧本
+              </button>
+              <button
+                onClick={() => setInputType('ai_prompt')}
+                className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
+                  inputType === 'ai_prompt'
+                    ? 'bg-indigo-600 text-white shadow-sm'
+                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                }`}
+              >
+                AI 提示词
+              </button>
+            </div>
+
+            <Textarea
+              rows={8}
+              value={rawInput}
+              onChange={(e) => setRawInput(e.target.value)}
+              placeholder={
+                inputType === 'script_file'
+                  ? '粘贴或拖入现成剧本文件内容（包含场景格式 INT./EXT. 及角色对白）...'
+                  : inputType === 'ai_prompt'
+                    ? '输入 AI 创作灵感提示词（例如：“创作一部 12 集赛博修仙漫剧，主角叫李云霄...”）'
+                    : '粘贴或拖入小说原文章节段落...'
+              }
+              className="w-full p-3.5 rounded-xl bg-transparent border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-indigo-500 resize-none font-mono leading-relaxed"
+            />
+
+            <Button
+              size="lg"
+              disabled={isExecuting}
+              onClick={handleStartMultiAgentPipeline}
+              className="studio-btn-primary w-full text-xs py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
+            >
+              <Zap className={`w-4 h-4 fill-current ${isExecuting ? 'animate-spin' : ''}`} />
+              {isExecuting ? '多智能体 (Multi-Agent) 协同推导中...' : '启动 Multi-Agent 协同推导'}
+            </Button>
+          </div>
+        </div>
+
+        {/* 右栏：智能体集群 (Agent Swarm Grid) 与 Blackboard 共享黑板 Live 控制台 */}
+        <div className="lg:col-span-2 space-y-5">
+          {/* Multi-Agent Swarm 状态卡片网格 */}
+          <div className="studio-card p-5 space-y-4 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
+                <Activity className="w-4 h-4 text-emerald-400" />
+                协作智能体集群 (Agent Swarm - {registeredAgents.length} 位 Agent 就绪)
+              </span>
+              <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 text-[10px] font-mono">
+                当前阶段: {blackboardData.stage}
+              </Badge>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {registeredAgents.map((agent) => {
+                const isActive = blackboardData.activeAgentId === agent.metadata.id;
+                const isCompleted = blackboardData.completedAgentIds.includes(agent.metadata.id);
+                return (
+                  <div
+                    key={agent.metadata.id}
+                    className={`p-3.5 rounded-xl border transition-all space-y-2 relative ${
+                      isActive
+                        ? 'bg-indigo-600/15 border-indigo-500 shadow-lg shadow-indigo-500/20 scale-[1.02]'
+                        : isCompleted
+                          ? 'bg-emerald-950/20 border-emerald-500/40'
+                          : 'bg-[var(--accent)] border-[var(--border)]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-base">{agent.metadata.avatar || '🤖'}</span>
+                        <span className="font-bold text-xs text-[var(--foreground)] truncate">
+                          {agent.metadata.name.split(' ')[0]}
+                        </span>
+                      </div>
+                      {agent.metadata.isCustom && (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono font-bold">
+                          Custom
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-[var(--muted-foreground)] line-clamp-2">
+                      {agent.metadata.description}
+                    </p>
+                    <div className="flex items-center justify-between text-[9px] font-mono pt-1.5 border-t border-[var(--border)] text-[var(--muted-foreground)]">
+                      <span>Phase:</span>
+                      <span className="text-indigo-400 font-bold">{agent.metadata.triggerPhase.split('_')[1]}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ProjectBlackboard 共享黑板实时控制台与 Agent 日志 */}
+          <div className="studio-card p-5 space-y-3 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
+              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-purple-400" />
+                ProjectBlackboard 共享黑板通信日志 (Live Log)
+              </span>
+              <span className="text-[10px] font-mono text-purple-400 font-bold">
+                {blackboardData.logs.length} 条通信事件
+              </span>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-2 h-44 overflow-y-auto">
+              {blackboardData.logs.map((log, idx) => (
+                <div key={idx} className="flex items-start gap-2 leading-relaxed">
+                  <span className="text-slate-500 text-[10px]">[{log.timestamp.slice(11, 19)}]</span>
+                  <span className="text-indigo-400 font-bold min-w-[110px]">[{log.agentName.split(' ')[0]}]</span>
+                  <span className={log.level === 'error' ? 'text-rose-400 font-bold' : log.level === 'success' ? 'text-emerald-400 font-bold' : 'text-slate-300'}>
+                    {log.action}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ModelConfigGuardModal
+        isOpen={isModelGuardOpen}
+        onClose={() => setIsModelGuardOpen(false)}
+      />
+
+      <AgentConfigModal
+        open={isAgentConfigModalOpen}
+        onOpenChange={setIsAgentConfigModalOpen}
+        onAgentAdded={refreshAgents}
+      />
+    </div>
+  );
+};
+
+export default MultiAgentStudio;
