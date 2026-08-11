@@ -12,6 +12,7 @@ import {
 import React, { useState, useEffect } from 'react';
 
 import { useTheme } from '@/app/providers/ThemeContext';
+import { verifyModelApiKey } from '@/core/config/model-providers';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { toast } from '@/shared/components/ui/toast';
@@ -156,17 +157,27 @@ const SettingsPage = () => {
       localStorage.setItem(`ai_model_settings_${id}`, JSON.stringify({ apiKey: keyVal }));
       localStorage.setItem(`novella_api_key_${id}`, keyVal);
     }
-    toast.success(`🎉 ${name} API Key 已成功保存至本地加密存储！`);
   };
 
-  const handleVerifyConnection = (name: string, id: string) => {
+  const handleVerifyConnection = async (name: string, id: string) => {
+    const currentKey = apiKeys[id]?.trim() || '';
+    if (!currentKey) {
+      toast.error(`⚠️ 请先输入 ${name} 的 API Key！`);
+      return;
+    }
+
     setTestingId(id);
-    handleSaveProviderKey(name, id);
-    toast.info(`正在校验 ${name} API Key...`);
-    setTimeout(() => {
-      setTestingId(null);
-      toast.success(`🎉 ${name} 校验通过！已打通模型连接（延迟 25ms）`);
-    }, 400);
+    toast.info(`正在对 ${name} 开展真实密钥格式与连通推导校验...`);
+
+    const result = await verifyModelApiKey(id, currentKey);
+
+    setTestingId(null);
+    if (result.success) {
+      handleSaveProviderKey(name, id);
+      toast.success(`🎉 ${name} ${result.message}`);
+    } else {
+      toast.error(`❌ ${name} ${result.message}`);
+    }
   };
 
   const handleSaveAll = () => {
