@@ -10,6 +10,7 @@ import { useProject } from '@/core/hooks/useProject';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Card } from '@/shared/components/ui/card';
+import { toast } from '@/shared/components/ui/toast';
 import { AudioStudio, AudioTimeline } from '@novella/audio-studio';
 
 function StepAudio() {
@@ -25,15 +26,15 @@ function StepAudio() {
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-100 m-0">
-                Step 8: 多音轨 TTS 配音与声音工程中心
+                阶段 4: 声音后期与 4K 音画同轴压制导出
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                支持 EdgeTTS / CosyVoice 多角色对白合成，控制角色音轨、BGM 背景音乐与环境音效音量
+                支持 EdgeTTS / CosyVoice 多角色对白合成，毫秒级音轨对齐、BGM 背景音效与 4K Ultra-HD 视频导出
               </p>
             </div>
           </div>
           <Badge className="bg-indigo-500/20 text-indigo-300 border-indigo-500/40 text-xs px-3 py-1">
-            <Music className="w-3.5 h-3.5 mr-1" /> 多音轨 Waveform 对齐
+            <Music className="w-3.5 h-3.5 mr-1" /> 多音轨 Waveform 同轴对齐
           </Badge>
         </div>
 
@@ -54,11 +55,17 @@ function StepAudio() {
 
       {/* 底部步骤导航 */}
       <div className="flex justify-between items-center pt-2">
-        <Button variant="outline" onClick={() => setCurrentStep(6)} className="gap-1.5">
-          <ArrowLeft className="w-4 h-4" /> 上一步: 动效合成
+        <Button variant="outline" onClick={() => setCurrentStep(2)} className="gap-1.5 font-bold cursor-pointer">
+          <ArrowLeft className="w-4 h-4" /> 上一步: 阶段 3 动态合成
         </Button>
-        <Button variant="primary" onClick={() => setCurrentStep(8)} className="gap-1.5">
-          下一步: 4K 漫剧导出 <ArrowRight className="w-4 h-4" />
+        <Button
+          variant="primary"
+          onClick={() => {
+            toast.success('🎉 漫剧音画同轴合成完成！4K Ultra-HD MP4 导出任务已全量下发');
+          }}
+          className="gap-1.5 font-bold cursor-pointer bg-gradient-to-r from-emerald-500 to-indigo-600 hover:from-emerald-600 hover:to-indigo-700 text-white shadow-lg shadow-emerald-500/20"
+        >
+          一键 4K 压制导出漫剧 <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

@@ -8,8 +8,8 @@ import {
   projectReducer,
   initialProjectState,
   createProjectSetters,
-} from '@/core/hooks/useProject-reducer';
-import type { ProjectAction } from '@/core/hooks/useProject-reducer';
+} from '@/core/hooks/useProjectReducer';
+import type { ProjectAction } from '@/core/hooks/useProjectReducer';
 
 describe('projectReducer', () => {
   it('应返回初始状态的深拷贝引用', () => {

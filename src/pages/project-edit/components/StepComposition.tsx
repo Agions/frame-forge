@@ -29,7 +29,7 @@ function StepComposition() {
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-100 m-0">
-                Step 7: 镜头动效与运镜轨迹合成工坊
+                阶段 3: 动态合成与镜头运镜轨迹 (Pan/Zoom/Tilt)
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
                 为静态分镜添加 Zoom/Pan (平移与推进) 运镜 Filter 图，注入 Crossfade 与 Wipe 影视转场
@@ -56,11 +56,11 @@ function StepComposition() {
 
       {/* 底部步骤导航 */}
       <div className="flex justify-between items-center pt-2">
-        <Button variant="outline" onClick={() => setCurrentStep(5)} className="gap-1.5">
-          <ArrowLeft className="w-4 h-4" /> 上一步: 场景渲染
+        <Button variant="outline" onClick={() => setCurrentStep(1)} className="gap-1.5 font-bold cursor-pointer">
+          <ArrowLeft className="w-4 h-4" /> 上一步: 阶段 2 画面生成
         </Button>
-        <Button variant="primary" onClick={() => setCurrentStep(7)} className="gap-1.5">
-          下一步: 多音轨 TTS 配音 <ArrowRight className="w-4 h-4" />
+        <Button variant="primary" onClick={() => setCurrentStep(3)} className="gap-1.5 font-bold cursor-pointer">
+          下一步: 阶段 4 声音后期 (TTS与导出) <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
     </div>

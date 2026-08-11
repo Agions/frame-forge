@@ -31,7 +31,7 @@ function StepCharacter() {
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-100 m-0">
-                Step 5: 角色一致性锁定 (Master Reference Protocol)
+                阶段 1: 策划设定与角色 Consistency Anchor 锁脸
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
                 锁定角色面部特征、服饰风格、LoRA 模型与 Prompt Tags，保障跨镜头人物绝对一致不走样
@@ -39,7 +39,7 @@ function StepCharacter() {
             </div>
           </div>
           <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/40 text-xs px-3 py-1">
-            <Lock className="w-3.5 h-3.5 mr-1" /> 8K 一致性引擎已锁定
+            <Lock className="w-3.5 h-3.5 mr-1" /> 8K 锁脸 Consistency 已锁定
           </Badge>
         </div>
 
@@ -58,11 +58,9 @@ function StepCharacter() {
 
       {/* 底部步骤导航 */}
       <div className="flex justify-between items-center pt-2">
-        <Button variant="outline" onClick={() => setCurrentStep(3)} className="gap-1.5">
-          <ArrowLeft className="w-4 h-4" /> 上一步: 分镜绘制
-        </Button>
-        <Button variant="primary" onClick={() => setCurrentStep(5)} className="gap-1.5">
-          下一步: 硬件场景渲染 <ArrowRight className="w-4 h-4" />
+        <div />
+        <Button variant="primary" onClick={() => setCurrentStep(1)} className="gap-1.5 font-bold cursor-pointer">
+          下一步: 阶段 2 画面生成 (分镜大盘) <ArrowRight className="w-4 h-4" />
         </Button>
       </div>
     </div>
