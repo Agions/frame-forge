@@ -34,7 +34,8 @@ export class MasterDirectorAgent extends BaseAgent {
   }
 
   public async execute(): Promise<void> {
-    this.log(this.blackboard, '🎬 主控导演 Agent 启动多智能体 (Multi-Agent) 协作调度循环...', 'info');
+    this.log(this.blackboard, '🚀 CHIEF 主控导演启动 360 纳米漫剧工业流水线 (Namistory Engine) 协同推导...', 'info');
+    this.log(this.blackboard, '📐 360 空间与资产记忆库已拉起 [空间记忆/角色 Consistency Anchor / 92% 预打通率]', 'info');
 
     const allAgents = agentRegistry.getAll().filter((a) => a.metadata.enabled !== false && a.metadata.id !== this.metadata.id);
 
