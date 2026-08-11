@@ -1,25 +1,24 @@
 /**
- * storyboard-studio-ux.test.ts — 分镜 Studio 工作台直达与零门槛交互单元测试
+ * storyboard-studio-ux.test.ts — 漫剧制作 4 大核心环节单元测试套件
  */
 
-describe('Storyboard Studio Direct Access & Zero-Barrier Workflow Suite', () => {
-  it('Should default initialStep to 3 (Storyboard Canvas Studio) when entering Storyboard Studio', () => {
+describe('Manga Production 4 Core Phases Architecture Suite', () => {
+  it('Should default initialStep to 1 (PhaseVisuals - 画面生成分镜大盘) when entering Studio', () => {
     const search = new URLSearchParams('');
     const stepValue = search.get('step');
-    let initialStep = 3; // Default to Storyboard Canvas
+    let initialStep = 1; // Default to Phase 2: Visuals Storyboard Canvas
     if (stepValue) {
       initialStep = Number(stepValue);
     }
-    expect(initialStep).toBe(3);
+    expect(initialStep).toBe(1);
   });
 
-  it('Should bypass Step 0 import when script or parsed scenes are already in Blackboard', () => {
-    const blackboardState = {
-      rawInput: '小说章节内容...',
-      parsedScenes: [{ sceneId: 's1', cameraMotion: 'ZoomIn', prompt: '主角站在大殿中央' }],
-    };
-
-    const hasData = blackboardState.rawInput.length > 0 || blackboardState.parsedScenes.length > 0;
-    expect(hasData).toBe(true);
+  it('Should define the 4 core phases strictly: Planning -> Visuals -> Motion -> Audio', () => {
+    const corePhases = ['planning', 'visuals', 'motion', 'audio'];
+    expect(corePhases).toHaveLength(4);
+    expect(corePhases[0]).toBe('planning');
+    expect(corePhases[1]).toBe('visuals');
+    expect(corePhases[2]).toBe('motion');
+    expect(corePhases[3]).toBe('audio');
   });
 });

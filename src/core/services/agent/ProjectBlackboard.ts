@@ -17,6 +17,14 @@ export interface BlackboardLogEntry {
   level: 'info' | 'warn' | 'error' | 'success';
 }
 
+export type ProjectStage =
+  | 'idle'
+  | 'planning' // 阶段 1：策划设定（剧本大纲与角色 Consistency Anchor 锁定）
+  | 'visuals' // 阶段 2：画面生成（3 栏漫剧画幅大盘与景别）
+  | 'motion' // 阶段 3：动态合成（镜头运镜轨迹与转场节奏）
+  | 'audio' // 阶段 4：声音后期（多角色 TTS 与 4K 压制）
+  | 'completed';
+
 export interface BlackboardData {
   // 基础元信息
   projectId: string;
@@ -38,7 +46,7 @@ export interface BlackboardData {
   renderQueue?: Record<string, unknown>;
 
   // 黑板流转状态
-  stage: 'Ingest' | 'Character_Design' | 'Storyboard' | 'Audio_Synthesis' | 'Video_Render' | 'Completed';
+  stage: ProjectStage;
   activeAgentId: string | null;
   completedAgentIds: string[];
 
@@ -63,7 +71,7 @@ export class ProjectBlackboard {
       storyAnalysis: null,
       characters: [],
       scenes: [],
-      stage: 'Ingest',
+      stage: 'idle',
       activeAgentId: null,
       completedAgentIds: [],
       logs: [

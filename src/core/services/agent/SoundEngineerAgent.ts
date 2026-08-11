@@ -30,7 +30,7 @@ export class SoundEngineerAgent extends BaseAgent {
           bgmVolume: 0.2,
           subtitleAlignment: 'millisecond_exact',
         },
-        stage: 'Video_Render',
+        stage: 'audio',
       },
       this.metadata.id,
       this.metadata.name,

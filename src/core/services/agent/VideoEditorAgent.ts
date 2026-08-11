@@ -31,7 +31,7 @@ export class VideoEditorAgent extends BaseAgent {
           fps: 60,
           status: 'ready',
         },
-        stage: 'Completed',
+        stage: 'motion',
       },
       this.metadata.id,
       this.metadata.name,

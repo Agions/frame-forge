@@ -27,14 +27,14 @@ describe('Multi-Agent Hub-and-Spoke & Blackboard Orchestration Suite', () => {
     const director = new MasterDirectorAgent(novelText, 'novel_text', '测试漫剧工程');
     const blackboard = director.getBlackboard();
 
-    expect(blackboard.getData().stage).toBe('Ingest');
+    expect(blackboard.getData().stage).toBe('idle');
     expect(blackboard.getData().rawInput).toBe(novelText);
 
     // 执行 Hub-and-Spoke 智能体协同推导
     await director.execute();
 
     const data = blackboard.getData();
-    expect(data.stage).toBe('Completed');
+    expect(data.stage).toBe('completed');
     expect(data.scenes.length).toBeGreaterThan(0);
     expect(data.characters.length).toBeGreaterThan(0);
     expect(data.audioConfig).toBeDefined();

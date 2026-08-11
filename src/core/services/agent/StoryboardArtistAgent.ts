@@ -38,7 +38,7 @@ export class StoryboardArtistAgent extends BaseAgent {
     blackboard.update(
       {
         scenes: updatedScenes,
-        stage: 'Audio_Synthesis',
+        stage: 'visuals',
       },
       this.metadata.id,
       this.metadata.name,

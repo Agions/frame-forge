@@ -118,7 +118,7 @@ export class ScriptIngestionAgent extends BaseAgent {
             createdAt: new Date().toISOString(),
           },
           scenes: parsedScenes,
-          stage: 'Character_Design',
+          stage: 'planning',
         },
         this.metadata.id,
         this.metadata.name,

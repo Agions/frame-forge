@@ -32,24 +32,18 @@ export interface StepContentSwitcherProps {
 export function StepContentSwitcher({ currentStep }: StepContentSwitcherProps) {
   switch (currentStep) {
     case 0:
-      return <StepImport />;
-    case 1:
-      return <StepAnalysis />;
-    case 2:
-      return <StepScript />;
-    case 3:
-      return <StepStoryboard />;
-    case 4:
+      // 阶段 1：策划设定（剧本大纲与角色 Consistency Anchor 锁定）
       return <StepCharacter />;
-    case 5:
-      return <StepRender />;
-    case 6:
+    case 1:
+      // 阶段 2：画面生成（3 栏漫剧画幅大盘与景别）
+      return <StepStoryboard />;
+    case 2:
+      // 阶段 3：动态合成（镜头运镜轨迹与转场节奏）
       return <StepComposition />;
-    case 7:
+    case 3:
+      // 阶段 4：声音后期（多角色 TTS 与 4K 压制）
       return <StepAudio />;
-    case 8:
-      return <StepExport />;
     default:
-      return null;
+      return <StepStoryboard />;
   }
 }

@@ -51,7 +51,7 @@ export class CharacterDesignerAgent extends BaseAgent {
     blackboard.update(
       {
         characters: generatedChars,
-        stage: 'Storyboard',
+        stage: 'planning',
       },
       this.metadata.id,
       this.metadata.name,

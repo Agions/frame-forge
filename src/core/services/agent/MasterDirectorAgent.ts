@@ -78,7 +78,7 @@ export class MasterDirectorAgent extends BaseAgent {
         await videoAgent.execute(this.blackboard);
       }
 
-      this.blackboard.update({ activeAgentId: null, stage: 'Completed' }, this.metadata.id, this.metadata.name, '🎉 多智能体 (Multi-Agent) 协同推导与渲染全量完成！');
+      this.blackboard.update({ activeAgentId: null, stage: 'completed' }, this.metadata.id, this.metadata.name, '🎉 多智能体 (Multi-Agent) 协同推导与渲染全量完成！');
     } catch (err: any) {
       this.log(this.blackboard, `❌ 调度循环发生异常打回: ${err?.message || '协作中断'}`, 'error');
       throw err;

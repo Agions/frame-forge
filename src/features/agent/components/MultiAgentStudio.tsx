@@ -101,7 +101,7 @@ export const MultiAgentStudio: React.FC = () => {
           rawInput,
           scriptContent: rawInput,
           inputType,
-          stage: 'Ingest',
+          stage: 'planning',
         },
         'system',
         'System',
@@ -144,7 +144,7 @@ export const MultiAgentStudio: React.FC = () => {
     const targetProject = store.createProject(projectPayload as any);
     store.setCurrentProject(targetProject);
     toast.success('🎉 已无缝打通多智能体推导数据，直接进入分镜编辑器！');
-    navigate(`/project/edit/${targetProject.id}?step=3`);
+    navigate(`/project/edit/${targetProject.id}?step=1`);
   };
 
   return (

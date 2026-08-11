@@ -33,15 +33,10 @@ interface StepDefinition {
 }
 
 const STEPS: StepDefinition[] = [
-  { key: 'import', title: '1. 导入', role: 'writer', icon: FileText },
-  { key: 'analysis', title: '2. AI解析', role: 'writer', icon: Zap },
-  { key: 'script', title: '3. 剧本', role: 'writer', icon: Edit },
-  { key: 'storyboard', title: '4. 分镜', role: 'storyboarder', icon: Image },
-  { key: 'character', title: '5. 角色', role: 'storyboarder', icon: User },
-  { key: 'render', title: '6. 渲染', role: 'animator', icon: CheckCircle },
-  { key: 'composition', title: '7. 合成', role: 'animator', icon: PlayCircle },
-  { key: 'audio', title: '8. 配音', role: 'animator', icon: Volume2 },
-  { key: 'export', title: '9. 导出', role: 'animator', icon: Download },
+  { key: 'planning', title: '1. 策划设定 (角色锁脸)', role: 'writer', icon: User },
+  { key: 'visuals', title: '2. 画面生成 (分镜大盘)', role: 'storyboarder', icon: Image },
+  { key: 'motion', title: '3. 动态合成 (运镜与转场)', role: 'animator', icon: Film },
+  { key: 'audio', title: '4. 声音后期 (TTS与导出)', role: 'animator', icon: Volume2 },
 ];
 
 const ROLES: { key: RoleType; label: string; icon: LucideIcon; desc: string }[] = [
@@ -100,15 +95,9 @@ export function StepNavigation({
   }, [projectId]);
 
   const handleStepClick = (index: number) => {
-    // 门禁校验 1：跨越 Step 0 前必须导入小说/剧本文本
-    if (index > 0 && (!content || content.trim().length === 0)) {
-      toast.error('⚠️ 必须先在「1. 导入」步骤导入或填入小说/剧本文本素材！');
-      return;
-    }
-
-    // 门禁校验 2：进入 AI 步骤前必须配置 API Key
+    // 门禁校验：进入 AI 步骤前检查 API Key 配置
     if (index >= 1 && !hasAnyConfiguredModelProvider()) {
-      toast.error('⚠️ 未检测到有效 AI 模型 API Key！无法使用 AI 处理步骤。');
+      toast.error('⚠️ 未检测到有效 AI 模型 API Key！无法使用 AI 增强服务。');
       setIsModelGuardOpen(true);
       return;
     }
