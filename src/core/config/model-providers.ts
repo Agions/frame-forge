@@ -154,30 +154,63 @@ export function hasAnyConfiguredModelProvider(): boolean {
   if (typeof window === 'undefined') return true;
 
   const providers = Object.keys(MODEL_PROVIDERS) as ModelProvider[];
+  const extraKeys = [
+    'doubao',
+    'image_models',
+    'video_models',
+    'audio_models',
+    'deepseek',
+    'zhipu',
+    'openai',
+    'anthropic',
+    'alibaba',
+    'baidu',
+    'google',
+    'tencent',
+    'minimax',
+    'kling',
+    'bytedance',
+    'iflytek',
+    'moonshot',
+  ];
+  const allCheckKeys = Array.from(new Set([...providers, ...extraKeys]));
 
-  for (const p of providers) {
+  const isValValid = (val: unknown): boolean => {
+    if (typeof val !== 'string') return false;
+    const trimmed = val.trim();
+    if (trimmed.length < 3) return false;
+    if (trimmed.includes('****')) return false;
+    return true;
+  };
+
+  for (const p of allCheckKeys) {
+    // 1. 检查 ai_model_settings_${p}
     try {
       const stored = localStorage.getItem(`ai_model_settings_${p}`);
       if (stored) {
+        if (isValValid(stored)) return true;
         const parsed = JSON.parse(stored);
-        if (
-          parsed?.apiKey &&
-          typeof parsed.apiKey === 'string' &&
-          parsed.apiKey.trim().length > 3
-        ) {
-          return true;
-        }
+        if (isValValid(parsed?.apiKey)) return true;
       }
     } catch (e) {
-      // ignore JSON parse error
+      // ignore
     }
 
+    // 2. 检查 api_${p}_key 与 novella_api_key_${p}
+    try {
+      const k1 = localStorage.getItem(`api_${p}_key`);
+      if (isValValid(k1)) return true;
+      const k2 = localStorage.getItem(`novella_api_key_${p}`) || localStorage.getItem(`${p}_api_key`);
+      if (isValValid(k2)) return true;
+    } catch (e) {
+      // ignore
+    }
+
+    // 3. 检查环境变量
     if (typeof process !== 'undefined' && process.env) {
       const envKeyName = `VITE_${p.toUpperCase()}_API_KEY`;
       const envVal = process.env[envKeyName];
-      if (typeof envVal === 'string' && envVal.trim().length > 3) {
-        return true;
-      }
+      if (isValValid(envVal)) return true;
     }
   }
 
