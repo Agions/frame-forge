@@ -12,8 +12,8 @@ import type { ProjectBlackboard } from './ProjectBlackboard';
 export class StoryboardArtistAgent extends BaseAgent {
   constructor() {
     super({
-      id: 'agent-storyboard-artist',
-      name: 'StoryboardArtistAgent (分镜绘图智能体)',
+      id: 'agent-frame',
+      name: 'FRAME',
       role: 'storyboard_artist',
       avatar: '🎨',
       description: '负责规划镜头景别 (Zoom/Tilt)、构图提示词与二次元 3 栏漫剧分镜大盘',

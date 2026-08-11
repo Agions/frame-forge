@@ -14,8 +14,8 @@ import type { ProjectBlackboard } from './ProjectBlackboard';
 export class CharacterDesignerAgent extends BaseAgent {
   constructor() {
     super({
-      id: 'agent-character-designer',
-      name: 'CharacterDesignerAgent (角色设计智能体)',
+      id: 'agent-actor',
+      name: 'ACTOR',
       role: 'character_designer',
       avatar: '👤',
       description: '负责分析剧本角色实体，绑定二次元人设 LoRA 锁脸 Anchor 锚点与 TTS 音色',

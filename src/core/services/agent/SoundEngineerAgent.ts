@@ -8,8 +8,8 @@ import type { ProjectBlackboard } from './ProjectBlackboard';
 export class SoundEngineerAgent extends BaseAgent {
   constructor() {
     super({
-      id: 'agent-sound-engineer',
-      name: 'SoundEngineerAgent (音效配音智能体)',
+      id: 'agent-audio',
+      name: 'AUDIO',
       role: 'sound_engineer',
       avatar: '🎙️',
       description: '负责多音轨 EdgeTTS / CosyVoice 合成、BGM 对齐与毫秒级字幕卡点计算',

@@ -6,6 +6,18 @@ import { agentRegistry } from '@/core/services/agent/AgentRegistry';
 import { MasterDirectorAgent } from '@/core/services/agent/MasterDirectorAgent';
 
 describe('Multi-Agent Hub-and-Spoke & Blackboard Orchestration Suite', () => {
+  it('Should ensure all native agents have 5-letter uppercase names', () => {
+    const allAgents = agentRegistry.getAll().filter((a) => !a.metadata.isCustom);
+    const names = allAgents.map((a) => a.metadata.name);
+
+    // 校验每个原生 Agent 名称为严格 5 个英文字母的单词
+    names.forEach((name) => {
+      expect(name).toMatch(/^[A-Z]{5}$/);
+    });
+
+    expect(names).toEqual(expect.arrayContaining(['STORY', 'ACTOR', 'FRAME', 'AUDIO', 'VIDEO']));
+  });
+
   it('Should successfully initialize ProjectBlackboard and execute full Multi-Agent pipeline', async () => {
     const novelText = `【第一章：黑客归来】
 林修站在天道大厦的楼顶，机械手臂上冰冷的雨水流淌。
@@ -32,7 +44,7 @@ describe('Multi-Agent Hub-and-Spoke & Blackboard Orchestration Suite', () => {
 
   it('Should support user-defined custom agent registration and execution', async () => {
     const customAgent = agentRegistry.registerCustomAgent({
-      name: '方言润色 Agent',
+      name: 'EXTRA',
       avatar: '🗣️',
       description: '自定义方言润色 Agent',
       triggerPhase: 'on_script_parsed',
@@ -42,6 +54,7 @@ describe('Multi-Agent Hub-and-Spoke & Blackboard Orchestration Suite', () => {
     });
 
     expect(customAgent.metadata.isCustom).toBe(true);
+    expect(customAgent.metadata.name).toBe('EXTRA');
     expect(agentRegistry.getAll().some((a) => a.metadata.id === customAgent.metadata.id)).toBe(true);
 
     // 删除自定义 Agent 测试

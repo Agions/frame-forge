@@ -55,7 +55,7 @@ export class AgentRegistry {
   public registerCustomAgent(config: Omit<CustomAgentConfig, 'id' | 'role' | 'isCustom'>): CustomUserAgent {
     const customAgent = new CustomUserAgent({
       ...config,
-      id: `agent-custom-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      id: `agent-extra-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
       role: 'custom',
       isCustom: true,
       enabled: true,

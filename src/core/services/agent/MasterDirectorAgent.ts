@@ -16,8 +16,8 @@ export class MasterDirectorAgent extends BaseAgent {
 
   constructor(initialInput: string = '', inputType: InputContentType = 'unknown', projectName: string = '漫剧工程 · 多 Agent 协作') {
     super({
-      id: 'agent-master-director',
-      name: 'MasterDirectorAgent (主控导演智能体)',
+      id: 'agent-chief',
+      name: 'CHIEF',
       role: 'director',
       avatar: '🎬',
       description: 'Hub-and-Spoke 智能体调度中心，负责指挥与分发任务给子 Agent',

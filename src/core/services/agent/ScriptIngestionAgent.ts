@@ -14,8 +14,8 @@ import type { InputContentType, ProjectBlackboard } from './ProjectBlackboard';
 export class ScriptIngestionAgent extends BaseAgent {
   constructor() {
     super({
-      id: 'agent-script-ingestion',
-      name: 'ScriptIngestionAgent (剧本识别智能体)',
+      id: 'agent-story',
+      name: 'STORY',
       role: 'script_ingestion',
       avatar: '📄',
       description: '自动分析现成剧本、小说文本或 AI 提示词，推导提取剧本章节与场景结构',

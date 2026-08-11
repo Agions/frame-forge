@@ -8,8 +8,8 @@ import type { ProjectBlackboard } from './ProjectBlackboard';
 export class VideoEditorAgent extends BaseAgent {
   constructor() {
     super({
-      id: 'agent-video-editor',
-      name: 'VideoEditorAgent (视频压制智能体)',
+      id: 'agent-video',
+      name: 'VIDEO',
       role: 'video_editor',
       avatar: '🎞️',
       description: '负责 Apple VideoToolbox / NVENC GPU 4K 硬件加速压制与渲染队列调度',
