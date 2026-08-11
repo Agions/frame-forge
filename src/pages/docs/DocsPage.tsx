@@ -52,41 +52,6 @@ export const DocsPage: React.FC = () => {
   const docArticles: DocArticle[] = useMemo(
     () => [
       {
-        id: 'namistory-pipeline',
-        category: 'quickstart',
-        categoryIcon: Layers,
-        title: '🏭 360 纳米漫剧工业级流水线制作指南 (Namistory)',
-        tags: ['360纳米', '工业级流水线', '空间记忆', '镜头调度'],
-        summary: '学习 360 纳米漫剧流水线 (Namistory) 的工业化生产标准：明盒逻辑、空间/资产记忆与电影级镜头调度。',
-        content: (isDark: boolean) => (
-          <div className="space-y-6">
-            <div
-              className={`p-4 rounded-xl border backdrop-blur-md transition-colors ${
-                isDark
-                  ? 'bg-gradient-to-r from-purple-900/30 to-cyan-900/30 border-purple-500/30 text-slate-300'
-                  : 'bg-gradient-to-r from-purple-100/90 via-indigo-50 to-cyan-100/90 border-purple-300 text-slate-800 shadow-sm'
-              }`}
-            >
-              <h3
-                className={`text-lg font-bold mb-2 flex items-center gap-2 ${
-                  isDark ? 'text-white' : 'text-slate-900'
-                }`}
-              >
-                <Sparkles className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-purple-600'}`} />
-                360 纳米漫剧工业级流水线 (Namistory Engine)
-              </h3>
-              <p className="text-sm leading-relaxed">
-                Novella 现已深度整合 360 纳米漫剧流水线标准。通过{' '}
-                <strong className={isDark ? 'text-cyan-300' : 'text-purple-700 font-bold'}>
-                  空间与资产记忆引擎 (Namistory Spatial Memory)
-                </strong>
-                、电影级镜头调度（希区柯克变焦 / FPV 穿梭）与明盒透明推理日志，实现 90%+ 的超高一次成片率与工业化量产能力。
-              </p>
-            </div>
-          </div>
-        ),
-      },
-      {
         id: 'getting-started',
         category: 'quickstart',
         categoryIcon: Zap,
