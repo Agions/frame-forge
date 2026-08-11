@@ -24,13 +24,13 @@ export function createProjectSlice(set: ProjectSetState, get: ProjectGetState) {
     createProject: (partial: Partial<ProjectData>): ProjectData => {
       const now = new Date().toISOString();
       const project: ProjectData = {
-        id: uuidv4(),
+        id: partial.id || uuidv4(),
         name: partial.name ?? '新项目',
         description: partial.description ?? '',
         content: partial.content ?? '',
         status: partial.status ?? 'draft',
-        createdAt: now,
-        updatedAt: now,
+        createdAt: partial.createdAt || now,
+        updatedAt: partial.updatedAt || now,
       };
       set((s) => ({ projects: [...s.projects, project] }));
       return project;

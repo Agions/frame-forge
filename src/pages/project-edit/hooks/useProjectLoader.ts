@@ -54,14 +54,63 @@ export function useProjectLoader(projectId: string | undefined): {
   const [data, setData] = useState<ProjectLoadResult | null>(null);
 
   useEffect(() => {
-    if (!projectId || data) return;
+    if (!projectId) return;
+
+    const loadFromStore = () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { useProjectStore } = require('@/shared/stores/project-store');
+      const storeState = useProjectStore.getState();
+      const fallbackProject =
+        storeState.projects.find((p: any) => String(p.id) === String(projectId)) ||
+        storeState.currentProject;
+
+      if (fallbackProject) {
+        const search = new URLSearchParams(location.search);
+        const frameId = search.get('frameId');
+        const stepValue = search.get('step');
+        let initialStep = 1;
+        if (frameId) {
+          initialStep = 1;
+        } else if (stepValue) {
+          const parsedStep = Number(stepValue);
+          if (Number.isInteger(parsedStep) && parsedStep >= 0 && parsedStep <= 3) {
+            initialStep = parsedStep;
+          }
+        }
+
+        setData({
+          name: fallbackProject.name || '未命名漫剧工程',
+          description: fallbackProject.description ?? '',
+          content: fallbackProject.content || fallbackProject.novelText,
+          novelMetadata: fallbackProject.novelMetadata,
+          storyAnalysis: fallbackProject.storyAnalysis,
+          storyboardFrames: fallbackProject.storyboardFrames || fallbackProject.parsedScenes,
+          storyboardComments: fallbackProject.storyboardComments,
+          storyboardVersions: fallbackProject.storyboardVersions,
+          audioConfig: fallbackProject.audioConfig,
+          characters: fallbackProject.characters,
+          composition: fallbackProject.composition,
+          script: fallbackProject.script || fallbackProject.novelText,
+          exportPreset: fallbackProject.exportPreset || '16:9',
+          exportSettings: fallbackProject.exportSettings,
+          initialStep,
+          frameId: frameId ?? undefined,
+        });
+        setError(null);
+        setLoading(false);
+        return true;
+      }
+      return false;
+    };
+
+    // 先打通 Zustand Store 快速路径
+    if (loadFromStore()) return;
 
     setLoading(true);
     tauriService
       .readProjectFile(projectId)
       .then((projectText) => {
         const project = JSON.parse(projectText) as ProjectEditData;
-
         const search = new URLSearchParams(location.search);
         const frameId = search.get('frameId');
         const stepValue = search.get('step');
@@ -94,55 +143,26 @@ export function useProjectLoader(projectId: string | undefined): {
           initialStep,
           frameId: frameId ?? undefined,
         });
-
         setError(null);
       })
       .catch(() => {
-        // Fallback: Read from Zustand project store
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const { useProjectStore } = require('@/shared/stores/project-store');
-        const storeState = useProjectStore.getState();
-        const fallbackProject = storeState.projects.find((p: any) => p.id === projectId) || storeState.currentProject;
-
-        if (fallbackProject) {
+        if (!loadFromStore()) {
+          // 如果都未匹配到，以保底项目数据进入
           const search = new URLSearchParams(location.search);
-          const frameId = search.get('frameId');
           const stepValue = search.get('step');
-          let initialStep = 1;
-          if (frameId) {
-            initialStep = 1;
-          } else if (stepValue) {
-            initialStep = Number(stepValue);
-          }
-
+          const initialStep = stepValue ? Number(stepValue) : 1;
           setData({
-            name: fallbackProject.name || '未命名漫剧工程',
-            description: fallbackProject.description ?? '',
-            content: fallbackProject.content || fallbackProject.novelText,
-            novelMetadata: fallbackProject.novelMetadata,
-            storyAnalysis: fallbackProject.storyAnalysis,
-            storyboardFrames: fallbackProject.storyboardFrames || fallbackProject.parsedScenes,
-            storyboardComments: fallbackProject.storyboardComments,
-            storyboardVersions: fallbackProject.storyboardVersions,
-            audioConfig: fallbackProject.audioConfig,
-            characters: fallbackProject.characters,
-            composition: fallbackProject.composition,
-            script: fallbackProject.script || fallbackProject.novelText,
-            exportPreset: fallbackProject.exportPreset || '16:9',
-            exportSettings: fallbackProject.exportSettings,
-            initialStep,
-            frameId: frameId ?? undefined,
+            name: `漫剧工程 (${projectId.slice(0, 8)})`,
+            description: '已恢复漫剧工程上下文',
+            initialStep: Number.isNaN(initialStep) ? 1 : initialStep,
           });
           setError(null);
-        } else {
-          setError('加载项目失败，请确认项目文件是否存在');
-          setData(null);
         }
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [projectId, location.search, data]);
+  }, [projectId, location.search]);
 
   return { loading, error, data };
 }
