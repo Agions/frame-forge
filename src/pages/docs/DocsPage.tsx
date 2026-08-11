@@ -180,67 +180,75 @@ export const DocsPage: React.FC = () => {
         id: 'sop-workflow',
         category: 'workflow',
         categoryIcon: Layers,
-        title: '🎬 SOP 6 阶工作流完全指南',
-        tags: ['SOP', '流水线', '状态机'],
-        summary: '详解 Draft -> Parse -> Board -> Audio -> Build -> Final 6 大标准制作环节。',
+        title: '🤖 Multi-Agent 多智能体协作架构指南',
+        tags: ['Multi-Agent', '黑板模式', '智能体协作'],
+        summary: '详解 CHIEF -> STORY -> ACTOR -> FRAME -> AUDIO -> VIDEO 7 大 5 字母 Agent 集群与 ProjectBlackboard 共享黑板协作机制。',
         content: (isDark: boolean) => (
           <div className="space-y-6">
             <p
               className={`text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
             >
-              Novella 内部集成了符合工业级动画制片标准的 <strong>6 阶规范 SOP 状态机</strong>。
-              每个阶段具备独立的任务逻辑与质量打回机制：
+              Novella 摒弃了单向线性的 SOP，升级为符合工业级 AI 动画制片标准的 <strong>Hub-and-Spoke 多智能体协作架构</strong>。
+              所有专职智能体围绕 <code>ProjectBlackboard</code> 共享黑板协同工作：
             </p>
 
             <div className="space-y-4">
               {[
                 {
-                  stage: '1. Draft (草稿导入)',
-                  badge: 'Draft',
+                  stage: '1. CHIEF (主控导演 Agent)',
+                  badge: 'CHIEF',
+                  darkBg: 'border-indigo-500/30 bg-indigo-950/20 text-slate-300',
+                  lightBg: 'border-indigo-200 bg-indigo-50/70 text-slate-800 shadow-sm',
+                  icon: Sparkles,
+                  desc: '作为 Hub-and-Spoke 的总调度枢纽，监听 Blackboard 共享黑板，指挥各子 Agent 协同分发任务。',
+                },
+                {
+                  stage: '2. STORY (剧本识别 Agent)',
+                  badge: 'STORY',
                   darkBg: 'border-slate-700 bg-slate-900/60 text-slate-300',
                   lightBg: 'border-slate-200 bg-slate-50 text-slate-800 shadow-sm',
                   icon: FileText,
-                  desc: '上传 txt / docx / md 格式小说全文，或输入核心灵感大纲。AI 智能分析章节字数与拆分逻辑。',
+                  desc: '自动识别现成剧本文件 (.txt/.md/.docx/.json)、小说文本与 AI 提示词三类素材，智能拆解章节大纲。',
                 },
                 {
-                  stage: '2. Parse (剧本解析)',
-                  badge: 'Parse',
-                  darkBg: 'border-blue-500/30 bg-blue-950/20 text-slate-300',
-                  lightBg: 'border-blue-200 bg-blue-50/70 text-slate-800 shadow-sm',
-                  icon: Sparkles,
-                  desc: 'Script Analyst Agent 提取对白、旁白、角色情绪、出场人物，自动推导全场景景别与镜头脚本。',
-                },
-                {
-                  stage: '3. Board (分镜与角色)',
-                  badge: 'Board',
+                  stage: '3. ACTOR (角色锁脸 Agent)',
+                  badge: 'ACTOR',
                   darkBg: 'border-purple-500/30 bg-purple-950/20 text-slate-300',
                   lightBg: 'border-purple-200 bg-purple-50/70 text-slate-800 shadow-sm',
                   icon: UserCheck,
-                  desc: 'Storyboard Master 锁定角色三视图与 Anchor 锚点防飘移，生成高清动漫分镜图与 Trajectory 运镜动效。',
+                  desc: '分析角色实体，生成 Consistency LoRA 锁脸 Anchor 锚点与人设 Prompt，防止二次元画面漂移。',
                 },
                 {
-                  stage: '4. Audio (音轨与 TTS)',
-                  badge: 'Audio',
+                  stage: '4. FRAME (视听分镜 Agent)',
+                  badge: 'FRAME',
+                  darkBg: 'border-blue-500/30 bg-blue-950/20 text-slate-300',
+                  lightBg: 'border-blue-200 bg-blue-50/70 text-slate-800 shadow-sm',
+                  icon: Layers,
+                  desc: '推导镜头运镜轨迹 (Zoom In / Pan Right)，构建 3 栏漫剧画幅提示词大盘。',
+                },
+                {
+                  stage: '5. AUDIO (音效配音 Agent)',
+                  badge: 'AUDIO',
                   darkBg: 'border-cyan-500/30 bg-cyan-950/20 text-slate-300',
                   lightBg: 'border-cyan-200 bg-cyan-50/70 text-slate-800 shadow-sm',
                   icon: Music,
-                  desc: 'Audio Master 为各角色分配情感音色，生成 EdgeTTS / CosyVoice 配音，并在时间轴上毫秒级对齐 BGM 与音效轨。',
+                  desc: '多音轨 EdgeTTS / CosyVoice 语音合成，混音 BGM 音轨与毫秒级字幕卡点对齐。',
                 },
                 {
-                  stage: '5. Build (硬件渲染)',
-                  badge: 'Build',
+                  stage: '6. VIDEO (视频压制 Agent)',
+                  badge: 'VIDEO',
                   darkBg: 'border-amber-500/30 bg-amber-950/20 text-slate-300',
                   lightBg: 'border-amber-200 bg-amber-50/70 text-slate-800 shadow-sm',
                   icon: Film,
-                  desc: 'Compositor 调度 Apple VideoToolbox / NVENC GPU 硬件压制，合成 60fps 高清视频片段与 2.5D 视差转场。',
+                  desc: '调度 Apple VideoToolbox (Metal) / NVIDIA NVENC GPU 硬件推演 4K 压制与渲染队列。',
                 },
                 {
-                  stage: '6. Final (完工导出)',
-                  badge: 'Final',
+                  stage: '7. EXTRA (自定义 Agent 插件)',
+                  badge: 'EXTRA',
                   darkBg: 'border-emerald-500/30 bg-emerald-950/20 text-slate-300',
                   lightBg: 'border-emerald-200 bg-emerald-50/70 text-slate-800 shadow-sm',
                   icon: CheckCircle2,
-                  desc: '经过编剧、分镜、导演四视角 Quality Gate 审查后，一键打满打包导出 4K MP4 视频与多格式字幕包。',
+                  desc: '支持用户声明式自定义扩展 Agent 插件，设定触发阶段与 LLM 规则，共享黑板流转。',
                 },
               ].map((item, index) => {
                 const IconComponent = item.icon;
