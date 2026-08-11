@@ -66,7 +66,7 @@ export function useProjectLoader(projectId: string | undefined): {
         const frameId = search.get('frameId');
         const stepValue = search.get('step');
 
-        let initialStep = 0;
+        let initialStep = 3;
         if (frameId) {
           initialStep = 3;
         } else if (stepValue) {
@@ -74,10 +74,6 @@ export function useProjectLoader(projectId: string | undefined): {
           if (Number.isInteger(nextStep) && nextStep >= 0 && nextStep <= 8) {
             initialStep = nextStep;
           }
-        } else if (project.script) {
-          initialStep = 2;
-        } else if (project.content) {
-          initialStep = 1;
         }
 
         setData({
@@ -112,13 +108,11 @@ export function useProjectLoader(projectId: string | undefined): {
           const search = new URLSearchParams(location.search);
           const frameId = search.get('frameId');
           const stepValue = search.get('step');
-          let initialStep = 0;
+          let initialStep = 3;
           if (frameId) {
             initialStep = 3;
           } else if (stepValue) {
             initialStep = Number(stepValue);
-          } else if (fallbackProject.script || fallbackProject.novelText) {
-            initialStep = 2;
           }
 
           setData({

@@ -74,58 +74,30 @@ const ProjectEdit = () => {
             className="text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            返回
+            返回创作大盘
           </Button>
           <div className="h-4 w-[1px] bg-[var(--border)]" />
           <h2 className="text-base font-bold text-[var(--foreground)]">
-            {name || 'Novella 剧本分镜拆解编辑器'}
+            {name || loaderData?.name || 'Novella 视听分镜 Studio 工作台'}
           </h2>
-          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[var(--neon-cyan-bg)] text-[var(--neon-cyan)] border border-[var(--neon-cyan-border)] font-mono font-bold">
-            {stage}
+          <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono font-bold">
+            Multi-Agent 联通中
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           <Button
             size="sm"
-            onClick={() => toast.success('工程设置已自动保存！')}
-            className="bg-[var(--neon-cyan)] hover:bg-[var(--neon-cyan)]/80 text-slate-950 font-bold text-xs shadow-md shadow-cyan-500/20"
+            onClick={() => toast.success('分镜工程与设置已自动同步存库！')}
+            className="studio-btn-primary text-xs px-4 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow-md shadow-indigo-500/20 cursor-pointer border-0"
           >
-            <Save className="w-3.5 h-3.5 mr-1" />
+            <Save className="w-3.5 h-3.5" />
             保存修改
           </Button>
         </div>
       </div>
 
-      {/* 预设模板灵感区 */}
-      <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-xl shadow-xl space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-[var(--neon-cyan)]" />
-            灵感模板库与 AI 预设生成
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {HOT_MANGA_TEMPLATES.map((tpl) => (
-            <div
-              key={tpl.key}
-              onClick={() => handleApplyTemplate(tpl)}
-              className="p-3.5 rounded-xl bg-[var(--accent)] border border-[var(--border)] hover:border-[var(--neon-cyan)] transition-all cursor-pointer group"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-bold text-xs text-[var(--foreground)] group-hover:text-[var(--neon-cyan)] transition-colors">
-                  {tpl.title}
-                </span>
-                <span className="text-[10px] text-[var(--neon-cyan)] font-mono">{tpl.category}</span>
-              </div>
-              <p className="text-[11px] text-[var(--muted-foreground)] line-clamp-2">{tpl.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 步骤导航与编辑内容 */}
+      {/* 核心分镜 Studio 工作台 (分镜大盘 / 角色锁脸 / 音频轨 / 渲染压制) */}
       <div className="p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] backdrop-blur-xl shadow-xl space-y-4">
         <StepNavigation
           currentStep={currentStep}
