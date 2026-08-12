@@ -104,7 +104,6 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     // esbuild 自带 drop: ['console','debugger']，无需 terserOptions
     rollupOptions: {
-      external: [...TAURI_EXTERNALS],
       output: {
         manualChunks: (id) => {
           // React core

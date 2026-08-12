@@ -13,6 +13,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useTheme } from '@/app/providers/ThemeContext';
 import { verifyModelApiKey } from '@/core/config/model-providers';
+import { tauriService } from '@/infrastructure/tauri-bridge/commands';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { toast } from '@/shared/components/ui/toast';
@@ -115,8 +116,40 @@ const TOP_2_LATEST_PROVIDERS = [
 
 const SettingsPage = () => {
   const { setTheme, isDarkMode } = useTheme();
-  const [workingDir, setWorkingDir] = useState('/Users/Novella/NovellaWorkingDirectory');
+  const [workingDir, setWorkingDir] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const savedDir = localStorage.getItem('novella_working_dir');
+      if (savedDir && savedDir.trim().length > 0) return savedDir;
+    }
+    return '/Users/Novella/NovellaWorkingDirectory';
+  });
   const [testingId, setTestingId] = useState<string | null>(null);
+
+  const handleSaveWorkingDir = (dirPath: string) => {
+    const trimmed = dirPath.trim();
+    if (!trimmed) return;
+    setWorkingDir(trimmed);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('novella_working_dir', trimmed);
+    }
+    toast.success(`🎉 已应用新的工作目录路径: ${trimmed}`);
+  };
+
+  const handleSelectWorkingDir = async () => {
+    try {
+      const selected = await tauriService.openFile({
+        directory: true,
+        title: '选择本地工程工作目录',
+      });
+      if (selected && typeof selected === 'string') {
+        handleSaveWorkingDir(selected);
+      } else if (Array.isArray(selected) && selected.length > 0) {
+        handleSaveWorkingDir(selected[0]);
+      }
+    } catch (e) {
+      toast.info('可通过文本框直接编辑工作目录路径');
+    }
+  };
 
   // 从 localStorage 初始化已存的 Key
   const [apiKeys, setApiKeys] = useState<Record<string, string>>(() => {
@@ -322,12 +355,12 @@ const SettingsPage = () => {
               <FolderOpen className="w-4 h-4 text-[var(--muted-foreground)] absolute left-3 pointer-events-none" />
               <Input
                 value={workingDir}
-                onChange={(e) => setWorkingDir(e.target.value)}
+                onChange={(e) => handleSaveWorkingDir(e.target.value)}
                 className="pl-9 bg-transparent border border-[var(--border)] text-xs rounded-xl flex-1 font-mono text-[var(--foreground)] outline-none focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[var(--border)] focus:shadow-none shadow-none py-2.5"
               />
             </div>
             <Button
-              onClick={() => toast.success('已应用新的工作目录路径')}
+              onClick={handleSelectWorkingDir}
               className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-4 py-2.5 rounded-xl cursor-pointer border-0 font-bold"
             >
               更改路径
