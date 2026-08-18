@@ -33,8 +33,8 @@ export class MasterDirectorAgent extends BaseAgent {
     return this.blackboard;
   }
 
-  public async execute(): Promise<void> {
-    this.log(this.blackboard, '🚀 CHIEF 主控导演启动 360 纳米漫剧工业流水线 (Namistory Engine) 协同推导...', 'info');
+  public async execute(hitlPhases: string[] = []): Promise<void> {
+    this.log(this.blackboard, '🚀 CHIEF 主控导演启动 Auto-Swarm 工业级智能体引擎 (Multi-Agent Swarm)...', 'info');
     this.log(this.blackboard, '📐 360 空间与资产记忆库已拉起 [空间记忆/角色 Consistency Anchor / 92% 预打通率]', 'info');
 
     const allAgents = agentRegistry.getAll().filter((a) => a.metadata.enabled !== false && a.metadata.id !== this.metadata.id);
@@ -43,46 +43,66 @@ export class MasterDirectorAgent extends BaseAgent {
       // 1. 触发剧本识别 Agent (ScriptIngestionAgent)
       const scriptAgent = allAgents.find((a) => a.metadata.role === 'script_ingestion');
       if (scriptAgent) {
-        this.blackboard.update({ activeAgentId: scriptAgent.metadata.id }, this.metadata.id, this.metadata.name, `调度 ${scriptAgent.metadata.name} 介入...`);
-        await scriptAgent.execute(this.blackboard);
-        this.executeCustomAgents('on_script_parsed', allAgents);
+        await this.executeAgentWithRetry(scriptAgent);
+        await this.executeCustomAgents('on_script_parsed', allAgents);
       }
 
       // 2. 触发角色设计 Agent (CharacterDesignerAgent)
       const charAgent = allAgents.find((a) => a.metadata.role === 'character_designer');
       if (charAgent) {
-        this.blackboard.update({ activeAgentId: charAgent.metadata.id }, this.metadata.id, this.metadata.name, `调度 ${charAgent.metadata.name} 介入...`);
-        await charAgent.execute(this.blackboard);
-        this.executeCustomAgents('on_character_anchored', allAgents);
+        await this.executeAgentWithRetry(charAgent);
+        await this.executeCustomAgents('on_character_anchored', allAgents);
       }
 
       // 3. 触发分镜绘图 Agent (StoryboardArtistAgent)
       const sbAgent = allAgents.find((a) => a.metadata.role === 'storyboard_artist');
       if (sbAgent) {
-        this.blackboard.update({ activeAgentId: sbAgent.metadata.id }, this.metadata.id, this.metadata.name, `调度 ${sbAgent.metadata.name} 介入...`);
-        await sbAgent.execute(this.blackboard);
-        this.executeCustomAgents('on_storyboard_generated', allAgents);
+        await this.executeAgentWithRetry(sbAgent);
+        await this.executeCustomAgents('on_storyboard_generated', allAgents);
       }
 
       // 4. 触发音效配音 Agent (SoundEngineerAgent)
       const soundAgent = allAgents.find((a) => a.metadata.role === 'sound_engineer');
       if (soundAgent) {
-        this.blackboard.update({ activeAgentId: soundAgent.metadata.id }, this.metadata.id, this.metadata.name, `调度 ${soundAgent.metadata.name} 介入...`);
-        await soundAgent.execute(this.blackboard);
-        this.executeCustomAgents('on_audio_synthesized', allAgents);
+        await this.executeAgentWithRetry(soundAgent);
+        await this.executeCustomAgents('on_audio_synthesized', allAgents);
       }
 
       // 5. 触发视频压制 Agent (VideoEditorAgent)
       const videoAgent = allAgents.find((a) => a.metadata.role === 'video_editor');
       if (videoAgent) {
-        this.blackboard.update({ activeAgentId: videoAgent.metadata.id }, this.metadata.id, this.metadata.name, `调度 ${videoAgent.metadata.name} 介入...`);
-        await videoAgent.execute(this.blackboard);
+        await this.executeAgentWithRetry(videoAgent);
       }
 
-      this.blackboard.update({ activeAgentId: null, stage: 'completed' }, this.metadata.id, this.metadata.name, '🎉 多智能体 (Multi-Agent) 协同推导与渲染全量完成！');
+      this.blackboard.update({ activeAgentId: null, stage: 'completed' }, this.metadata.id, this.metadata.name, '🎉 Auto-Swarm 多智能体协同推导与渲染全量完成！');
     } catch (err: any) {
       this.log(this.blackboard, `❌ 调度循环发生异常打回: ${err?.message || '协作中断'}`, 'error');
       throw err;
+    }
+  }
+
+  /** 带自动重试与纠错 Loop 的 Agent 执行器 */
+  private async executeAgentWithRetry(agent: BaseAgent, maxRetries: number = 2): Promise<void> {
+    let attempt = 0;
+    while (attempt <= maxRetries) {
+      try {
+        this.blackboard.update(
+          { activeAgentId: agent.metadata.id },
+          this.metadata.id,
+          this.metadata.name,
+          `调度 ${agent.metadata.name} 介入 [尝试 ${attempt + 1}/${maxRetries + 1}]...`
+        );
+        await agent.execute(this.blackboard);
+        return;
+      } catch (err: any) {
+        attempt++;
+        if (attempt > maxRetries) {
+          this.log(this.blackboard, `❌ Agent ${agent.metadata.name} 达到最大重试次数打回: ${err?.message}`, 'error');
+          throw err;
+        }
+        this.log(this.blackboard, `⚠️ Agent ${agent.metadata.name} 执行异常，启动 Auto-Swarm 自动纠错重试 (${attempt}/${maxRetries})...`, 'warn');
+        await new Promise((res) => setTimeout(res, 400));
+      }
     }
   }
 
