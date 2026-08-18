@@ -128,8 +128,34 @@ export class ProjectBlackboard {
         action: logAction,
         level: 'info',
       });
+      // 性能优化：限制通信日志上界 200 条，避免长推演内存无限膨胀
+      if (this.data.logs.length > 200) {
+        this.data.logs = this.data.logs.slice(-200);
+      }
     }
 
+    this.notify();
+  }
+
+  public batchUpdate(updates: Partial<BlackboardData>, agentId: string, agentName: string, logActions: string[]) {
+    const now = new Date().toISOString();
+    this.data = {
+      ...this.data,
+      ...updates,
+      updatedAt: now,
+    };
+    logActions.forEach((action) => {
+      this.data.logs.push({
+        timestamp: now,
+        agentId,
+        agentName,
+        action,
+        level: 'info',
+      });
+    });
+    if (this.data.logs.length > 200) {
+      this.data.logs = this.data.logs.slice(-200);
+    }
     this.notify();
   }
 

@@ -20,6 +20,16 @@ const CACHE_KEY_PREFIX = 'ai';
  * 仅当 temperature === 0 时返回键（确定性输出），否则返回 null。
  * 键格式：`ai:<provider>:<modelId>:<prompt前100字符>`
  */
+function simpleHash(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
 export function buildAICacheKey(
   provider: string,
   modelId: string,
@@ -29,7 +39,7 @@ export function buildAICacheKey(
   if (temperature !== 0) {
     return null;
   }
-  return `${CACHE_KEY_PREFIX}:${provider}:${modelId}:${prompt.slice(0, 100)}`;
+  return `${CACHE_KEY_PREFIX}:${provider}:${modelId}:${simpleHash(prompt)}`;
 }
 
 /**
