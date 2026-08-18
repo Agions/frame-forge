@@ -9,6 +9,8 @@ import {
   Film,
   Share2,
   Zap,
+  Bot,
+  Activity,
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -62,11 +64,10 @@ const SAMPLE_SCRIPTS = [
 ];
 
 const PIPELINE_STEPS = [
-  { id: 1, name: '导入文本', icon: FileText, done: true },
-  { id: 2, name: 'AI解析', icon: Users, done: true },
-  { id: 3, name: '分镜生成', icon: Film, active: true },
-  { id: 4, name: 'TTS配音', icon: Clapperboard, done: false },
-  { id: 5, name: '4K压制', icon: Share2, done: false },
+  { id: 1, name: '策划设定', icon: FileText, done: true },
+  { id: 2, name: '画面生成', icon: Film, active: true },
+  { id: 3, name: '动态合成', icon: Activity, done: false },
+  { id: 4, name: '声音后期', icon: Clapperboard, done: false },
 ];
 
 const HeroSection = () => {
@@ -82,10 +83,11 @@ const HeroSection = () => {
 
   return (
     <div className="space-y-4 mb-6">
-      {/* 门面级 4K 漫剧 Hero 展台 (完美兼容深浅色模式) */}
-      <div className="studio-card p-5 md:p-7 relative overflow-hidden border border-[var(--border)] bg-[var(--card)] rounded-3xl space-y-6 shadow-2xl">
-        {/* 背景高光与渐变 */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Gemini 2026 Studio 4K 漫剧 Hero 展台 */}
+      <div className="studio-card p-5 md:p-7 relative overflow-hidden border border-slate-800/80 bg-[#050810]/90 backdrop-blur-xl rounded-3xl space-y-6 shadow-2xl">
+        {/* 背景高光与青紫色霓虹光晕 */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#00f5d4]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* 展台大卡片两栏布局 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
@@ -95,14 +97,14 @@ const HeroSection = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-black text-[var(--foreground)] tracking-tight flex items-center gap-2">
-                    Novella AI 漫剧创作车间
-                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono font-bold">
-                      PRO Studio
+                  <h1 className="text-2xl md:text-3xl font-black text-slate-100 tracking-tight flex items-center gap-2">
+                    Novella Gemini AI 漫剧创作车间
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#00f5d4]/10 text-[#00f5d4] border border-[#00f5d4]/30 font-mono font-bold">
+                      Gemini Studio 2026
                     </span>
                   </h1>
-                  <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
-                    全流程 AI 漫剧 / 动画短剧自动化创作引擎 · 基于 Tauri v2 + React 19 架构
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    全流程 AI 漫剧 / 动画短剧 Multi-Agent 自动化引擎 · 360 空间记忆与 Consistency 锁脸
                   </p>
                 </div>
 
@@ -110,7 +112,7 @@ const HeroSection = () => {
                   <Button
                     size="sm"
                     onClick={() => setIsCreateModalOpen(true)}
-                    className="studio-btn-primary text-xs px-3.5 py-1.5 rounded-xl border-0 shadow-lg shadow-indigo-500/20 flex items-center gap-1 cursor-pointer"
+                    className="bg-[#00f5d4] hover:bg-[#00e0c2] text-[#050810] text-xs px-4 py-2 rounded-xl border-0 shadow-lg shadow-[#00f5d4]/20 flex items-center gap-1.5 font-bold cursor-pointer"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     新建工程
@@ -118,15 +120,15 @@ const HeroSection = () => {
                   <Button
                     size="sm"
                     onClick={() => navigate('/workflow')}
-                    className="bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 text-xs px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center gap-1"
+                    className="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 text-xs px-3.5 py-2 rounded-xl cursor-pointer flex items-center gap-1.5 font-semibold"
                   >
-                    <Zap className="w-3.5 h-3.5" />
-                    AI 创作向导
+                    <Zap className="w-3.5 h-3.5 text-purple-400" />
+                    AI 智能体向导
                   </Button>
                   <Button
                     size="sm"
                     onClick={() => setIsSampleModalOpen(true)}
-                    className="bg-transparent border border-[var(--border)] hover:bg-[var(--accent)] text-[var(--foreground)] text-xs px-3.5 py-1.5 rounded-xl cursor-pointer"
+                    className="bg-slate-900/60 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl cursor-pointer"
                   >
                     <FileText className="w-3.5 h-3.5 mr-1" />
                     剧本范例
@@ -134,14 +136,14 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {/* SOP 阶段 Step Badges */}
-              <div className="p-3 rounded-2xl bg-[var(--accent)] border border-[var(--border)] flex items-center justify-between gap-2 overflow-x-auto">
+              {/* 4 核心环节 Step Badges */}
+              <div className="p-3 rounded-2xl bg-slate-950/60 border border-slate-800 flex items-center justify-between gap-2 overflow-x-auto">
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-600 text-white shadow-sm">
-                    标准 5 阶 SOP 流程
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-[#00f5d4] text-[#050810] shadow-sm">
+                    4 大核心环节流水线
                   </span>
-                  <span className="text-[11px] font-mono text-[var(--muted-foreground)] font-bold">
-                    03/05
+                  <span className="text-[11px] font-mono text-slate-400 font-bold">
+                    Phase 02/04
                   </span>
                 </div>
 
@@ -151,12 +153,12 @@ const HeroSection = () => {
                     return (
                       <div
                         key={step.id}
-                        className={`flex items-center gap-1 px-2 py-1 rounded-lg transition-colors ${
+                        className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors ${
                           step.active
-                            ? 'bg-indigo-500/20 text-indigo-400 font-bold border border-indigo-500/40'
+                            ? 'bg-[#00f5d4]/10 text-[#00f5d4] font-bold border border-[#00f5d4]/30'
                             : step.done
                               ? 'text-emerald-400'
-                              : 'text-[var(--muted-foreground)]'
+                              : 'text-slate-500'
                         }`}
                       >
                         <Icon className="w-3.5 h-3.5" />
@@ -169,7 +171,7 @@ const HeroSection = () => {
             </div>
 
             {/* 16:9 高清视听 Player */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black/80 border border-[var(--border)] group shadow-2xl flex items-center justify-center">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black/90 border border-slate-800 group shadow-2xl flex items-center justify-center">
               <img
                 src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1200&q=80"
                 alt="漫剧 4K 展台"
@@ -179,17 +181,17 @@ const HeroSection = () => {
               {/* 播放按钮 Overlay */}
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-indigo-600/90 hover:bg-indigo-500 text-white flex items-center justify-center shadow-xl shadow-indigo-600/40 transition-transform hover:scale-110 cursor-pointer border-0 z-20"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-[#00f5d4]/90 hover:bg-[#00f5d4] text-[#050810] flex items-center justify-center shadow-xl shadow-[#00f5d4]/40 transition-transform hover:scale-110 cursor-pointer border-0 z-20"
               >
                 <Play className="w-6 h-6 fill-current ml-1" />
               </button>
 
               {/* 渲染进度条 Overlay */}
-              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between gap-4 text-xs font-mono">
+              <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 flex items-center justify-between gap-4 text-xs font-mono">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span className="text-indigo-400 font-bold animate-pulse">GPU 硬件压制... 85%</span>
+                  <span className="text-[#00f5d4] font-bold animate-pulse">Auto-Swarm GPU 压制... 85%</span>
                   <div className="flex-1 h-2 rounded-full bg-white/20 overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 w-[85%] transition-all duration-300" />
+                    <div className="h-full bg-gradient-to-r from-[#00f5d4] to-purple-500 w-[85%] transition-all duration-300" />
                   </div>
                 </div>
                 <span className="text-slate-300 text-[11px]">03:12 / 04:50</span>
@@ -198,34 +200,34 @@ const HeroSection = () => {
           </div>
 
           {/* 右侧：当前焦点工程面板 */}
-          <div className="p-5 rounded-2xl bg-[var(--accent)] border border-[var(--border)] flex flex-col justify-between space-y-4">
+          <div className="p-5 rounded-2xl bg-slate-950/60 border border-slate-800 flex flex-col justify-between space-y-4">
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
-                <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-indigo-400" />
-                  漫剧生成工作流核心
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                <span className="font-bold text-xs text-slate-100 flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-[#00f5d4]" />
+                  Gemini Studio 漫剧引擎
                 </span>
                 <span className="text-[10px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">
-                  GPU 80fps 就绪
+                  Swarm 就绪
                 </span>
               </div>
 
-              <p className="text-xs text-[var(--muted-foreground)] leading-relaxed">
-                 Novella 内置 6 阶 SOP 状态机、多 Agent 编导调度、角色 Consistency 锚定、多音轨 TTS 混音与 VideoToolbox/NVENC GPU 4K 硬件压制。
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Novella 集成 Hub-and-Spoke 多智能体编导调度、3D 运镜矢量、角色 Consistency 锁脸与 WebAssembly GPU 4K 压制。
               </p>
 
               <div className="space-y-2 pt-2 text-xs">
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
-                  <span className="text-[var(--muted-foreground)]">AI 剧本解析</span>
-                  <span className="text-indigo-400 font-mono font-bold">支持 .txt / .md / .docx</span>
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <span className="text-slate-400">AI 剧本 Agent</span>
+                  <span className="text-[#00f5d4] font-mono font-bold">DeepSeek-V4 / GPT-5.6</span>
                 </div>
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
-                  <span className="text-[var(--muted-foreground)]">角色锁脸协议</span>
-                  <span className="text-purple-400 font-mono font-bold">IP-Adapter LoRA 锚定</span>
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <span className="text-slate-400">角色 Consistency</span>
+                  <span className="text-purple-400 font-mono font-bold">FLUX 4K 锁脸</span>
                 </div>
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)]">
-                  <span className="text-[var(--muted-foreground)]">TTS 音频对齐</span>
-                  <span className="text-emerald-400 font-mono font-bold">毫秒级 EdgeTTS / CosyVoice</span>
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                  <span className="text-slate-400">TTS 音频对齐</span>
+                  <span className="text-emerald-400 font-mono font-bold">CosyVoice / ElevenLabs</span>
                 </div>
               </div>
             </div>
@@ -233,7 +235,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               onClick={() => navigate('/workflow')}
-              className="studio-btn-primary w-full text-xs py-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-500/20"
+              className="bg-[#00f5d4] hover:bg-[#00e0c2] text-[#050810] font-bold w-full text-xs py-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#00f5d4]/20 border-0"
             >
               <Wand2 className="w-4 h-4" />
               进入 AI 漫剧创作工作台
@@ -242,15 +244,15 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* 剧本范例 Drawer Modal */}
+      {/* 剧本范例 Modal */}
       <Dialog open={isSampleModalOpen} onOpenChange={setIsSampleModalOpen}>
-        <DialogContent className="max-w-2xl bg-[var(--card)] border-[var(--border)] text-[var(--foreground)] rounded-2xl">
+        <DialogContent className="max-w-2xl bg-[#050810] border-slate-800 text-slate-100 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold flex items-center gap-2">
-              <FileText className="w-5 h-5 text-indigo-400" />
+              <FileText className="w-5 h-5 text-[#00f5d4]" />
               选择热门漫剧题材范例
             </DialogTitle>
-            <DialogDescription className="text-xs text-[var(--muted-foreground)]">
+            <DialogDescription className="text-xs text-slate-400">
               选填以下精心准备的剧本范例，一键同步载入漫剧拆解车间
             </DialogDescription>
           </DialogHeader>
@@ -260,20 +262,20 @@ const HeroSection = () => {
               <div
                 key={idx}
                 onClick={() => handleSelectSample(sample)}
-                className="p-4 rounded-xl border border-[var(--border)] hover:border-indigo-500 bg-[var(--accent)] transition-all cursor-pointer space-y-2 group"
+                className="p-4 rounded-xl border border-slate-800 hover:border-[#00f5d4] bg-slate-900/50 transition-all cursor-pointer space-y-2 group"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-indigo-400 transition-colors">
+                  <span className="font-bold text-sm text-slate-100 group-hover:text-[#00f5d4] transition-colors">
                     {sample.title}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 font-mono font-bold">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-[#00f5d4]/10 text-[#00f5d4] font-mono font-bold">
                       {sample.genre}
                     </span>
-                    <span className="text-[10px] text-[var(--muted-foreground)] font-mono">{sample.episodes}</span>
+                    <span className="text-[10px] text-slate-500 font-mono">{sample.episodes}</span>
                   </div>
                 </div>
-                <p className="text-xs text-[var(--muted-foreground)] line-clamp-2">{sample.desc}</p>
+                <p className="text-xs text-slate-400 line-clamp-2">{sample.desc}</p>
               </div>
             ))}
           </div>

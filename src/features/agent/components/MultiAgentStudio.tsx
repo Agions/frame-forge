@@ -1,9 +1,8 @@
 /**
  * MultiAgentStudio.tsx — 门面级 Multi-Agent 多智能体协作工作台
  *
- * 替代原有的 SOP 线性流程，以 Hub-and-Spoke 架构的多智能体大盘为核心：
- * 支持现成剧本、小说文本、AI 提示词三类输入，自动调起各专门智能体协作，
- * 实时同步 Blackboard 共享黑板，并支持用户动态扩展自定义 Agent。
+ * 彻底重构为 Gemini Studio 2026 统一设计语言：
+ * 采用冰川黑 (#050810) 背景、亮青色 (#00f5d4) 核心按钮与 Swarm 高感光卡片。
  */
 
 import {
@@ -148,21 +147,21 @@ export const MultiAgentStudio: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 font-sans text-[var(--foreground)] bg-[var(--background)] min-h-[calc(100vh-5rem)] p-4 rounded-2xl border border-[var(--border)] shadow-xl">
+    <div className="space-y-6 font-sans text-slate-100 bg-[#050810] min-h-[calc(100vh-5rem)] p-4 rounded-3xl border border-slate-800/80 shadow-2xl">
       {/* 顶部 Header Toolbar */}
-      <div className="flex items-center justify-between gap-4 p-4 bg-[var(--card)] rounded-2xl border border-[var(--border)] flex-wrap shadow-lg">
+      <div className="flex items-center justify-between gap-4 p-4 bg-slate-950/80 rounded-2xl border border-slate-800 flex-wrap shadow-lg backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+          <div className="w-10 h-10 rounded-xl bg-[#00f5d4]/10 border border-[#00f5d4]/30 flex items-center justify-center text-[#00f5d4]">
             <Bot className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-base font-extrabold text-[var(--foreground)] flex items-center gap-2">
-              Novella Multi-Agent 多智能体协作创作中心
-              <Badge className="bg-indigo-500/15 text-indigo-400 border-indigo-500/30 font-mono text-[10px]">
-                Hub-and-Spoke 模式
+            <h2 className="text-base font-extrabold text-slate-100 flex items-center gap-2">
+              Novella Multi-Agent 智能体协作中心
+              <Badge className="bg-[#00f5d4]/15 text-[#00f5d4] border-[#00f5d4]/30 font-mono text-[10px]">
+                Auto-Swarm 引擎
               </Badge>
             </h2>
-            <p className="text-xs text-[var(--muted-foreground)] mt-0.5">
+            <p className="text-xs text-slate-400 mt-0.5">
               去除线性 SOP 限制 · 由主控导演 Agent 调起专门智能体与自定义 Agent 共享 Blackboard 协作
             </p>
           </div>
@@ -172,15 +171,15 @@ export const MultiAgentStudio: React.FC = () => {
           <Button
             size="sm"
             onClick={() => setIsAgentConfigModalOpen(true)}
-            className="bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer"
+            className="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-pointer font-semibold"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-3.5 h-3.5 text-purple-400" />
             扩展自定义 Agent
           </Button>
           <Button
             size="sm"
             onClick={handleEnterStudio}
-            className="studio-btn-primary text-xs px-4 py-2 rounded-xl border-0 shadow-lg shadow-indigo-500/20 flex items-center gap-1.5 cursor-pointer font-bold"
+            className="bg-[#00f5d4] hover:bg-[#00e0c2] text-[#050810] text-xs px-4 py-2 rounded-xl border-0 shadow-lg shadow-[#00f5d4]/20 flex items-center gap-1.5 cursor-pointer font-bold"
           >
             <Clapperboard className="w-3.5 h-3.5" />
             进入分镜 Studio
@@ -192,22 +191,22 @@ export const MultiAgentStudio: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 左栏：输入源选择与智能识别框 */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="studio-card p-5 space-y-4 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
-            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
-              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
-                <FileText className="w-4 h-4 text-indigo-400" />
+          <div className="studio-card p-5 space-y-4 border border-slate-800 bg-slate-950/60 rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span className="font-bold text-xs text-slate-100 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#00f5d4]" />
                 素材内容输入 (支持三类输入)
               </span>
             </div>
 
             {/* 输入类型 Selector */}
-            <div className="grid grid-cols-3 gap-1.5 p-1 bg-[var(--accent)] rounded-xl border border-[var(--border)] text-[11px]">
+            <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-800 text-[11px]">
               <button
                 onClick={() => setInputType('novel_text')}
                 className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   inputType === 'novel_text'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    ? 'bg-[#00f5d4] text-[#050810] shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 小说文本
@@ -216,8 +215,8 @@ export const MultiAgentStudio: React.FC = () => {
                 onClick={() => setInputType('script_file')}
                 className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   inputType === 'script_file'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    ? 'bg-[#00f5d4] text-[#050810] shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 现成剧本
@@ -226,8 +225,8 @@ export const MultiAgentStudio: React.FC = () => {
                 onClick={() => setInputType('ai_prompt')}
                 className={`py-1.5 rounded-lg font-bold transition-all cursor-pointer ${
                   inputType === 'ai_prompt'
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                    ? 'bg-[#00f5d4] text-[#050810] shadow-sm'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 AI 提示词
@@ -245,14 +244,14 @@ export const MultiAgentStudio: React.FC = () => {
                     ? '输入 AI 创作灵感提示词（例如：“创作一部 12 集赛博修仙漫剧，主角叫李云霄...”）'
                     : '粘贴或拖入小说原文章节段落...'
               }
-              className="w-full p-3.5 rounded-xl bg-transparent border border-[var(--border)] text-xs text-[var(--foreground)] focus:outline-none focus:border-indigo-500 resize-none font-mono leading-relaxed"
+              className="w-full p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-[#00f5d4] resize-none font-mono leading-relaxed"
             />
 
             <Button
               size="lg"
               disabled={isExecuting}
               onClick={handleStartMultiAgentPipeline}
-              className="studio-btn-primary w-full text-xs py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 cursor-pointer"
+              className="bg-[#00f5d4] hover:bg-[#00e0c2] text-[#050810] font-bold w-full text-xs py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-[#00f5d4]/20 cursor-pointer border-0"
             >
               <Zap className={`w-4 h-4 fill-current ${isExecuting ? 'animate-spin' : ''}`} />
               {isExecuting ? '多智能体 (Multi-Agent) 协同推导中...' : '启动 Multi-Agent 协同推导'}
@@ -263,9 +262,9 @@ export const MultiAgentStudio: React.FC = () => {
         {/* 右栏：智能体集群 (Agent Swarm Grid) 与 Blackboard 共享黑板 Live 控制台 */}
         <div className="lg:col-span-2 space-y-5">
           {/* Multi-Agent Swarm 状态卡片网格 */}
-          <div className="studio-card p-5 space-y-4 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
-            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
-              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
+          <div className="studio-card p-5 space-y-4 border border-slate-800 bg-slate-950/60 rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span className="font-bold text-xs text-slate-100 flex items-center gap-2">
                 <Activity className="w-4 h-4 text-emerald-400" />
                 协作智能体集群 (Agent Swarm - {registeredAgents.length} 位 Agent 就绪)
               </span>
@@ -283,16 +282,16 @@ export const MultiAgentStudio: React.FC = () => {
                     key={agent.metadata.id}
                     className={`p-3.5 rounded-xl border transition-all space-y-2 relative ${
                       isActive
-                        ? 'bg-indigo-600/15 border-indigo-500 shadow-lg shadow-indigo-500/20 scale-[1.02]'
+                        ? 'bg-[#00f5d4]/15 border-[#00f5d4] shadow-lg shadow-[#00f5d4]/20 scale-[1.02]'
                         : isCompleted
-                          ? 'bg-emerald-950/20 border-emerald-500/40'
-                          : 'bg-[var(--accent)] border-[var(--border)]'
+                          ? 'bg-emerald-950/30 border-emerald-500/40'
+                          : 'bg-slate-900/60 border-slate-800'
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-base">{agent.metadata.avatar || '🤖'}</span>
-                        <span className="font-bold text-xs text-[var(--foreground)] truncate">
+                        <span className="font-bold text-xs text-slate-100 truncate">
                           {agent.metadata.name.split(' ')[0]}
                         </span>
                       </div>
@@ -302,12 +301,12 @@ export const MultiAgentStudio: React.FC = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[var(--muted-foreground)] line-clamp-2">
+                    <p className="text-[10px] text-slate-400 line-clamp-2">
                       {agent.metadata.description}
                     </p>
-                    <div className="flex items-center justify-between text-[9px] font-mono pt-1.5 border-t border-[var(--border)] text-[var(--muted-foreground)]">
+                    <div className="flex items-center justify-between text-[9px] font-mono pt-1.5 border-t border-slate-800 text-slate-400">
                       <span>Phase:</span>
-                      <span className="text-indigo-400 font-bold">{agent.metadata.triggerPhase.split('_')[1]}</span>
+                      <span className="text-[#00f5d4] font-bold">{agent.metadata.triggerPhase.split('_')[1]}</span>
                     </div>
                   </div>
                 );
@@ -316,9 +315,9 @@ export const MultiAgentStudio: React.FC = () => {
           </div>
 
           {/* ProjectBlackboard 共享黑板实时控制台与 Agent 日志 */}
-          <div className="studio-card p-5 space-y-3 border border-[var(--border)] bg-[var(--card)] rounded-2xl shadow-xl">
-            <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
-              <span className="font-bold text-xs text-[var(--foreground)] flex items-center gap-2">
+          <div className="studio-card p-5 space-y-3 border border-slate-800 bg-slate-950/60 rounded-2xl shadow-xl">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+              <span className="font-bold text-xs text-slate-100 flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-purple-400" />
                 ProjectBlackboard 共享黑板通信日志 (Live Log)
               </span>
@@ -327,11 +326,11 @@ export const MultiAgentStudio: React.FC = () => {
               </span>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 text-[11px] font-mono space-y-2 h-44 overflow-y-auto">
+            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono space-y-2 h-44 overflow-y-auto">
               {blackboardData.logs.map((log, idx) => (
                 <div key={idx} className="flex items-start gap-2 leading-relaxed">
                   <span className="text-slate-500 text-[10px]">[{log.timestamp.slice(11, 19)}]</span>
-                  <span className="text-indigo-400 font-bold min-w-[110px]">[{log.agentName.split(' ')[0]}]</span>
+                  <span className="text-[#00f5d4] font-bold min-w-[110px]">[{log.agentName.split(' ')[0]}]</span>
                   <span className={log.level === 'error' ? 'text-rose-400 font-bold' : log.level === 'success' ? 'text-emerald-400 font-bold' : 'text-slate-300'}>
                     {log.action}
                   </span>
