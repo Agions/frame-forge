@@ -7,6 +7,7 @@
  * 协同完成从原始输入到 4K 漫剧全流程推导与构建。
  */
 
+import { pluginRegistry } from '@/core/plugins/PluginRegistry';
 import { agentRegistry } from './AgentRegistry';
 import { BaseAgent } from './BaseAgent';
 import { ProjectBlackboard, type InputContentType } from './ProjectBlackboard';
@@ -36,11 +37,20 @@ export class MasterDirectorAgent extends BaseAgent {
   public async execute(targetBlackboard?: ProjectBlackboard | any): Promise<void> {
     const bb = targetBlackboard instanceof ProjectBlackboard ? targetBlackboard : this.blackboard;
     this.log(bb, '🚀 CHIEF 主控导演启动 Auto-Swarm 工业级智能体引擎 (Multi-Agent Swarm)...', 'info');
-    this.log(this.blackboard, '📐 360 空间与资产记忆库已拉起 [空间记忆/角色 Consistency Anchor / 92% 预打通率]', 'info');
+    this.log(bb, '📐 360 空间与资产记忆库已拉起 [空间记忆/角色 Consistency Anchor / 92% 预打通率]', 'info');
 
     const allAgents = agentRegistry.getAll().filter((a) => a.metadata.enabled !== false && a.metadata.id !== this.metadata.id);
 
     try {
+      // 0. 执行插件 Hook: onBeforeScriptParse
+      const rawText = bb.getData().rawInput;
+      if (rawText) {
+        const sanitized = await pluginRegistry.executeHook('onBeforeScriptParse', rawText);
+        if (sanitized && typeof sanitized === 'string') {
+          bb.update({ rawInput: sanitized, scriptContent: sanitized }, this.metadata.id, this.metadata.name, '插件 Hook: onBeforeScriptParse 提示词清洗完成');
+        }
+      }
+
       // 1. 触发剧本识别 Agent (ScriptIngestionAgent)
       const scriptAgent = allAgents.find((a) => a.metadata.role === 'script_ingestion');
       if (scriptAgent) {
@@ -52,6 +62,11 @@ export class MasterDirectorAgent extends BaseAgent {
       const charAgent = allAgents.find((a) => a.metadata.role === 'character_designer');
       if (charAgent) {
         await this.executeAgentWithRetry(charAgent);
+        const chars = bb.getData().characters;
+        const processedChars = await pluginRegistry.executeHook('onAfterCharacterAnchor', chars);
+        if (processedChars && Array.isArray(processedChars)) {
+          bb.update({ characters: processedChars }, this.metadata.id, this.metadata.name, '插件 Hook: onAfterCharacterAnchor 角色锚定处理完成');
+        }
         await this.executeCustomAgents('on_character_anchored', allAgents);
       }
 
@@ -59,6 +74,7 @@ export class MasterDirectorAgent extends BaseAgent {
       const sbAgent = allAgents.find((a) => a.metadata.role === 'storyboard_artist');
       if (sbAgent) {
         await this.executeAgentWithRetry(sbAgent);
+        await pluginRegistry.executeHook('onCameraMotionPlan', { cameraType: 'Hitchcock_Zoom' });
         await this.executeCustomAgents('on_storyboard_generated', allAgents);
       }
 
@@ -75,9 +91,10 @@ export class MasterDirectorAgent extends BaseAgent {
         await this.executeAgentWithRetry(videoAgent);
       }
 
+      await pluginRegistry.executeHook('onRenderComplete', { status: 'success' });
       this.blackboard.update({ activeAgentId: null, stage: 'completed' }, this.metadata.id, this.metadata.name, '🎉 Auto-Swarm 多智能体协同推导与渲染全量完成！');
     } catch (err: any) {
-      this.log(this.blackboard, `❌ 调度循环发生异常打回: ${err?.message || '协作中断'}`, 'error');
+      this.log(bb, `❌ 调度循环发生异常打回: ${err?.message || '协作中断'}`, 'error');
       throw err;
     }
   }
