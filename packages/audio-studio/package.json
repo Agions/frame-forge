@@ -7,6 +7,6 @@
   "types": "./src/index.tsx",
   "license": "MIT",
   "dependencies": {
-    "@novella/core": "workspace:*"
+    "@novella/ui": "workspace:*"
   }
 }

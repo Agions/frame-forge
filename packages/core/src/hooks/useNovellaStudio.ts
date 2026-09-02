@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { invoke } from '@tauri-apps/api/core';
-import { DramaProject, Episode } from '../index';
+import { DramaProject, Episode } from '../types';
 
 export interface HardwareAccelInfo {
   nvenc: boolean;

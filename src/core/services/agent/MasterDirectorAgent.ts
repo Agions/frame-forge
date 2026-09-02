@@ -34,7 +34,7 @@ export class MasterDirectorAgent extends BaseAgent {
     return this.blackboard;
   }
 
-  public async execute(targetBlackboard?: ProjectBlackboard | any): Promise<void> {
+  public async execute(targetBlackboard?: ProjectBlackboard): Promise<void> {
     const bb = targetBlackboard instanceof ProjectBlackboard ? targetBlackboard : this.blackboard;
     this.log(bb, '🚀 CHIEF 主控导演启动 Auto-Swarm 工业级智能体引擎 (Multi-Agent Swarm)...', 'info');
     this.log(bb, '📐 360 空间与资产记忆库已拉起 [空间记忆/角色 Consistency Anchor / 92% 预打通率]', 'info');
