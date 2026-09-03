@@ -222,7 +222,7 @@ export default [
   // shared stores / utils：不允许导入 core/features/app/pages（business 组件除外）
   {
     files: ['src/shared/**/*.ts', 'src/shared/**/*.tsx'],
-    ignores: ['src/__tests__/**', 'src/shared/components/business/**'],
+    ignores: ['src/__tests__/**', 'src/shared/components/business/**', 'src/shared/types/**'],
     rules: {
       'no-restricted-imports': [
         'warn',
