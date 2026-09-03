@@ -12,3 +12,4 @@ export * from './SoundEngineerAgent';
 export * from './VideoEditorAgent';
 export * from './CustomUserAgent';
 export * from './AgentRegistry';
+export * from './A2AProtocolAdapter';
