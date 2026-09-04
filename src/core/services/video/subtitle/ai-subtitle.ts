@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { aiService } from '@/core/services/ai/text/ai-service';
 import { logger } from '@/core/utils/logger';
-import { formatTime } from '@/shared/utils';
+import { formatTime } from '@/common/utils';
 
 import { generateFromText } from './generators';
 import type { SubtitleItem, SubtitleStyle, SubtitleTimeframe, SubtitleTrack } from './types';

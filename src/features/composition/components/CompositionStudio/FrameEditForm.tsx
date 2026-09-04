@@ -8,13 +8,13 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Divider } from '@/shared/components/ui/divider';
-import { Row, Col } from '@/shared/components/ui/grid';
-import { InputNumber } from '@/shared/components/ui/input-number';
-import { AntDSelect as Select } from '@/shared/components/ui/select';
-import { Slider } from '@/shared/components/ui/slider';
-import type { CameraMotionConfig, FrameAnimation } from '@/shared/types/composition';
+import { Button } from '@/common/components/ui/button';
+import { Divider } from '@/common/components/ui/divider';
+import { Row, Col } from '@/common/components/ui/grid';
+import { InputNumber } from '@/common/components/ui/input-number';
+import { AntDSelect as Select } from '@/common/components/ui/select';
+import { Slider } from '@/common/components/ui/slider';
+import type { CameraMotionConfig, FrameAnimation } from '@/common/types/composition';
 
 import { CAMERA_MOTION_OPTIONS, renderOptionItems } from './constants';
 

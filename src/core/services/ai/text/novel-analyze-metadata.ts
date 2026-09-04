@@ -15,7 +15,7 @@
 
 import { aiService } from '@/core/services/ai/text/ai-service';
 import { logger } from '@/core/utils/logger';
-import type { NovelMetadata } from '@/shared/types';
+import type { NovelMetadata } from '@/common/types';
 
 import type { ResolvedAnalyzeConfig } from './novel-analyze-config';
 

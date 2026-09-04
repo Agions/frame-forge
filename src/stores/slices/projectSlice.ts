@@ -5,7 +5,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-import type { ProjectData } from '@/shared/types/project';
+import type { ProjectData } from '@/common/types/project';
 
 type ProjectSliceFields = {
   projects: ProjectData[];

@@ -111,7 +111,7 @@ export const HIGH_REUSE_THRESHOLD = 3;
 
 import { v4 as uuidv4 } from 'uuid';
 
-import type { ProjectData } from '@/shared/types';
+import type { ProjectData } from '@/common/types';
 
 // ========== 内存存储（生产环境应替换为 IndexedDB / Tauri KV） ==========
 

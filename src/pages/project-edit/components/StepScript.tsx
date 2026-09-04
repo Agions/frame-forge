@@ -7,10 +7,10 @@ import { Film, Plus, Trash2, ArrowRight, ArrowLeft, Camera } from 'lucide-react'
 import React, { useState } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
 
 const INITIAL_SHOTS = [
   {

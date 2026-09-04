@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/shared/components/ui/dialog';
+} from '@/common/components/ui/dialog';
 
 // ============================================================
 // Popconfirm component

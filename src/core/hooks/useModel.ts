@@ -14,8 +14,8 @@ import {
   getRecommendedModels,
 } from '@/core/config/models-config';
 import { secureStorage } from '@/core/services/project/secure-storage-service';
-import type { AIModel, ModelProvider, ModelCategory, AIModelSettings } from '@/shared/types';
-import { delay } from '@/shared/utils/timing';
+import type { AIModel, ModelProvider, ModelCategory, AIModelSettings } from '@/common/types';
+import { delay } from '@/common/utils/timing';
 
 export interface UseModelReturn {
   // 模型列表

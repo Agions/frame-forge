@@ -16,7 +16,7 @@
  * setXxx 调用不变.
  */
 
-import type { CompositionProject, AnimationKeyframe } from '@/shared/types';
+import type { CompositionProject, AnimationKeyframe } from '@/common/types';
 
 // ─── 状态类型 ──────────────────────────────────────────────────────────────
 
@@ -85,7 +85,7 @@ export function compositionStudioReducer(
 
 // ─── Setter 工厂 ───────────────────────────────────────────────────────────
 
-import { createFieldUpdater, type FieldUpdater as Updater } from '@/shared/utils/reducer-helpers';
+import { createFieldUpdater, type FieldUpdater as Updater } from '@/common/utils/reducer-helpers';
 
 // ─── 10 setter wrap ────────────────────────────────────────────────────────
 

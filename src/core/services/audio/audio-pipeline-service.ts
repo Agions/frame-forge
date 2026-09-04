@@ -4,7 +4,7 @@
 
 import { ttsService, DEFAULT_TTS_CONFIG, TTS_VOICES } from '@/core/services/audio/tts-service';
 import { costService } from '@/core/services/project/cost-service';
-import type { StoryAnalysis, TTSConfig } from '@/shared/types';
+import type { StoryAnalysis, TTSConfig } from '@/common/types';
 
 export interface DialogueLine {
   id: string;

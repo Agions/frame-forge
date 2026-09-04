@@ -1,7 +1,7 @@
 import { Video, Star, Flame, Cpu } from 'lucide-react';
 import React from 'react';
 
-import type { ProjectData } from '@/shared/types';
+import type { ProjectData } from '@/common/types';
 
 interface StatsCardsProps {
   projects: ProjectData[];

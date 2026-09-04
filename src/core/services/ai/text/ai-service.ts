@@ -20,7 +20,7 @@ import { mockStrategy } from '@/core/ai/providers';
 import { getModelById } from '@/core/config/models-config';
 import { LLM_MODELS, DEFAULT_LLM_MODEL, MODEL_RECOMMENDATIONS } from '@/core/constants';
 import { logger } from '@/core/utils/logger';
-import type { Script } from '@/shared/types';
+import type { Script } from '@/common/types';
 
 import { batchGenerate } from './ai-batch';
 import { buildAICacheKey, withAIResponseCache } from './ai-cache';

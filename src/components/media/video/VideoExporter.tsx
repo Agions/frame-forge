@@ -2,22 +2,22 @@ import { Download, Video, Settings, CheckCircle } from 'lucide-react';
 import { useState, useCallback } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { Alert, AlertDescription } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { Progress } from '@/shared/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/shared/components/ui/radio-group';
+import { Alert, AlertDescription } from '@/common/components/ui/alert';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
+import { Label } from '@/common/components/ui/label';
+import { Progress } from '@/common/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/common/components/ui/radio-group';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Separator } from '@/shared/components/ui/separator';
-import { toast } from '@/shared/components/ui/toast';
+} from '@/common/components/ui/select';
+import { Separator } from '@/common/components/ui/separator';
+import { toast } from '@/common/components/ui/toast';
 import {
   EXPORT_FORMATS,
   RESOLUTIONS,
@@ -28,7 +28,7 @@ import {
   type Resolution,
   type FrameRate,
   type QualityPreset,
-} from '@/shared/constants/media-presets';
+} from '@/common/constants/media-presets';
 
 export type { ExportFormat, Resolution, FrameRate, QualityPreset };
 
@@ -55,10 +55,10 @@ interface VideoExporterProps {
   initialSettings?: Partial<ExportSettings>;
 }
 
-import type { ExportSettings as _ExportSettings } from '@/shared/types/composition';
+import type { ExportSettings as _ExportSettings } from '@/common/types/composition';
 
 /**
- * Canonical ExportSettings — re-exported from @/shared/types/composition.
+ * Canonical ExportSettings — re-exported from @/common/types/composition.
  * Local strict-typed aliases (ExportFormat/Resolution/FrameRate) still apply.
  */
 

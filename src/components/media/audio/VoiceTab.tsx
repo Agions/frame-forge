@@ -4,12 +4,12 @@
 
 import { Upload, PlayCircle, PauseCircle, MicOff } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import Empty from '@/shared/components/ui/empty';
-import { Slider } from '@/shared/components/ui/slider';
-import { Space } from '@/shared/components/ui/space';
-import { Tag } from '@/shared/components/ui/tag';
-import { formatTime } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import Empty from '@/common/components/ui/empty';
+import { Slider } from '@/common/components/ui/slider';
+import { Space } from '@/common/components/ui/space';
+import { Tag } from '@/common/components/ui/tag';
+import { formatTime } from '@/common/utils';
 
 import type { VoiceTrack } from './types/audio-entities';
 

@@ -8,7 +8,7 @@ import {
   getStoryboardService,
 } from '@/core/services/storyboard-service';
 import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import type { StoryboardFrame } from '@/common/types/storyboard';
 
 // Mock uuid
 jest.mock('uuid', () => ({

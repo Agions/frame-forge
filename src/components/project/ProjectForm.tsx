@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form';
 
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { Textarea } from '@/shared/components/ui/textarea';
-import { toast } from '@/shared/components/ui/toast';
-import type { ProjectData } from '@/shared/types';
-import { cn } from '@/shared/utils/class-names';
+import { Button } from '@/common/components/ui/button';
+import { Input } from '@/common/components/ui/input';
+import { Label } from '@/common/components/ui/label';
+import { Textarea } from '@/common/components/ui/textarea';
+import { toast } from '@/common/components/ui/toast';
+import type { ProjectData } from '@/common/types';
+import { cn } from '@/common/utils/class-names';
 
 export interface ProjectFormProps {
   initialValues?: Partial<ProjectData>;

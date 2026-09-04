@@ -7,7 +7,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { useProjectLoader } from '@/pages/project-edit/hooks/useProjectLoader';
-import { useProjectStore } from '@/shared/stores/project-store';
+import { useProjectStore } from '@/common/stores/project-store';
 
 describe('Project Loader & Existing Project Entry Verification Suite', () => {
   beforeEach(() => {

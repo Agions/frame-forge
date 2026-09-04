@@ -3,7 +3,7 @@
  * 显示步骤指示器，允许点击跳转
  */
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 export interface StepItem {
   key: string;

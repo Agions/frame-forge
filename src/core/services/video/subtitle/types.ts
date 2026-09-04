@@ -5,10 +5,10 @@
  * 多个子模块（exporters / parsers / generators）共享，避免循环依赖。
  */
 
-import type { ScriptSegment } from '@/shared/types';
-import type { SubtitleFormat } from '@/shared/types/video-composition-types';
+import type { ScriptSegment } from '@/common/types';
+import type { SubtitleFormat } from '@/common/types/video-composition-types';
 
-/** @deprecated Use @/shared/types/video-composition-types */
+/** @deprecated Use @/common/types/video-composition-types */
 export type { SubtitleFormat };
 
 /** 字幕样式 */

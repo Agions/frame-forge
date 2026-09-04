@@ -12,16 +12,16 @@ import {
 } from 'lucide-react';
 import React, { memo, useMemo } from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Divider } from '@/shared/components/ui/divider';
-import Empty from '@/shared/components/ui/empty';
-import { Flex } from '@/shared/components/ui/flex';
-import { Row, Col } from '@/shared/components/ui/grid';
-import { InputNumber } from '@/shared/components/ui/input-number';
-import { Modal } from '@/shared/components/ui/modal';
-import { SelectItem, AntDSelect as Select } from '@/shared/components/ui/select';
-import { Space } from '@/shared/components/ui/space';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { Divider } from '@/common/components/ui/divider';
+import Empty from '@/common/components/ui/empty';
+import { Flex } from '@/common/components/ui/flex';
+import { Row, Col } from '@/common/components/ui/grid';
+import { InputNumber } from '@/common/components/ui/input-number';
+import { Modal } from '@/common/components/ui/modal';
+import { SelectItem, AntDSelect as Select } from '@/common/components/ui/select';
+import { Space } from '@/common/components/ui/space';
 import {
   Table,
   TableHeader,
@@ -29,22 +29,22 @@ import {
   TableHead,
   TableRow,
   TableCell,
-} from '@/shared/components/ui/table';
-import { Tag } from '@/shared/components/ui/tag';
-import { Timeline, TimelineItem } from '@/shared/components/ui/timeline';
+} from '@/common/components/ui/table';
+import { Tag } from '@/common/components/ui/tag';
+import { Timeline, TimelineItem } from '@/common/components/ui/timeline';
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
-} from '@/shared/components/ui/tooltip';
-import { Text } from '@/shared/components/ui/typography';
+} from '@/common/components/ui/tooltip';
+import { Text } from '@/common/components/ui/typography';
 import type {
   StoryboardFrame,
   CompositionProject,
   FrameAnimation,
   AnimationKeyframe,
-} from '@/shared/types';
+} from '@/common/types';
 
 import FrameEditForm from './FrameEditForm';
 import GlobalSettingsForm from './GlobalSettingsForm';

@@ -10,12 +10,12 @@
 
 import { Volume2, Headphones, Music, Settings } from 'lucide-react';
 
-import { Card } from '@/shared/components/ui/card';
-import { Slider } from '@/shared/components/ui/slider';
-import { Space } from '@/shared/components/ui/space';
-import { Tabs } from '@/shared/components/ui/tabs';
-import { Tag } from '@/shared/components/ui/tag';
-import { Tooltip } from '@/shared/components/ui/tooltip';
+import { Card } from '@/common/components/ui/card';
+import { Slider } from '@/common/components/ui/slider';
+import { Space } from '@/common/components/ui/space';
+import { Tabs } from '@/common/components/ui/tabs';
+import { Tag } from '@/common/components/ui/tag';
+import { Tooltip } from '@/common/components/ui/tooltip';
 
 import styles from './AudioEditor.module.less';
 import { useAudioEditor } from './hooks/useAudioEditor';

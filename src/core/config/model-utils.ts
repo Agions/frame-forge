@@ -1,7 +1,7 @@
 /**
  * 模型查询工具函数
  */
-import type { AIModel, ModelProvider, ModelCategory } from '@/shared/types';
+import type { AIModel, ModelProvider, ModelCategory } from '@/common/types';
 
 import { AI_MODELS } from './model-catalog';
 

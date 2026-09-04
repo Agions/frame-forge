@@ -1,7 +1,7 @@
 import { X } from 'lucide-react';
 import * as React from 'react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 export interface InputProps extends Omit<
   React.ComponentProps<'input'>,

@@ -5,7 +5,7 @@ import type {
   StoryboardVersion,
   VersionDiffSummary,
 } from '@/core/services/domain/collaboration-service';
-import type { StoryboardFrame } from '@/shared/types';
+import type { StoryboardFrame } from '@/common/types';
 
 export interface StoryboardState {
   frames: StoryboardFrame[];

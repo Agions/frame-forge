@@ -15,7 +15,7 @@
  *   (text, config, signal) → AsyncGenerator<TTSStreamChunk>
  */
 
-import type { TTSProvider, TTSConfig, TTSResponse } from '@/shared/types';
+import type { TTSProvider, TTSConfig, TTSResponse } from '@/common/types';
 
 import { synthesizeEdge } from './tts-providers/edge';
 import {

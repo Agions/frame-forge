@@ -10,7 +10,7 @@ import type {
   CameraMotion,
   CompositionProject,
   TransitionConfig,
-} from '@/shared/types';
+} from '@/common/types';
 
 /** Composition 服务构造选项 */
 export interface CompositionServiceOptions {
@@ -114,4 +114,4 @@ export type {
   CompositionProject,
   FrameAnimation,
   TransitionConfig,
-} from '@/shared/types';
+} from '@/common/types';

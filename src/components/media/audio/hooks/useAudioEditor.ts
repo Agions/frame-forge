@@ -17,8 +17,8 @@ import { open } from '@tauri-apps/plugin-dialog';
 import { useReducer, useRef, useEffect, useMemo, useCallback } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { message } from '@/shared/components/ui/message';
-import { generateId } from '@/shared/utils';
+import { message } from '@/common/components/ui/message';
+import { generateId } from '@/common/utils';
 
 import {
   AUDIO_FILE_EXTENSIONS,

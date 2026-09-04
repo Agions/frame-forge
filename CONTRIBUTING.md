@@ -38,7 +38,7 @@ infrastructure（平台桥接：tauri-bridge/queue/telemetry）
 
 ## 核心架构原则
 
-- **依赖方向唯一性**：`app → pages → components/features → core/services → core → shared → types`，禁止反向依赖
+- **依赖方向唯一性**：`app → pages → components/features → core/services → core → common → types`，禁止反向依赖
 - **Rust 后端是第一公民**：FFmpeg/文件 I/O/窗口/快捷键/配置全在 Rust，JS/TS 仅做 UI
 - **领域驱动分层**：`core/services/` 按 ai/video/audio/pipeline/project/domain 划分
 - **Barrel 导出规范**：`index.ts` 仅 `export { }`，禁止混入逻辑
@@ -232,12 +232,12 @@ export const exampleService = ExampleService.getInstance();
 
 ### 添加新状态
 
-1. 在 `src/shared/stores/` 创建 store 文件
+1. 在 `src/common/stores/` 创建 store 文件
 2. 使用 Zustand 的 persist 中间件
 3. 配置防抖存储以优化性能
 
 ```typescript
-// src/shared/stores/example.store.ts
+// src/common/stores/example.store.ts
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -262,13 +262,13 @@ export const useExampleStore = create<ExampleState>()(
 
 ### 添加新组件
 
-1. UI 基元组件放入 `src/shared/components/ui/`（PascalCase.tsx 命名）
+1. UI 基元组件放入 `src/common/components/ui/`（PascalCase.tsx 命名）
 2. Feature 业务组件放入对应 `src/features/<feature>/components/`
 3. 通过 `cn()` 工具合并 className
 
 ```typescript
-// src/shared/components/ui/example.tsx
-import { cn } from '@/shared/utils/class-names';
+// src/common/components/ui/example.tsx
+import { cn } from '@/common/utils/class-names';
 
 interface ExampleProps {
   className?: string;

@@ -14,8 +14,8 @@ import { runWhenIdle } from '@/core/utils/idle';
 import { logger } from '@/core/utils/logger';
 import { tauriService } from '@/infrastructure/tauri-bridge/commands';
 import HomePage from '@/pages/home/HomePage';
-import { AppLayout } from '@/shared/components/layout';
-import { notify } from '@/shared/components/ui/toast';
+import { AppLayout } from '@/common/components/layout';
+import { notify } from '@/common/components/ui/toast';
 
 const importers = getPageImporters();
 // 懒加载次要页面组件

@@ -8,12 +8,12 @@
 
 import React, { useState } from 'react';
 
-import { Divider } from '@/shared/components/ui/divider';
-import { Row, Col } from '@/shared/components/ui/grid';
-import { InputNumber } from '@/shared/components/ui/input-number';
-import { SelectItem, AntDSelect as Select } from '@/shared/components/ui/select';
-import { Slider } from '@/shared/components/ui/slider';
-import type { TransitionConfig, TransitionEffect } from '@/shared/types';
+import { Divider } from '@/common/components/ui/divider';
+import { Row, Col } from '@/common/components/ui/grid';
+import { InputNumber } from '@/common/components/ui/input-number';
+import { SelectItem, AntDSelect as Select } from '@/common/components/ui/select';
+import { Slider } from '@/common/components/ui/slider';
+import type { TransitionConfig, TransitionEffect } from '@/common/types';
 
 interface GlobalSettingsFormProps {
   initialValues: {

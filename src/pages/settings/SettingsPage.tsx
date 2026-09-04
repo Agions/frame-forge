@@ -12,9 +12,9 @@ import React, { useState } from 'react';
 
 import { verifyModelApiKey } from '@/core/config/model-providers';
 import { tauriService } from '@/infrastructure/tauri-bridge/commands';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { toast } from '@/shared/components/ui/toast';
+import { Button } from '@/common/components/ui/button';
+import { Input } from '@/common/components/ui/input';
+import { toast } from '@/common/components/ui/toast';
 
 /**
  * 各家只保留最新 2 款旗舰模型，涵盖文字、图像、视频与语音四大全套 API Key 配置

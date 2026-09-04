@@ -4,13 +4,13 @@
 
 import { Upload, Trash2, PlayCircle, PauseCircle } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import Empty from '@/shared/components/ui/empty';
-import { message } from '@/shared/components/ui/message';
-import { Slider } from '@/shared/components/ui/slider';
-import { Space } from '@/shared/components/ui/space';
-import { Tag } from '@/shared/components/ui/tag';
-import { PRESET_SFX_LIST } from '@/shared/constants/media-presets';
+import { Button } from '@/common/components/ui/button';
+import Empty from '@/common/components/ui/empty';
+import { message } from '@/common/components/ui/message';
+import { Slider } from '@/common/components/ui/slider';
+import { Space } from '@/common/components/ui/space';
+import { Tag } from '@/common/components/ui/tag';
+import { PRESET_SFX_LIST } from '@/common/constants/media-presets';
 
 import type { SoundEffect } from './types/audio-entities';
 

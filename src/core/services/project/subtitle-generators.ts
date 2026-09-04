@@ -5,7 +5,7 @@
  * 与 video/subtitle/* 下的同名生成器独立 —— 此处专门用于"从分镜数据导出"。
  */
 
-import { formatTime } from '@/shared/utils';
+import { formatTime } from '@/common/utils';
 
 import type { StoryboardData } from './export-types';
 

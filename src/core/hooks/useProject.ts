@@ -9,7 +9,7 @@ import { useReducer, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { STORAGE_KEYS } from '@/core/constants/app-config';
-import type { ProjectData, VideoInfo, Script, ProjectSettings, TaskStatus } from '@/shared/types';
+import type { ProjectData, VideoInfo, Script, ProjectSettings, TaskStatus } from '@/common/types';
 
 import {
   projectReducer,

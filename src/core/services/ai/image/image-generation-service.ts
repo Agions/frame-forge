@@ -23,7 +23,7 @@ export { generateVideoWithSeedance } from './image-generation/providers/seedance
 import axios from 'axios';
 
 import { logger } from '@/core/utils/logger';
-import { retryRequest } from '@/shared/utils';
+import { retryRequest } from '@/common/utils';
 
 import { generateWithKling, generateVideoWithKling } from './image-generation/providers/kling';
 import { generateVideoWithSeedance } from './image-generation/providers/seedance';

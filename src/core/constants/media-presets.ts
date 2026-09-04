@@ -1,1 +1,1 @@
-export * from '@/shared/constants/media-presets';
+export * from '@/common/constants/media-presets';

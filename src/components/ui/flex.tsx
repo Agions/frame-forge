@@ -3,7 +3,7 @@
  * 替代重复的 Tailwind flex 类组合
  */
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 type GapSize = 'sm' | 'md' | 'lg';
 

@@ -26,7 +26,7 @@
  */
 
 import { logger } from '@/core/utils/logger';
-import { getErrorMessage, retryRequest } from '@/shared/utils';
+import { getErrorMessage, retryRequest } from '@/common/utils';
 
 
 export class ServiceError extends Error {
@@ -289,4 +289,4 @@ export abstract class BaseAIService<TParams, TResult> {
 }
 
 
-export type { RetryOptions } from '@/shared/utils';
+export type { RetryOptions } from '@/common/utils';

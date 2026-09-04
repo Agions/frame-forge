@@ -3,8 +3,8 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useProject } from '@/core/hooks/useProject';
-import { Button } from '@/shared/components/ui/button';
-import { toast } from '@/shared/components/ui/toast';
+import { Button } from '@/common/components/ui/button';
+import { toast } from '@/common/components/ui/toast';
 import type { RoleType } from '@novella/core';
 
 import { StepContentSwitcher } from './components/StepContentSwitcher';

@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 
 import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
 import { secureStorage } from '@/core/services/project/secure-storage-service';
-import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
-import { toast } from '@/shared/components/ui/toast';
+import ModelConfigGuardModal from '@/common/components/model/ModelConfigGuardModal';
+import { toast } from '@/common/components/ui/toast';
 import { RoleType, WorkflowEngine } from '@novella/core';
 import { StatusBadge } from '@novella/ui';
 

@@ -1,5 +1,5 @@
-import { Slider } from '@/shared/components/ui/slider';
-import { Text } from '@/shared/components/ui/typography';
+import { Slider } from '@/common/components/ui/slider';
+import { Text } from '@/common/components/ui/typography';
 
 interface OptionSliderProps {
   label: string;

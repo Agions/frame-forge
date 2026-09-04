@@ -14,7 +14,7 @@
  */
 
 import { logger } from '@/core/utils/logger';
-import { retryRequest } from '@/shared/utils';
+import { retryRequest } from '@/common/utils';
 
 import { isNetworkError } from '../image-generation-service';
 

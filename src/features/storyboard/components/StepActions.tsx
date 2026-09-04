@@ -11,8 +11,8 @@
  *  - hides a button entirely when its handler is omitted
  */
 
-import { Button } from '@/shared/components/ui/button';
-import { cn } from '@/shared/utils/class-names';
+import { Button } from '@/common/components/ui/button';
+import { cn } from '@/common/utils/class-names';
 
 export interface StepActionsProps {
   /** Prev-button handler. When omitted the prev button is hidden. */

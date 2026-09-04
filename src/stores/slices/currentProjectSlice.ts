@@ -6,7 +6,7 @@
  * 改为精确的 CurrentProjectSliceFields + ProjectData | null 联合。
  */
 
-import type { ProjectData } from '@/shared/types';
+import type { ProjectData } from '@/common/types';
 
 type CurrentProjectSliceFields = {
   currentProject: ProjectData | null;

@@ -5,7 +5,7 @@
  * 所有函数都是纯函数（无 IO、无状态）。
  */
 
-import { formatTime } from '@/shared/utils';
+import { formatTime } from '@/common/utils';
 
 import type { SubtitleStyle, SubtitleTrack } from './types';
 

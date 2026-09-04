@@ -1,10 +1,10 @@
 import { PlayCircle, PauseCircle, Volume2, Maximize, Minimize2 } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Slider } from '@/shared/components/ui/slider';
-import { Tooltip } from '@/shared/components/ui/tooltip';
-import { formatTime } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import { Slider } from '@/common/components/ui/slider';
+import { Tooltip } from '@/common/components/ui/tooltip';
+import { formatTime } from '@/common/utils';
 
 import styles from './VideoPlayer.module.less';
 

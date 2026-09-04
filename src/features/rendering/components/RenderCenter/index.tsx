@@ -5,17 +5,17 @@ import {
   type FrameRenderJob,
   type RenderLog,
 } from '@/core/services/project/render-queue-service';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Progress } from '@/shared/components/ui/progress';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Progress } from '@/common/components/ui/progress';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
+} from '@/common/components/ui/select';
 import {
   Table,
   TableBody,
@@ -23,8 +23,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/components/ui/table';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+} from '@/common/components/ui/table';
+import type { StoryboardFrame } from '@/common/types/storyboard';
 
 import styles from './index.module.less';
 

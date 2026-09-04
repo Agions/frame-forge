@@ -6,9 +6,9 @@
 import { Download } from 'lucide-react';
 import React, { Suspense } from 'react';
 
-import CostDashboard from '@/shared/components/business/CostDashboard';
-import { Button } from '@/shared/components/ui/button';
-import { Spin } from '@/shared/components/ui/spin';
+import CostDashboard from '@/common/components/business/CostDashboard';
+import { Button } from '@/common/components/ui/button';
+import { Spin } from '@/common/components/ui/spin';
 
 export interface CostPanelProps {
   projectId: string | undefined;

@@ -7,7 +7,7 @@
 
 import type { LucideIcon } from 'lucide-react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 export interface StepDefinition {
   key: string;

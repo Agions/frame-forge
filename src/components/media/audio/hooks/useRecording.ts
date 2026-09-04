@@ -5,9 +5,9 @@
 
 import { useCallback, useRef } from 'react';
 
-import { message } from '@/shared/components/ui/message';
-import type { VoiceTrack } from '@/shared/types/audio';
-import { formatTime } from '@/shared/utils';
+import { message } from '@/common/components/ui/message';
+import type { VoiceTrack } from '@/common/types/audio';
+import { formatTime } from '@/common/utils';
 
 interface UseRecordingOptions {
   setRecordingTime: (updater: (prev: number) => number) => void;

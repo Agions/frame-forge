@@ -18,13 +18,13 @@ import {
 import React, { useState, useTransition } from 'react';
 
 import { scriptImportService, tauriService } from '@/core/services';
-import { Loading } from '@/shared/components/ui';
-import { Alert, AlertDescription } from '@/shared/components/ui/alert';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { toast } from '@/shared/components/ui/toast';
-import type { ScriptChapter, ScriptSource, ScriptValidationResult } from '@/shared/types';
-import { handleAsyncError } from '@/shared/utils/async';
+import { Loading } from '@/common/components/ui';
+import { Alert, AlertDescription } from '@/common/components/ui/alert';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { toast } from '@/common/components/ui/toast';
+import type { ScriptChapter, ScriptSource, ScriptValidationResult } from '@/common/types';
+import { handleAsyncError } from '@/common/utils/async';
 
 import styles from './NovelImporter.module.less';
 

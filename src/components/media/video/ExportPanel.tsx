@@ -3,13 +3,13 @@ import { Download, FileText, FileType, Globe } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/shared/components/ui/radio-group';
-import { toast } from '@/shared/components/ui/toast';
-import { Tooltip } from '@/shared/components/ui/tooltip';
-import type { Script } from '@/shared/types';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/common/components/ui/radio-group';
+import { toast } from '@/common/components/ui/toast';
+import { Tooltip } from '@/common/components/ui/tooltip';
+import type { Script } from '@/common/types';
 
 import styles from './ExportPanel.module.less';
 

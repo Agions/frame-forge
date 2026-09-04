@@ -4,27 +4,27 @@
  */
 import { AlignLeft, AlignCenter, AlignRight, Copy, Plus, Trash2 } from 'lucide-react';
 
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Slider } from '@/shared/components/ui/slider';
-import { Textarea } from '@/shared/components/ui/textarea';
+} from '@/common/components/ui/select';
+import { Slider } from '@/common/components/ui/slider';
+import { Textarea } from '@/common/components/ui/textarea';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/shared/components/ui/tooltip';
-import { Text } from '@/shared/components/ui/typography';
-import { formatTime } from '@/shared/utils';
+} from '@/common/components/ui/tooltip';
+import { Text } from '@/common/components/ui/typography';
+import { formatTime } from '@/common/utils';
 
 import { useSubtitleEditor } from './hooks/useSubtitleEditor';
 import styles from './SubtitleEditor.module.less';

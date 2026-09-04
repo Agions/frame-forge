@@ -23,9 +23,9 @@ export interface EvaluationCaseResult {
   pacing: number; // 0-100
 }
 
-import type { EvaluationScores } from '@/shared/types/project';
+import type { EvaluationScores } from '@/common/types/project';
 
-/** @deprecated Use @/shared/types/project. Re-exported for backward compat. */
+/** @deprecated Use @/common/types/project. Re-exported for backward compat. */
 export type { EvaluationScores };
 
 export interface EvaluationItemReport {

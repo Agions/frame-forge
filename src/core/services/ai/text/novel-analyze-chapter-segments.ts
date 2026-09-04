@@ -19,7 +19,7 @@ import {
   extractTimePeriod,
   CHAPTER_PATTERNS,
 } from '@/core/services/ai/text/novel-helpers';
-import type { Chapter } from '@/shared/types';
+import type { Chapter } from '@/common/types';
 
 import type { ResolvedAnalyzeConfig } from './novel-analyze-config';
 

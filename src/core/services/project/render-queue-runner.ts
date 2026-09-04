@@ -8,7 +8,7 @@
 
 import { imageGenerationService } from '@/core/services/ai/image/image-generation-service';
 import { costService } from '@/core/services/project/cost-service';
-import { delay } from '@/shared/utils/timing';
+import { delay } from '@/common/utils/timing';
 
 import { createLog, pushLog } from './render-queue-logger';
 import {

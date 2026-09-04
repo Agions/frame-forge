@@ -88,7 +88,7 @@ export function aiAssistantReducer(
 
 // ─── Setter 工厂 ───────────────────────────────────────────────────────────
 
-import { createFieldUpdater, type FieldUpdater as Updater } from '@/shared/utils/reducer-helpers';
+import { createFieldUpdater, type FieldUpdater as Updater } from '@/common/utils/reducer-helpers';
 
 // ─── 18 setter wrap ────────────────────────────────────────────────────────
 

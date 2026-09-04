@@ -4,8 +4,8 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { cn } from '@/shared/utils/class-names';
+import { Button } from '@/common/components/ui/button';
+import { cn } from '@/common/utils/class-names';
 
 interface StepActionsProps {
   onPrev?: () => void;

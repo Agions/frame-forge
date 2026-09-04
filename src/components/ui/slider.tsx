@@ -1,7 +1,7 @@
 import * as SliderPrimitive from '@radix-ui/react-slider';
 import * as React from 'react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 // AntD-compatible Slider: accepts value as number | number[], onValueChange returns number | number[]
 interface AntDSliderProps {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 // ListItem with generic props
 interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {

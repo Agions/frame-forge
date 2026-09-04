@@ -8,11 +8,11 @@ import React, { useState } from 'react';
 
 import { hasAnyConfiguredModelProvider } from '@/core/config/model-providers';
 import { useProject } from '@/core/hooks/useProject';
-import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
+import ModelConfigGuardModal from '@/common/components/model/ModelConfigGuardModal';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { toast } from '@/common/components/ui/toast';
 
 import { useStepAnalysisContext } from '../context/selectors';
 

@@ -13,10 +13,10 @@ import {
   Settings,
 } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Progress } from '@/shared/components/ui/progress';
-import { Separator } from '@/shared/components/ui/separator';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip';
+import { Button } from '@/common/components/ui/button';
+import { Progress } from '@/common/components/ui/progress';
+import { Separator } from '@/common/components/ui/separator';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/common/components/ui/tooltip';
 import { theme } from '@/styles/theme';
 
 import styles from './AIFeaturePanel.module.less';

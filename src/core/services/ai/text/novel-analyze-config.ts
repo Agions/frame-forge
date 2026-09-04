@@ -5,7 +5,7 @@
  * 单一职责：把 AnalyzeConfig 各种 undefined 兜底为默认值。
  */
 
-import type { AnalyzeConfig } from '@/shared/types';
+import type { AnalyzeConfig } from '@/common/types';
 
 /** 完整（无 optional）配置类型 */
 export type ResolvedAnalyzeConfig = Required<AnalyzeConfig>;

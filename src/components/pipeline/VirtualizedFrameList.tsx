@@ -2,9 +2,9 @@ import { Trash2 } from 'lucide-react';
 import { memo, useCallback } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import type { StoryboardFrame } from '@/common/types/storyboard';
 
 import styles from './StoryboardEditor.module.less';
 

@@ -10,7 +10,7 @@
  */
 
 import { aiService } from '@/core/services/ai/text/ai-service';
-import type { VideoAnalysis, VideoInfo } from '@/shared/types';
+import type { VideoAnalysis, VideoInfo } from '@/common/types';
 
 import {
   DEFAULT_ANALYSIS_CONFIG,

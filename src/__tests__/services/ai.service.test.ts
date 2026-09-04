@@ -3,7 +3,7 @@
  */
 
 import { aiService } from '@/core/services/ai/text/ai-service';
-import type { AIModel, AIModelSettings } from '@/shared/types';
+import type { AIModel, AIModelSettings } from '@/common/types';
 
 // Mock 配置
 const mockModel: AIModel = {

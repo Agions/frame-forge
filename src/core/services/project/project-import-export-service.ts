@@ -13,7 +13,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { STORAGE_KEYS } from '@/core/constants/app-config';
-import type { ProjectData } from '@/shared/types';
+import type { ProjectData } from '@/common/types';
 
 import {
   appendBackupRecord,

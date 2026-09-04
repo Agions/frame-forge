@@ -1,18 +1,18 @@
 import { Type, Volume2, Image, Save, Download } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/common/components/ui/button';
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Separator } from '@/shared/components/ui/separator';
-import { Slider } from '@/shared/components/ui/slider';
-import { Switch } from '@/shared/components/ui/switch';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/shared/components/ui/tabs';
-import { Textarea } from '@/shared/components/ui/textarea';
+} from '@/common/components/ui/select';
+import { Separator } from '@/common/components/ui/separator';
+import { Slider } from '@/common/components/ui/slider';
+import { Switch } from '@/common/components/ui/switch';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/common/components/ui/tabs';
+import { Textarea } from '@/common/components/ui/textarea';
 
 import styles from './PropertyPanel.module.less';
 

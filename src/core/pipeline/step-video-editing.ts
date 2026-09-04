@@ -11,8 +11,8 @@
 
 import { logger } from '@/core/utils/logger';
 import { tauriService } from '@/infrastructure/tauri-bridge/commands';
-import { RESOLUTION_1080P } from '@/shared/constants/media-presets';
-import { delay, PROCESSING_DELAY_MS, isTauri } from '@/shared/utils';
+import { RESOLUTION_1080P } from '@/common/constants/media-presets';
+import { delay, PROCESSING_DELAY_MS, isTauri } from '@/common/utils';
 
 import { BasePipelineStep } from './base-pipeline-step';
 import { PipelineStepId, QualityGateDecision } from './pipeline-types';

@@ -5,11 +5,11 @@ import { useState } from 'react';
 
 import { tauriService } from '@/core/services';
 import { logger } from '@/core/utils/logger';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
-import { VideoMetadata } from '@/shared/types';
-import { formatDurationShort } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { toast } from '@/common/components/ui/toast';
+import { VideoMetadata } from '@/common/types';
+import { formatDurationShort } from '@/common/utils';
 
 import styles from './VideoSelector.module.less';
 

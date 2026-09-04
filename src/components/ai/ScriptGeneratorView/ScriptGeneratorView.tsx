@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import type { ScriptImportMetadata } from '@/features/storyboard/components/NovelImporter';
 import NovelImporter from '@/features/storyboard/components/NovelImporter';
-import { Alert } from '@/shared/components/ui/alert';
-import { Card } from '@/shared/components/ui/card';
-import { Space } from '@/shared/components/ui/space';
+import { Alert } from '@/common/components/ui/alert';
+import { Card } from '@/common/components/ui/card';
+import { Space } from '@/common/components/ui/space';
 
 import ScriptGenerator from '../ScriptGenerator/ScriptGenerator';
 

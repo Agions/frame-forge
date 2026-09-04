@@ -12,11 +12,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { AudioEditorPanel } from '@/components/media/audio/AudioEditorPanel';
 import { ExportPanel } from '@/components/project/ExportPanel';
-import { Button } from '@/shared/components/ui/button';
-import Empty from '@/shared/components/ui/empty';
-import { Spin } from '@/shared/components/ui/spin';
-import { Tabs, TabPane } from '@/shared/components/ui/tabs';
-import type { VideoSegment } from '@/shared/types/script';
+import { Button } from '@/common/components/ui/button';
+import Empty from '@/common/components/ui/empty';
+import { Spin } from '@/common/components/ui/spin';
+import { Tabs, TabPane } from '@/common/components/ui/tabs';
+import type { VideoSegment } from '@/common/types/script';
 
 import { useProjectDetail } from './hooks/useProjectDetail';
 

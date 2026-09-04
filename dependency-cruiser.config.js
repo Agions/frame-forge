@@ -48,10 +48,10 @@
       }
     },
     {
-      "name": "no-shared-to-ui-and-core",
-      "comment": "shared/* 禁止导入 core/app/pages（shared 是基座）",
+      "name": "no-common-to-ui-and-core",
+      "comment": "common/* 禁止导入 core/app/pages（common 是基座）",
       "severity": "error",
-      "from": { "path": "^src/shared/", "pathNot": "^src/shared/components/business/" },
+      "from": { "path": "^src/common/", "pathNot": "^src/common/components/business/" },
       "to": {
         "path": [
           "^src/core/",

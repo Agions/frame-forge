@@ -4,14 +4,14 @@
 
 import { Folder, PlayCircle, PauseCircle, Trash2 } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { message } from '@/shared/components/ui/message';
-import { Popconfirm } from '@/shared/components/ui/popconfirm';
-import { Slider } from '@/shared/components/ui/slider';
-import { Tag } from '@/shared/components/ui/tag';
-import { PRESET_BGM_LIST } from '@/shared/constants/media-presets';
-import { formatTime } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { message } from '@/common/components/ui/message';
+import { Popconfirm } from '@/common/components/ui/popconfirm';
+import { Slider } from '@/common/components/ui/slider';
+import { Tag } from '@/common/components/ui/tag';
+import { PRESET_BGM_LIST } from '@/common/constants/media-presets';
+import { formatTime } from '@/common/utils';
 
 import type { BackgroundMusic } from './types/audio-entities';
 

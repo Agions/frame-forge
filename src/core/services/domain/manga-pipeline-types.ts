@@ -10,7 +10,7 @@ import type {
 import type { LipSyncOptions } from '@/core/services/audio/lip-sync-service';
 import type { SubtitleTrack, CompositionOptions } from '@/core/services/video/ffmpeg-wasm-service';
 export { DEFAULT_TTS_CONFIG } from '../audio/tts-types';
-import type { TTSConfig } from '@/shared/types';
+import type { TTSConfig } from '@/common/types';
 
 /** 流水线配置 */
 export interface PipelineConfig {

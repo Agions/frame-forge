@@ -26,7 +26,7 @@
 
 import { scriptAnalyzer } from '@/core/services/ai/text/script-analyzer-service';
 import { sceneAnalyzer } from '@/core/services/video/scene-analyzer-service';
-import type { AnalyzeConfig, AnalyzeResult } from '@/shared/types';
+import type { AnalyzeConfig, AnalyzeResult } from '@/common/types';
 
 import { segmentChapters } from './novel-analyze-chapter-segments';
 import { resolveAnalyzeConfig, type ResolvedAnalyzeConfig } from './novel-analyze-config';

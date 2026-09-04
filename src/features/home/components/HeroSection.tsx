@@ -12,15 +12,15 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
-import { Button } from '@/shared/components/ui/button';
+import CreateProjectModal from '@/common/components/project/CreateProjectModal';
+import { Button } from '@/common/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@/shared/components/ui/dialog';
+} from '@/common/components/ui/dialog';
 
 const SAMPLE_SCRIPTS = [
   {

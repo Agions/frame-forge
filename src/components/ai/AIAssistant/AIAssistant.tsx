@@ -22,26 +22,26 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import { Avatar } from '@/shared/components/ui/avatar';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { Avatar } from '@/common/components/ui/avatar';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Switch } from '@/shared/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { Textarea } from '@/shared/components/ui/textarea';
+} from '@/common/components/ui/select';
+import { Switch } from '@/common/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/common/components/ui/tabs';
+import { Textarea } from '@/common/components/ui/textarea';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/shared/components/ui/tooltip';
-import { Text, Title, Paragraph } from '@/shared/components/ui/typography';
+} from '@/common/components/ui/tooltip';
+import { Text, Title, Paragraph } from '@/common/components/ui/typography';
 
 import { ProgressStatus } from '../ProgressStatus/ProgressStatus';
 

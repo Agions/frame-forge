@@ -7,7 +7,7 @@
 
 import type { SubtitleTrack } from '@/core/services/video/ffmpeg-wasm-service';
 import { composeVideo, addSubtitles } from '@/core/services/video/video-compositor-service';
-import type { CompositionScene } from '@/shared/types/video-composition-types';
+import type { CompositionScene } from '@/common/types/video-composition-types';
 
 import {
   MAIN_SUBTITLE_TRACK_ID,

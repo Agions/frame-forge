@@ -6,7 +6,7 @@
  * 工厂模式创建独立实例，便于多项目场景共享。
  */
 
-import type { Character } from '@/shared/types';
+import type { Character } from '@/common/types';
 
 /** 订阅者回调签名 */
 export type CharacterListener = (characters: Character[]) => void;

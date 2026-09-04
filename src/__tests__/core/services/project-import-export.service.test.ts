@@ -3,7 +3,7 @@
  */
 
 import { projectImportExportService } from '@/core/services/project/project-import-export-service';
-import type { ProjectData } from '@/shared/types/project';
+import type { ProjectData } from '@/common/types/project';
 
 // Mock UUID - returns unique IDs for each call
 let uuidCounter = 0;

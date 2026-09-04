@@ -200,9 +200,9 @@ export default [
   },
 
   // ===== 架构分层强制：依赖方向规则 =====
-  // shared 业务组件：允许依赖 core 数据（MODEL_PROVIDERS, services 等），但禁止 app/pages
+  // common 业务组件：允许依赖 core 数据（MODEL_PROVIDERS, services 等），但禁止 app/pages
   {
-    files: ['src/shared/components/business/**/*.ts', 'src/shared/components/business/**/*.tsx'],
+    files: ['src/common/components/business/**/*.ts', 'src/common/components/business/**/*.tsx'],
     ignores: ['src/__tests__/**'],
     rules: {
       'no-restricted-imports': [
@@ -211,7 +211,7 @@ export default [
           patterns: [
             {
               group: ['@/app/*', '@/pages/*'],
-              message: 'shared 业务组件不允许导入 app/pages 模块。',
+              message: 'common 业务组件不允许导入 app/pages 模块。',
             },
           ],
         },
@@ -219,10 +219,10 @@ export default [
     },
   },
 
-  // shared stores / utils：不允许导入 core/features/app/pages（business 组件除外）
+  // common stores / utils：不允许导入 core/features/app/pages（business 组件除外）
   {
-    files: ['src/shared/**/*.ts', 'src/shared/**/*.tsx'],
-    ignores: ['src/__tests__/**', 'src/shared/components/business/**', 'src/shared/types/**'],
+    files: ['src/common/**/*.ts', 'src/common/**/*.tsx'],
+    ignores: ['src/__tests__/**', 'src/common/components/business/**', 'src/common/types/**'],
     rules: {
       'no-restricted-imports': [
         'warn',
@@ -230,7 +230,7 @@ export default [
           patterns: [
             {
               group: ['@/core/*', '@/features/*', '@/app/*', '@/pages/*', '@/infrastructure/*'],
-              message: 'shared 层不允许导入 core/features/app/pages/infrastructure 模块。shared 应仅依赖外部库和自身内部模块。',
+              message: 'common 层不允许导入 core/features/app/pages/infrastructure 模块。common 应仅依赖外部库和自身内部模块。',
             },
           ],
         },
@@ -238,7 +238,7 @@ export default [
     },
   },
 
-  // core 层：不允许导入 features / app / pages（可导入 shared）
+  // core 层：不允许导入 features / app / pages（可导入 common）
   {
     files: ['src/core/**/*.ts', 'src/core/**/*.tsx'],
     ignores: ['src/__tests__/**'],
@@ -257,7 +257,7 @@ export default [
     },
   },
 
-  // features 层：不允许导入 app / pages（可导入 core 和 shared）
+  // features 层：不允许导入 app / pages（可导入 core 和 common）
   {
     files: ['src/features/**/*.ts', 'src/features/**/*.tsx'],
     ignores: ['src/__tests__/**'],

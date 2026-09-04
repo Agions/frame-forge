@@ -14,8 +14,8 @@
  * 对外 API 不变: 8 setXxx 名字 + signature 保持兼容, 调用方 0 改动.
  */
 
-import type { VideoInfo, VideoAnalysis, TaskStatus } from '@/shared/types';
-import { createFieldUpdater, type FieldUpdater } from '@/shared/utils/reducer-helpers';
+import type { VideoInfo, VideoAnalysis, TaskStatus } from '@/common/types';
+import { createFieldUpdater, type FieldUpdater } from '@/common/utils/reducer-helpers';
 
 export interface VideoState {
   video: VideoInfo | null;

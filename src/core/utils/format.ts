@@ -1,1 +1,1 @@
-export * from '@/shared/utils/format';
+export * from '@/common/utils/format';

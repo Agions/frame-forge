@@ -7,9 +7,9 @@ import { Video, Sliders, ArrowRight, ArrowLeft } from 'lucide-react';
 import React, { Suspense, lazy } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
 
 import { useStepCompositionContext } from '../context/selectors';
 

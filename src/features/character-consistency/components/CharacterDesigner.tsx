@@ -7,30 +7,30 @@ import { Plus, Trash2, Save, Wand2 } from 'lucide-react';
 import { useState, useCallback, useMemo } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { ScrollArea } from '@/shared/components/ui/scroll-area';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
+import { Label } from '@/common/components/ui/label';
+import { ScrollArea } from '@/common/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Separator } from '@/shared/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
-import { Textarea } from '@/shared/components/ui/textarea';
+} from '@/common/components/ui/select';
+import { Separator } from '@/common/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/common/components/ui/tabs';
+import { Textarea } from '@/common/components/ui/textarea';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/shared/components/ui/tooltip';
-import type { CharacterAppearance, ClothingItem } from '@/shared/types/composition';
-import type { Character } from '@/shared/types/novel';
-import { generateCharId } from '@/shared/utils';
+} from '@/common/components/ui/tooltip';
+import type { CharacterAppearance, ClothingItem } from '@/common/types/composition';
+import type { Character } from '@/common/types/novel';
+import { generateCharId } from '@/common/utils';
 
 import styles from './CharacterDesigner.module.less';
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { AppSettings } from '@/shared/types';
+import type { AppSettings } from '@/common/types';
 
 interface SettingsState {
   settings: AppSettings;

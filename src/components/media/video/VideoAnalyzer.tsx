@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { logger } from '@/core/utils/logger';
-import { Alert } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Progress } from '@/shared/components/ui/progress';
-import { toast } from '@/shared/components/ui/toast';
-import type { VideoAnalysis, KeyMoment, EmotionAnalysis, VideoMetadata } from '@/shared/types';
+import { Alert } from '@/common/components/ui/alert';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { Progress } from '@/common/components/ui/progress';
+import { toast } from '@/common/components/ui/toast';
+import type { VideoAnalysis, KeyMoment, EmotionAnalysis, VideoMetadata } from '@/common/types';
 
 import styles from './VideoAnalyzer.module.less';
 import VideoUploader from './VideoUploader';

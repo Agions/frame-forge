@@ -60,7 +60,7 @@ export function useProjectLoader(projectId: string | undefined): {
     const timer = setTimeout(() => {
       const loadFromStore = () => {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const { useProjectStore } = require('@/shared/stores/project-store');
+        const { useProjectStore } = require('@/common/stores/project-store');
         const storeState = useProjectStore.getState();
         const fallbackProject =
           storeState.projects.find((p: any) => String(p.id) === String(projectId)) ||

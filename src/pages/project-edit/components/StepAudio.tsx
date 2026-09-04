@@ -7,10 +7,10 @@ import { Volume2, Music, ArrowRight, ArrowLeft } from 'lucide-react';
 import React from 'react';
 
 import { useProject } from '@/core/hooks/useProject';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
+import { toast } from '@/common/components/ui/toast';
 import { AudioStudio, AudioTimeline } from '@novella/audio-studio';
 
 function StepAudio() {

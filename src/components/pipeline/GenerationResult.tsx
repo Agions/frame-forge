@@ -2,7 +2,7 @@
  * GenerationResult — 生成结果展示容器
  */
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 interface GenerationResultProps {
   title?: string;

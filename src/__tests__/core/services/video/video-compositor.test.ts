@@ -5,13 +5,13 @@
  *
  * 策略：
  * - 直接测试 videoCompositorService 公共方法
- * - mock @/shared/utils/environment 控制 isTauri
+ * - mock @/common/utils/environment 控制 isTauri
  * - mock @/core/services/video/ffmpeg-wasm-service 控制 FFmpeg 行为
  */
 
 // Mock 环境检测
 const mockIsTauri = jest.fn().mockReturnValue(false);
-jest.mock('@/shared/utils/environment', () => ({
+jest.mock('@/common/utils/environment', () => ({
   isTauri: () => mockIsTauri(),
 }));
 

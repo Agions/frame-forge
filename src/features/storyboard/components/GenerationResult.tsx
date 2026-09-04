@@ -10,8 +10,8 @@
 
 import type { LucideIcon } from 'lucide-react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { cn } from '@/shared/utils/class-names';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { cn } from '@/common/utils/class-names';
 
 export type GenerationResultStatus = 'idle' | 'generating' | 'done' | 'error';
 

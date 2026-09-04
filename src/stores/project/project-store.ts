@@ -7,7 +7,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-import type { ProjectData } from '@/shared/types/project';
+import type { ProjectData } from '@/common/types/project';
 import { createDebouncedStorage } from '@/stores/middlewares/persistWithDebounce';
 import { createCurrentProjectSlice } from '@/stores/slices/currentProjectSlice';
 import { createProjectSlice } from '@/stores/slices/projectSlice';

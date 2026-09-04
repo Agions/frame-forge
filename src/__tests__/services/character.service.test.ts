@@ -3,7 +3,7 @@
  */
 
 import { CharacterService, resetCharacterService } from '@/core/services/domain/character-service';
-import type { CharacterAppearance, Character } from '@/shared/types';
+import type { CharacterAppearance, Character } from '@/common/types';
 
 describe('CharacterService', () => {
   let service: CharacterService;

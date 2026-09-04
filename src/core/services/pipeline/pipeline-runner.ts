@@ -21,7 +21,7 @@
 
 import { CONTEXT_KEY } from '@/core/pipeline/pipeline-types';
 import { logger } from '@/core/utils/logger';
-import { getErrorMessage } from '@/shared/utils';
+import { getErrorMessage } from '@/common/utils';
 
 import type {
   PipelineCallbacks,

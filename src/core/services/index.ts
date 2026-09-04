@@ -183,4 +183,4 @@ export type {
   TTSRequest,
   TTSResponse,
   TTSStreamChunk,
-} from '@/shared/types';
+} from '@/common/types';

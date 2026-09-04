@@ -1,1 +1,1 @@
-export * from '@/shared/utils/reducer-helpers';
+export * from '@/common/utils/reducer-helpers';

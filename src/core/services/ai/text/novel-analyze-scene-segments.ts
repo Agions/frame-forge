@@ -22,7 +22,7 @@ import { aiService } from '@/core/services/ai/text/ai-service';
 import { ruleBasedSegmentation } from '@/core/services/ai/text/novel-helpers';
 import { concurrentLimit } from '@/core/utils/concurrency';
 import { logger } from '@/core/utils/logger';
-import type { Chapter, NovelScene } from '@/shared/types';
+import type { Chapter, NovelScene } from '@/common/types';
 
 import type { ResolvedAnalyzeConfig } from './novel-analyze-config';
 

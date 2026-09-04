@@ -3,13 +3,13 @@ import { useEffect, useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { logger } from '@/core/utils/logger';
-import { EmptyState, Skeleton } from '@/shared/components/ui';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { toast } from '@/shared/components/ui/toast';
-import { useProjectStore } from '@/shared/stores/project-store';
-import type { ProjectData } from '@/shared/types';
-import { formatDate } from '@/shared/utils/format-ui';
+import { EmptyState, Skeleton } from '@/common/components/ui';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent } from '@/common/components/ui/card';
+import { toast } from '@/common/components/ui/toast';
+import { useProjectStore } from '@/common/stores/project-store';
+import type { ProjectData } from '@/common/types';
+import { formatDate } from '@/common/utils/format-ui';
 
 /**
  * 项目列表视图组件

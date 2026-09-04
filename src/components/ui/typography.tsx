@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 interface TextProps extends React.HTMLAttributes<HTMLSpanElement> {
   type?: 'secondary' | 'success' | 'warning' | 'danger' | 'disabled' | undefined;

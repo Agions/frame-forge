@@ -5,7 +5,7 @@
 
 import { StateStorage } from 'zustand/middleware';
 
-import { logger } from '@/shared/utils/logger';
+import { logger } from '@/common/utils/logger';
 
 /**
  * 创建防抖存储

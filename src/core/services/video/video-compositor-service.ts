@@ -12,7 +12,7 @@ import { saveAs } from 'file-saver';
 
 import { loadFFmpeg, ffmpegWasmService, type ProgressCallback } from '@/core/services/video/ffmpeg-wasm-service';
 import { logger } from '@/core/utils/logger';
-import { isTauri } from '@/shared/utils/environment';
+import { isTauri } from '@/common/utils/environment';
 
 
 /** 检测浏览器是否支持 FFmpeg.wasm（需 SharedArrayBuffer） */

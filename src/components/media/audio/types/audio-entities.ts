@@ -1,6 +1,6 @@
 /**
  * 音频编辑模块 - 领域实体类型
- * 单一来源：@/shared/types/audio（本文件保留 re-export 以维持向后兼容）
+ * 单一来源：@/common/types/audio（本文件保留 re-export 以维持向后兼容）
  */
 
 export type {
@@ -8,9 +8,9 @@ export type {
   BackgroundMusic,
   SoundEffect,
   AudioTrackConfig,
-} from '@/shared/types/audio';
+} from '@/common/types/audio';
 
-import { DEFAULT_VOLUME } from '@/shared/constants/media-presets';
+import { DEFAULT_VOLUME } from '@/common/constants/media-presets';
 
 /** 播放状态类型（仅本模块使用） */
 export interface AudioPlaybackState {

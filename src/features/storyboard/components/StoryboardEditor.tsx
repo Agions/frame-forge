@@ -13,11 +13,11 @@ import {
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { toast } from '@/shared/components/ui/toast';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+import { Button } from '@/common/components/ui/button';
+import { toast } from '@/common/components/ui/toast';
+import type { StoryboardFrame } from '@/common/types/storyboard';
 
-export type { StoryboardFrame } from '@/shared/types/storyboard';
+export type { StoryboardFrame } from '@/common/types/storyboard';
 
 interface StoryboardEditorProps {
   projectId?: string;

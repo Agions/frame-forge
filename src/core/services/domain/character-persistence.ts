@@ -7,7 +7,7 @@
  */
 
 import { logger } from '@/core/utils/logger';
-import type { Character } from '@/shared/types';
+import type { Character } from '@/common/types';
 
 import { buildCharacterStorageKey } from './character-types';
 

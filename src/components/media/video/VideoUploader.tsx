@@ -4,10 +4,10 @@ import { Upload, Video } from 'lucide-react';
 import React, { useState, useRef } from 'react';
 
 import { logger } from '@/core/utils/logger';
-import { Button } from '@/shared/components/ui/button';
-import { Progress } from '@/shared/components/ui/progress';
-import { toast } from '@/shared/components/ui/toast';
-import { delay } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import { Progress } from '@/common/components/ui/progress';
+import { toast } from '@/common/components/ui/toast';
+import { delay } from '@/common/utils';
 
 import styles from './VideoUploader.module.less';
 

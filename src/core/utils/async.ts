@@ -1,1 +1,1 @@
-export * from '@/shared/utils/async';
+export * from '@/common/utils/async';

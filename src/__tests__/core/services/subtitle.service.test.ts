@@ -3,7 +3,7 @@ import {
   DEFAULT_SUBTITLE_STYLE,
   ASS_STYLE_PRESETS,
 } from '@/core/services/video/subtitle-service';
-import type { ScriptSegment } from '@/shared/types';
+import type { ScriptSegment } from '@/common/types';
 
 // Mock aiService
 jest.mock('@/core/services/ai/text/ai-service', () => ({

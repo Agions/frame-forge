@@ -7,7 +7,7 @@ import { STORAGE_KEYS } from '@/core/constants/app-config';
 import type { FrameComment, StoryboardVersion } from '@/core/services/domain/collaboration-service';
 import type { CostRecord, CostStats } from '@/core/services/project/cost-service';
 import type { EvaluationScores } from '@/core/services/project/evaluation-service';
-import { getErrorMessage } from '@/shared/utils';
+import { getErrorMessage } from '@/common/utils';
 
 const REVIEW_EXPORT_ACTIVITY_KEY = STORAGE_KEYS.REVIEW_EXPORT_ACTIVITIES;
 

@@ -6,10 +6,10 @@
 import { Headphones, Music, Volume2 } from 'lucide-react';
 import React from 'react';
 
-import { Card } from '@/shared/components/ui/card';
-import { Row, Col } from '@/shared/components/ui/grid';
-import { Progress } from '@/shared/components/ui/progress';
-import { Slider } from '@/shared/components/ui/slider';
+import { Card } from '@/common/components/ui/card';
+import { Row, Col } from '@/common/components/ui/grid';
+import { Progress } from '@/common/components/ui/progress';
+import { Slider } from '@/common/components/ui/slider';
 
 interface MixPanelProps {
   voiceVolume: number;

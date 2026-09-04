@@ -9,15 +9,15 @@
  * duplication.
  *
  * NOTE: The shared UI controls (Slider, Select, Switch, ColorInput, TextArea)
- * already live in `@/shared/components/ui`. This module supplies only the
+ * already live in `@/common/components/ui`. This module supplies only the
  * *layout* primitives (group, item, row, label) that wire those controls
  * together — it does NOT re-implement controls.
  */
 
 import type { LucideIcon } from 'lucide-react';
 
-import { Switch } from '@/shared/components/ui/switch';
-import { cn } from '@/shared/utils/class-names';
+import { Switch } from '@/common/components/ui/switch';
+import { cn } from '@/common/utils/class-names';
 
 /* ------------------------------------------------------------------ */
 /* Section heading                                                     */

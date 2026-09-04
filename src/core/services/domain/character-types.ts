@@ -7,7 +7,7 @@
  * 共用这套类型 + 字段默认值常量，保持领域模型一致。
  */
 
-import type { Character } from '@/shared/types';
+import type { Character } from '@/common/types';
 
 /** 角色服务构造选项 */
 export interface CharacterServiceOptions {

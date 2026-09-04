@@ -152,9 +152,9 @@ export interface CompositionProject {
  * Canonical definition — VideoExporter re-exports this type.
  */
 export interface ExportSettings {
-  format: import('@/shared/constants/media-presets').ExportFormat;
-  resolution: import('@/shared/constants/media-presets').Resolution;
-  frameRate: import('@/shared/constants/media-presets').FrameRate;
+  format: import('@/common/constants/media-presets').ExportFormat;
+  resolution: import('@/common/constants/media-presets').Resolution;
+  frameRate: import('@/common/constants/media-presets').FrameRate;
   quality: string;
   filename: string;
   [key: string]: unknown;

@@ -19,7 +19,7 @@
 import { Loader2 } from 'lucide-react';
 import React from 'react';
 
-import { cn } from '@/shared/utils/class-names';
+import { cn } from '@/common/utils/class-names';
 
 export interface LoadingStateProps {
   /** Visual mode. Defaults to "spinner". */

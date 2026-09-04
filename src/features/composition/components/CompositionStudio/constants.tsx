@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import { SelectItem } from '@/shared/components/ui/select';
+import { SelectItem } from '@/common/components/ui/select';
 
 export const TRANSITION_OPTIONS = [
   { value: 'none', label: '无' },

@@ -23,9 +23,9 @@
 
 import React from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { cn } from '@/shared/utils/class-names';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { cn } from '@/common/utils/class-names';
 
 export interface StepLayoutProps {
   /** Icon shown beside the title (e.g. a lucide icon node). */

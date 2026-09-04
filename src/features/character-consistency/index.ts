@@ -9,7 +9,7 @@
 
 // ========== 类型定义 ==========
 
-import type { Character } from '@/shared/types';
+import type { Character } from '@/common/types';
 
 /** 角色 DNA 结构化描述 */
 export interface CharacterDNA {

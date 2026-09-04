@@ -1,1 +1,1 @@
-export * from '@/shared/utils/class-names';
+export * from '@/common/utils/class-names';

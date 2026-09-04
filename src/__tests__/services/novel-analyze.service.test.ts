@@ -4,7 +4,7 @@
 
 import { aiService } from '@/core/services/ai/text/ai-service';
 import { novelAnalyzer } from '@/core/services/ai/text/novel-analyze-service';
-import { EmotionType } from '@/shared/types';
+import { EmotionType } from '@/common/types';
 
 // Mock AI 服务
 jest.mock('@/core/services/ai/text/ai-service', () => ({

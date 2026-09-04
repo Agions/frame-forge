@@ -15,7 +15,7 @@ import {
   type CharacterTemplate,
 } from '@/core/data/character-templates';
 import { logger } from '@/core/utils/logger';
-import type { Character, CharacterAppearance } from '@/shared/types';
+import type { Character, CharacterAppearance } from '@/common/types';
 
 /** createFromTemplate 的 overrides 类型（与原类签名完全一致） */
 export type CharacterTemplateOverrides = Partial<

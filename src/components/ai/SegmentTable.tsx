@@ -7,9 +7,9 @@
 import { Edit3, Trash2, Play, Plus } from 'lucide-react';
 
 import styles from '@/features/storyboard/components/ScriptEditor.module.less';
-import { Button } from '@/shared/components/ui/button';
-import type { VideoSegment } from '@/shared/types/script';
-import { formatDurationShort } from '@/shared/utils';
+import { Button } from '@/common/components/ui/button';
+import type { VideoSegment } from '@/common/types/script';
+import { formatDurationShort } from '@/common/utils';
 import { theme } from '@/styles/theme';
 
 const SEGMENT_TYPE_LABELS: Record<string, string> = {

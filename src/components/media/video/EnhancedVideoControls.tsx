@@ -14,16 +14,16 @@ import {
   VolumeX,
 } from 'lucide-react';
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from '@/common/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/shared/components/ui/dropdown-menu';
-import { Slider } from '@/shared/components/ui/slider';
-import { Tooltip } from '@/shared/components/ui/tooltip';
-import { formatTime } from '@/shared/utils';
+} from '@/common/components/ui/dropdown-menu';
+import { Slider } from '@/common/components/ui/slider';
+import { Tooltip } from '@/common/components/ui/tooltip';
+import { formatTime } from '@/common/utils';
 
 import styles from './EnhancedVideoControls.module.less';
 

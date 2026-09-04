@@ -17,12 +17,12 @@ export type {
   ExportProgress,
   ProgressCallback,
   VideoMetadata,
-} from '@/shared/types/video-composition-types';
+} from '@/common/types/video-composition-types';
 
 // Backward compat: ffmpeg internal code used `SubtitleStyle` historically.
 // Render style 与 Editor style 语义统一后, 此处简化为 type alias.
 // 如需 Editor 风格(全 required), 请直接 import from features/subtitle.
-export type { SubtitleRenderStyle as SubtitleStyle } from '@/shared/types/video-composition-types';
+export type { SubtitleRenderStyle as SubtitleStyle } from '@/common/types/video-composition-types';
 
 /**
  * 字幕轨道（FFmpeg 精简版：子项为无 id 的 Subtitle）。
@@ -31,5 +31,5 @@ export type { SubtitleRenderStyle as SubtitleStyle } from '@/shared/types/video-
  */
 export interface SubtitleTrack {
   id: string;
-  subtitles: import('@/shared/types/video-composition-types').Subtitle[];
+  subtitles: import('@/common/types/video-composition-types').Subtitle[];
 }

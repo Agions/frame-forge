@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
 
 interface EnhanceOptionCardProps {
   icon: React.ReactNode;

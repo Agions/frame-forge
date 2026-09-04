@@ -7,9 +7,9 @@ import { useReducer, useCallback, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { captureVideoFrameAsDataURL } from '@/core/utils/video-thumbnail';
-import type { VideoInfo, VideoAnalysis, TaskStatus } from '@/shared/types';
-import { formatDurationShort } from '@/shared/utils';
-import { delay } from '@/shared/utils/timing';
+import type { VideoInfo, VideoAnalysis, TaskStatus } from '@/common/types';
+import { formatDurationShort } from '@/common/utils';
+import { delay } from '@/common/utils/timing';
 
 import { videoReducer, initialVideoState, createVideoSetters } from './useVideoReducer';
 

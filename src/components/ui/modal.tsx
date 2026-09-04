@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/shared/components/ui/dialog';
-import { cn } from '@/shared/utils/class-names';
+} from '@/common/components/ui/dialog';
+import { cn } from '@/common/utils/class-names';
 
 // ============================================================
 // AntD-compatible Modal (wraps shadcn Dialog)

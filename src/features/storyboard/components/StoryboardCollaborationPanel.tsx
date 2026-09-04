@@ -8,22 +8,22 @@ import React, { useState } from 'react';
 
 import type { FrameComment, StoryboardVersion, VersionDiffSummary } from '@/core/services';
 import { collaborationService } from '@/core/services';
-import { Alert, AlertDescription, AlertTitle } from '@/shared/components/ui/alert';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { ScrollArea } from '@/shared/components/ui/scroll-area';
+import { Alert, AlertDescription, AlertTitle } from '@/common/components/ui/alert';
+import { Button } from '@/common/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/common/components/ui/card';
+import { Input } from '@/common/components/ui/input';
+import { Label } from '@/common/components/ui/label';
+import { ScrollArea } from '@/common/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { Separator } from '@/shared/components/ui/separator';
-import { toast } from '@/shared/components/ui/toast';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
+} from '@/common/components/ui/select';
+import { Separator } from '@/common/components/ui/separator';
+import { toast } from '@/common/components/ui/toast';
+import type { StoryboardFrame } from '@/common/types/storyboard';
 
 export interface StoryboardCollaborationPanelProps {
   projectId: string;

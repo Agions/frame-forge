@@ -5,9 +5,9 @@ import type {
   FrameAnimation,
   TransitionConfig,
   TransitionEffect,
-} from '@/shared/types';
-import type { StoryboardFrame } from '@/shared/types/storyboard';
-import { generatePrefixedId } from '@/shared/utils/data';
+} from '@/common/types';
+import type { StoryboardFrame } from '@/common/types/storyboard';
+import { generatePrefixedId } from '@/common/utils/data';
 
 import {
   compositionStudioReducer,

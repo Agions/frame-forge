@@ -22,13 +22,13 @@ import { agentRegistry } from '@/core/services/agent/AgentRegistry';
 import type { BaseAgent } from '@/core/services/agent/BaseAgent';
 import { MasterDirectorAgent } from '@/core/services/agent/MasterDirectorAgent';
 import type { BlackboardData, InputContentType } from '@/core/services/agent/ProjectBlackboard';
-import AgentConfigModal from '@/shared/components/business/AgentConfigModal';
-import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Textarea } from '@/shared/components/ui/textarea';
-import { toast } from '@/shared/components/ui/toast';
-import { useProjectStore } from '@/shared/stores/project-store';
+import AgentConfigModal from '@/common/components/business/AgentConfigModal';
+import ModelConfigGuardModal from '@/common/components/model/ModelConfigGuardModal';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Textarea } from '@/common/components/ui/textarea';
+import { toast } from '@/common/components/ui/toast';
+import { useProjectStore } from '@/common/stores/project-store';
 
 export const MultiAgentStudio: React.FC = () => {
   const navigate = useNavigate();

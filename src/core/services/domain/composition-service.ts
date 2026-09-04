@@ -22,7 +22,7 @@ import type {
   FrameAnimation,
   StoryboardFrame,
   TransitionConfig,
-} from '@/shared/types';
+} from '@/common/types';
 
 import {
   buildFramesFromStoryboard,

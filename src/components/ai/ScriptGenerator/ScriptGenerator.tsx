@@ -19,23 +19,23 @@ import { useState, useCallback, useEffect, lazy } from 'react';
 import { useModel, useModelCost } from '@/core/hooks/useModel';
 import { useProject } from '@/core/hooks/useProject';
 
-const ModelSelector = lazy(() => import('@/shared/components/business/ModelSelector'));
+const ModelSelector = lazy(() => import('@/common/components/business/ModelSelector'));
 
-import { Alert } from '@/shared/components/ui/alert';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card as CardBase } from '@/shared/components/ui/card';
-import { Divider } from '@/shared/components/ui/divider';
-import { Input } from '@/shared/components/ui/input';
-import { Progress } from '@/shared/components/ui/progress';
-import { RadioGroup, Radio, RadioButton } from '@/shared/components/ui/radio-group';
-import { AntDSelect as Select } from '@/shared/components/ui/select';
-import { Space } from '@/shared/components/ui/space';
-import { Tag } from '@/shared/components/ui/tag';
-import { toast } from '@/shared/components/ui/toast';
-import { Text, Title, Paragraph } from '@/shared/components/ui/typography';
-import type { Script, ScriptSegment } from '@/shared/types';
-import { delay } from '@/shared/utils';
+import { Alert } from '@/common/components/ui/alert';
+import { Badge } from '@/common/components/ui/badge';
+import { Button } from '@/common/components/ui/button';
+import { Card as CardBase } from '@/common/components/ui/card';
+import { Divider } from '@/common/components/ui/divider';
+import { Input } from '@/common/components/ui/input';
+import { Progress } from '@/common/components/ui/progress';
+import { RadioGroup, Radio, RadioButton } from '@/common/components/ui/radio-group';
+import { AntDSelect as Select } from '@/common/components/ui/select';
+import { Space } from '@/common/components/ui/space';
+import { Tag } from '@/common/components/ui/tag';
+import { toast } from '@/common/components/ui/toast';
+import { Text, Title, Paragraph } from '@/common/components/ui/typography';
+import type { Script, ScriptSegment } from '@/common/types';
+import { delay } from '@/common/utils';
 
 import styles from './ScriptGenerator.module.less';
 

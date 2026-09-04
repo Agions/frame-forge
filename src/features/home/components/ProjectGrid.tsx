@@ -10,12 +10,12 @@ import {
 import React, { useCallback, memo, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
-import { toast } from '@/shared/components/ui/toast';
-import { useProjectStore } from '@/shared/stores/project-store';
-import type { ProjectData } from '@/shared/types';
+import CreateProjectModal from '@/common/components/project/CreateProjectModal';
+import { Button } from '@/common/components/ui/button';
+import { Input } from '@/common/components/ui/input';
+import { toast } from '@/common/components/ui/toast';
+import { useProjectStore } from '@/common/stores/project-store';
+import type { ProjectData } from '@/common/types';
 
 interface ProjectGridProps {
   projects: ProjectData[];

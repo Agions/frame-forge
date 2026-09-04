@@ -1,1 +1,1 @@
-export * from '@/shared/utils/timing';
+export * from '@/common/utils/timing';

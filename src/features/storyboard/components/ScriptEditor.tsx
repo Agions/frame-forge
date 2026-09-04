@@ -13,26 +13,26 @@ import { ExportMenu } from '@/components/ai/ExportMenu';
 import { SegmentTable } from '@/components/ai/SegmentTable';
 import { tauriService } from '@/core/services';
 import { logger } from '@/core/utils/logger';
-import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
+import { Button } from '@/common/components/ui/button';
+import { Card } from '@/common/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/shared/components/ui/dialog';
-import { Input } from '@/shared/components/ui/input';
+} from '@/common/components/ui/dialog';
+import { Input } from '@/common/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/components/ui/select';
-import { toast } from '@/shared/components/ui/toast';
-import type { VideoSegment } from '@/shared/types/script';
-import { formatDurationShort } from '@/shared/utils';
+} from '@/common/components/ui/select';
+import { toast } from '@/common/components/ui/toast';
+import type { VideoSegment } from '@/common/types/script';
+import { formatDurationShort } from '@/common/utils';
 import { theme } from '@/styles/theme';
 
 import styles from './ScriptEditor.module.less';

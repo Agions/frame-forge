@@ -12,7 +12,7 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 
-import { message } from '@/shared/components/ui/message';
+import { message } from '@/common/components/ui/message';
 
 import { AUDIO_FILE_EXTENSIONS } from '../types/audio-entities';
 

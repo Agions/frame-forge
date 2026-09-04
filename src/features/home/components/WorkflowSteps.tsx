@@ -1,8 +1,8 @@
 import { FileInput, FileText, Layers, User, Mic2, Download } from 'lucide-react';
 import React from 'react';
 
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { useTheme } from '@/shared/context/ThemeContext';
+import { Card, CardContent } from '@/common/components/ui/card';
+import { useTheme } from '@/common/context/ThemeContext';
 
 import styles from './WorkflowSteps.module.less';
 

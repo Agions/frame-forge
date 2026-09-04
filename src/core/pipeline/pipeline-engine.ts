@@ -8,7 +8,7 @@
  */
 import { secureStorage } from '@/core/services/project/secure-storage-service';
 import { logger } from '@/core/utils/logger';
-import { delay } from '@/shared/utils/timing';
+import { delay } from '@/common/utils/timing';
 
 import type {
   PipelineEngineEventHandler,

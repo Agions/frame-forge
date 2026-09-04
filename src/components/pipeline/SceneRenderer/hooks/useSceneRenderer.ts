@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 
-import { generatePrefixedId } from '@/shared/utils';
+import { generatePrefixedId } from '@/common/utils';
 
 import { SCENE_TYPE_OPTIONS, ATMOSPHERE_OPTIONS } from '../constants';
 import { Scene, SceneProp, SceneRendererHook, SceneRendererProps } from '../types';

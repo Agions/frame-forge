@@ -1,8 +1,8 @@
 import { convertFileSrc } from '@tauri-apps/api/core';
 import { useState } from 'react';
 
-import { Card } from '@/shared/components/ui/card';
-import type { VideoAnalysis } from '@/shared/types/video';
+import { Card } from '@/common/components/ui/card';
+import type { VideoAnalysis } from '@/common/types/video';
 
 import VideoAnalyzer from './VideoAnalyzer';
 import styles from './VideoEditorView.module.less';
