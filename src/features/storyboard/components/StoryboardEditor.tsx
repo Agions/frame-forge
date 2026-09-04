@@ -1,24 +1,14 @@
 import {
-  Plus,
-  Image as ImageIcon,
-  Video,
   Sparkles,
   Play,
   Pause,
-  Trash2,
-  Volume2,
-  RotateCw,
   Camera,
   Layers,
   Save,
   Compass,
-  Grid,
-  Undo2,
-  Redo2,
   Wand2,
   Loader2,
   UserCheck,
-  Zap,
   Activity,
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
@@ -92,18 +82,21 @@ export const StoryboardEditor: React.FC<StoryboardEditorProps> = ({
   const [tiltVal, setTiltVal] = useState(15);
   const [panVal, setPanVal] = useState(0);
   const [motionType, setMotionType] = useState<'Dynamic' | 'Smooth'>('Dynamic');
-  const [selectedVoice, setSelectedVoice] = useState('小雅 - 元气女配');
+  const [selectedVoice] = useState('小雅 - 元气女配');
 
   const selectedFrame = frames.find((f) => f.id === selectedFrameId) || frames[0] || DEFAULT_DEMO_FRAMES[0];
 
   useEffect(() => {
     if (initialFrames && initialFrames.length > 0) {
-      setFrames(initialFrames);
-      if (!initialFrames.some((f) => f.id === selectedFrameId)) {
-        setSelectedFrameId(initialFrames[0].id);
-      }
+      const timer = setTimeout(() => {
+        setFrames(initialFrames);
+        if (!initialFrames.some((f) => f.id === selectedFrameId)) {
+          setSelectedFrameId(initialFrames[0].id);
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
-  }, [initialFrames]);
+  }, [initialFrames, selectedFrameId]);
 
   const updateSelectedFrame = (updates: Partial<StoryboardFrame>) => {
     const updated = frames.map((f) => (f.id === selectedFrame.id ? { ...f, ...updates } : f));

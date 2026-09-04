@@ -37,7 +37,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
 }) => {
   if (!open) return null;
   const handleOk = () => {
-    (onOk || onConfirm)?.();
+    void (onOk || onConfirm)?.();
     onOpenChange?.(false);
   };
   const handleCancel = () => {

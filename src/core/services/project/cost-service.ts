@@ -405,7 +405,7 @@ class CostService {
   };
 
   constructor() {
-    this.loadFromStorage();
+    void this.loadFromStorage();
   }
 
   // ── 记录入口 ──
@@ -532,7 +532,7 @@ class CostService {
   private notifyListeners(): void {
     const stats = this.getStats();
     this.listeners.forEach((listener) => listener(stats));
-    this.saveToStorage();
+    void this.saveToStorage();
   }
 
   private notifyAlertListeners(alert: CostAlert): void {

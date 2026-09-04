@@ -63,7 +63,7 @@ export const ModelConfigGuardModal: React.FC<ModelConfigGuardModalProps> = ({
           <Button
             onClick={() => {
               onClose();
-              navigate('/settings');
+              void navigate('/settings');
             }}
             className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-lg shadow-purple-900/30 cursor-pointer"
           >

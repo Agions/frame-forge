@@ -1,10 +1,10 @@
 /**
- * AgentConfigModal.tsx — 用户自定义扩展 Agent 配置与创建 Modal
+ * AgentConfigModal.tsx — 用户自定义扩展 Agent 配置与创建 Modal (Business Component)
  *
  * 允许用户扩展定义自定义 Agent：自定义 Agent 名称、图标、触发阶段、系统 LLM Prompt 与特定黑板规则。
  */
 
-import { Bot, Plus, Sparkles, X, Wand2 } from 'lucide-react';
+import { Bot, Plus } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { agentRegistry } from '@/core/services/agent/AgentRegistry';
@@ -21,7 +21,7 @@ import { Input } from '@/shared/components/ui/input';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { toast } from '@/shared/components/ui/toast';
 
-interface AgentConfigModalProps {
+export interface AgentConfigModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAgentAdded?: () => void;
@@ -45,6 +45,14 @@ export const AgentConfigModal: React.FC<AgentConfigModalProps> = ({
   const [description, setDescription] = useState('');
   const [triggerPhase, setTriggerPhase] = useState<TriggerPhase>('on_script_parsed');
   const [systemPrompt, setSystemPrompt] = useState('');
+
+  const resetForm = () => {
+    setName('');
+    setAvatar('🤖');
+    setDescription('');
+    setTriggerPhase('on_script_parsed');
+    setSystemPrompt('');
+  };
 
   const handleCreateAgent = () => {
     if (!name.trim()) {
@@ -70,14 +78,6 @@ export const AgentConfigModal: React.FC<AgentConfigModalProps> = ({
     onAgentAdded?.();
     onOpenChange(false);
     resetForm();
-  };
-
-  const resetForm = () => {
-    setName('');
-    setAvatar('🤖');
-    setDescription('');
-    setTriggerPhase('on_script_parsed');
-    setSystemPrompt('');
   };
 
   return (
@@ -143,6 +143,13 @@ export const AgentConfigModal: React.FC<AgentConfigModalProps> = ({
                   <div
                     key={ph.key}
                     onClick={() => setTriggerPhase(ph.key)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        setTriggerPhase(ph.key);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
                     className={`p-2.5 rounded-xl border cursor-pointer transition-all ${
                       isSelected
                         ? 'bg-indigo-600/15 border-indigo-500 text-white'

@@ -14,15 +14,10 @@
  */
 
 import {
-  StepImport,
-  StepAnalysis,
-  StepScript,
   StepStoryboard,
   StepCharacter,
-  StepRender,
   StepComposition,
   StepAudio,
-  StepExport,
 } from './index';
 
 export interface StepContentSwitcherProps {

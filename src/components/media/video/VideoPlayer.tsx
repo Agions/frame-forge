@@ -81,7 +81,7 @@ function VideoPlayer({
     if (isPlaying) {
       videoElement.pause();
     } else {
-      videoElement.play();
+      void videoElement.play().catch(() => {});
     }
     setIsPlaying(!isPlaying);
   };
@@ -109,9 +109,9 @@ function VideoPlayer({
     if (!container) return;
 
     if (document.fullscreenElement) {
-      document.exitFullscreen();
+      void document.exitFullscreen().catch(() => {});
     } else {
-      container.requestFullscreen();
+      void container.requestFullscreen().catch(() => {});
     }
   };
 

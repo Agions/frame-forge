@@ -2,8 +2,9 @@
  * App-level Provider — composes all root providers.
  */
 import React, { ReactNode } from 'react'
-import { ThemeProvider } from './ThemeContext'
+
 import { SettingsProvider } from './SettingsContext'
+import { ThemeProvider } from './ThemeContext'
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (

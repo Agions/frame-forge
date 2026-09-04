@@ -3,7 +3,7 @@
  * Cyber Midnight GPU 显卡编解码监视器与批量渲染队列
  */
 
-import { Cpu, Zap, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Cpu, Zap, ArrowRight, ArrowLeft } from 'lucide-react';
 import React, { Suspense, lazy } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';

@@ -94,19 +94,19 @@ function ProjectListView() {
   }, []);
 
   const handleCreateProject = useCallback(() => {
-    navigate('/project/new');
+    void navigate('/project/new');
   }, [navigate]);
 
   const handleEditProject = useCallback(
     (id: string) => {
-      navigate(`/project/${id}/edit`);
+      void navigate(`/project/${id}/edit`);
     },
     [navigate]
   );
 
   const handleOpenProject = useCallback(
     (id: string) => {
-      navigate(`/editor/${id}`);
+      void navigate(`/editor/${id}`);
     },
     [navigate]
   );

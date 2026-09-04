@@ -1,5 +1,4 @@
 import {
-  Video,
   Plus,
   Edit3,
   Trash2,
@@ -7,9 +6,6 @@ import {
   ImageIcon,
   FolderOpen,
   Search,
-  Filter,
-  ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 import React, { useCallback, memo, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +16,6 @@ import { Input } from '@/shared/components/ui/input';
 import { toast } from '@/shared/components/ui/toast';
 import { useProjectStore } from '@/shared/stores/project-store';
 import type { ProjectData } from '@/shared/types';
-import { formatDate } from '@/shared/utils/format-ui';
 
 interface ProjectGridProps {
   projects: ProjectData[];
@@ -148,7 +143,7 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
   const navigate = useNavigate();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<'all' | 'processing' | 'completed'>('all');
+  const [activeFilter] = useState<'all' | 'processing' | 'completed'>('all');
 
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
@@ -171,7 +166,7 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
       if (targetProj && typeof store.setCurrentProject === 'function') {
         store.setCurrentProject(targetProj);
       }
-      navigate(`/project/${id}`);
+      void navigate(`/project/${id}`);
     },
     [navigate]
   );
@@ -184,7 +179,7 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
       if (targetProj && typeof store.setCurrentProject === 'function') {
         store.setCurrentProject(targetProj);
       }
-      navigate(`/project/edit/${id}`);
+      void navigate(`/project/edit/${id}`);
     },
     [navigate]
   );
@@ -197,7 +192,7 @@ function ProjectGrid({ projects, loading, onRefresh }: ProjectGridProps) {
       if (targetProj && typeof store.setCurrentProject === 'function') {
         store.setCurrentProject(targetProj);
       }
-      navigate(`/workflow`, { state: { projectId: id } });
+      void navigate(`/workflow`, { state: { projectId: id } });
     },
     [navigate]
   );

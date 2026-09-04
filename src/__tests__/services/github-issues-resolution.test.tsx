@@ -2,8 +2,8 @@
  * github-issues-resolution.test.tsx — GitHub Issue #47 & #48 漏洞修复单元测试套件
  */
 
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import React from 'react';
 
 import { ThemeProvider } from '@/app/providers/ThemeContext';
 import SettingsPage from '@/pages/settings/SettingsPage';

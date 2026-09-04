@@ -3,11 +3,7 @@ import {
   AlertTriangle,
   CheckCircle2,
   XCircle,
-  MessageSquare,
-  UserCheck,
   Send,
-  RefreshCcw,
-  Sparkles,
 } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -94,6 +90,9 @@ export const AuditReviewPanel: React.FC<AuditReviewPanelProps> = ({
     };
 
     setTickets([newTicket, ...tickets]);
+    if (typeof externalReject === 'function') {
+      externalReject(rejectComment.trim());
+    }
     setRejectComment('');
     setShowRejectForm(false);
     toast.warning(`已向【${roleNameMap[selectedRole]}】下发打回驳回批注工单！`);

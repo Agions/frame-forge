@@ -3,7 +3,7 @@
  * Cyber Midnight 极客镜头切分与运镜/构图 Preset 交互
  */
 
-import { Film, Sparkles, Plus, Trash2, ArrowRight, ArrowLeft, Video, Camera } from 'lucide-react';
+import { Film, Plus, Trash2, ArrowRight, ArrowLeft, Camera } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';

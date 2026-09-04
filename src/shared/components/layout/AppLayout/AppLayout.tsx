@@ -1,11 +1,9 @@
 import {
   Home,
-  Workflow,
   Plus,
   Zap,
   Sun,
   Moon,
-  Laptop,
   Settings,
   RefreshCw,
   HelpCircle,
@@ -13,35 +11,17 @@ import {
   Info,
   X,
   Sparkles,
-  Layers,
-  Film,
-  CheckCircle2,
-  Sliders,
   Clapperboard,
 } from 'lucide-react';
 import React, { PropsWithChildren, useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useTheme } from '@/app/providers/ThemeContext';
 import CreateProjectModal from '@/shared/components/project/CreateProjectModal';
 import { Button } from '@/shared/components/ui/button';
 import { AutoUpdaterModal } from '@/shared/components/updater/AutoUpdaterModal';
+import { useTheme } from '@/shared/context/ThemeContext';
 
 import { AppLayoutProps } from './types';
-
-const STAGES = [
-  { key: 'Draft', label: '① 文本导入' },
-  { key: 'Parse', label: '② 剧本拆解' },
-  { key: 'Board', label: '③ 分镜构建' },
-  { key: 'Audio', label: '④ 音轨合成' },
-  { key: 'Build', label: '⑤ 场景渲染' },
-  { key: 'Final', label: '⑥ 完工导出' },
-];
-
-const NAV_ITEMS = [
-  { key: 'home', path: '/', icon: Home, label: '首页工作台', exact: true },
-  { key: 'workflow', path: '/workflow', icon: Workflow, label: 'AI 漫剧向导', exact: false },
-];
 
 const SOP_STAGES_DOC = [
   {
@@ -76,10 +56,10 @@ const SOP_STAGES_DOC = [
   },
 ];
 
-const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
+const AppLayout = ({ children, header, sidebar, footer: _footer }: AppLayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { theme, setTheme, toggleTheme, isDarkMode } = useTheme();
+  const { toggleTheme, isDarkMode } = useTheme();
 
   // Modals & Menu State
   const [isUpdaterOpen, setIsUpdaterOpen] = useState(false);
@@ -101,19 +81,6 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
   }, []);
 
   const activePath = location.pathname;
-
-  const currentStage = activePath.includes('edit')
-    ? 'Board'
-    : activePath.includes('workflow')
-      ? 'Parse'
-      : activePath.includes('new')
-        ? 'Draft'
-        : 'Draft';
-
-  const isActive = (item: (typeof NAV_ITEMS)[0]) => {
-    if (item.exact) return activePath === item.path;
-    return activePath.startsWith(item.path) && item.path !== '/';
-  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--foreground)] transition-colors duration-300 font-sans selection:bg-cyan-500/30 selection:text-white">
@@ -242,7 +209,7 @@ const AppLayout = ({ children, header, sidebar, footer }: AppLayoutProps) => {
                     className="w-full flex items-center gap-2 px-3 py-2 text-xs rounded-lg hover:bg-[var(--accent)] text-[var(--foreground)] transition-colors cursor-pointer"
                     onClick={() => {
                       setIsHelpMenuOpen(false);
-                      navigate('/docs');
+                      void navigate('/docs');
                     }}
                   >
                     <BookOpen className="w-4 h-4 text-[var(--neon-cyan)]" />

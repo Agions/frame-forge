@@ -3,10 +3,7 @@
  */
 import { useParams } from 'react-router-dom';
 
-import { Card } from '@/components/ui/card';
-import { Row, Col } from '@/components/ui/grid';
 import { Tabs, TabPane } from '@/components/ui/tabs';
-import { Title } from '@/components/ui/typography';
 
 import { useVideoEditor } from './hooks/useVideoEditor';
 import { renderVideoPlayer, renderTimeline } from './VideoEditorPage.player';

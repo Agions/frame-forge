@@ -382,7 +382,7 @@ export function useAudioEditor({
       }
       if (audio) {
         audio.volume = calculateAudioVolume(backgroundMusic.volume, musicVolume, masterVolume);
-        audio.play();
+        void audio.play().catch(() => {});
         setPlayingMusic(true);
       }
     }

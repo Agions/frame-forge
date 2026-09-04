@@ -7,14 +7,16 @@
 
 import { generateImage } from '@/core/services/ai/image/image-generation-service';
 
-import type { StageProgressEmitter } from './manga-pipeline-types';
 import {
   DEFAULT_IMAGE_MODEL,
   PIPELINE_CANCELLED_MESSAGE,
   STAGE_PROGRESS_START,
   STAGE_PROGRESS_WIDTH,
-  type PipelineConfig,
-  type PipelineScene,
+} from './manga-pipeline-types';
+import type {
+  StageProgressEmitter,
+  PipelineConfig,
+  PipelineScene,
 } from './manga-pipeline-types';
 
 /** 抛出"流水线已被取消"错误的统一入口（与原 3 处 if (signal.aborted) throw 字节级一致） */

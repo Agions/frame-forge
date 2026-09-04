@@ -2,8 +2,8 @@
  * project-loader-navigation.test.tsx — 进入已存在工程导航与加载单元测试套件
  */
 
-import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
 import { useProjectLoader } from '@/pages/project-edit/hooks/useProjectLoader';

@@ -101,7 +101,7 @@ export function getOrCreatePlayer(
   }
   if (audio) {
     audio.volume = volume;
-    audio.play();
+    void audio.play().catch(() => {});
     audio.onended = onEnded;
     return audio;
   }

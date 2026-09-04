@@ -289,7 +289,7 @@ export function hasAnyConfiguredModelProvider(): boolean {
         const parsed = JSON.parse(stored);
         if (isValValid(parsed?.apiKey)) return true;
       }
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 
@@ -299,7 +299,7 @@ export function hasAnyConfiguredModelProvider(): boolean {
       if (isValValid(k1)) return true;
       const k2 = localStorage.getItem(`novella_api_key_${p}`) || localStorage.getItem(`${p}_api_key`);
       if (isValValid(k2)) return true;
-    } catch (e) {
+    } catch (_e) {
       // ignore
     }
 

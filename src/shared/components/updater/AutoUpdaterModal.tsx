@@ -3,9 +3,6 @@ import {
   RefreshCw,
   CheckCircle2,
   Sparkles,
-  ShieldCheck,
-  ArrowUpRight,
-  AlertCircle,
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
@@ -57,7 +54,14 @@ export const AutoUpdaterModal: React.FC<{ isOpen: boolean; onClose: () => void }
         return;
       }
 
-      const releaseData = await res.json();
+      interface GithubReleaseResponse {
+        tag_name?: string;
+        body?: string;
+        published_at?: string;
+        html_url?: string;
+      }
+      const rawData: unknown = await res.json();
+      const releaseData = rawData as GithubReleaseResponse;
       const latestTag = (releaseData.tag_name || 'v0.0.1').replace(/^v/, '');
       const currentVer = '0.0.1';
 
@@ -88,9 +92,11 @@ export const AutoUpdaterModal: React.FC<{ isOpen: boolean; onClose: () => void }
   };
 
   useEffect(() => {
-    if (isOpen) {
-      handleCheckUpdate();
-    }
+    if (!isOpen) return;
+    const timer = setTimeout(() => {
+      void handleCheckUpdate();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [isOpen]);
 
   const handleStartUpdate = () => {

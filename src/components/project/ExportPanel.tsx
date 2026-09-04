@@ -1,7 +1,7 @@
 /**
  * 导出面板与质量闸门评估 (与最新 UI 设计稿 100% 对齐)
  */
-import { AlertCircle, CheckCircle2, Play, Film, ShieldCheck, Check } from 'lucide-react';
+import { AlertCircle, Play, Film, ShieldCheck, Check } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
@@ -26,7 +26,7 @@ export interface ExportPanelProps {
 
 export const ExportPanel: React.FC<ExportPanelProps> = ({
   projectId: _projectId,
-  qualityGate,
+  qualityGate: _qualityGate,
   onNavigateToEdit,
 }) => {
   const [format, setFormat] = useState('MP4 高清视频 (H.264)');

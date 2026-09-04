@@ -3,8 +3,8 @@
  */
 
 import { ARRAY_PROJECT_FIELDS, MIN_SUPPORTED_VERSION } from './project-import-export-constants';
-import { parseVersion } from './project-import-export-utils';
 import type { ImportOptions, ValidationResult } from './project-import-export-types';
+import { parseVersion } from './project-import-export-utils';
 
 const FILENAME_SAFE_CHAR_REGEX = /[^a-zA-Z0-9一-龥]/g;
 

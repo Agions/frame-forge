@@ -8,10 +8,9 @@
  */
 
 import { aiService } from '@/core/services/ai/text/ai-service';
+import { DIALOGUE_PATTERNS , generateDefaultPrompt } from '@/core/services/ai/text/novel-helpers';
 import { concurrentLimit } from '@/core/utils/concurrency';
 import { logger } from '@/core/utils/logger';
-import { DIALOGUE_PATTERNS } from '@/core/services/ai/text/novel-helpers';
-import { generateDefaultPrompt } from '@/core/services/ai/text/novel-helpers';
 import type { Character, NovelScene, SceneDescription } from '@/shared/types';
 
 

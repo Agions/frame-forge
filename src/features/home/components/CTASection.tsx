@@ -1,9 +1,9 @@
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { useTheme } from '@/app/providers/ThemeContext';
 import { Button } from '@/shared/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
+import { useTheme } from '@/shared/context/ThemeContext';
 
 import styles from './CTASection.module.less';
 
@@ -16,7 +16,7 @@ const CTASection = () => {
   const { isDarkMode } = useTheme();
 
   const handleCreateProject = () => {
-    navigate('/project/new');
+    void navigate('/project/new');
   };
 
   return (

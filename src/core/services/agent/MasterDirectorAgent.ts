@@ -8,6 +8,7 @@
  */
 
 import { pluginRegistry } from '@/core/plugins/PluginRegistry';
+
 import { agentRegistry } from './AgentRegistry';
 import { BaseAgent } from './BaseAgent';
 import { ProjectBlackboard, type InputContentType } from './ProjectBlackboard';

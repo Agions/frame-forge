@@ -104,7 +104,7 @@ export const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ open, on
       }
 
       onOpenChange(false);
-      navigate('/workflow', {
+      void navigate('/workflow', {
         state: { projectId: createdProject.id || newProjectData.id, isNewProject: true },
       });
     } catch (e) {

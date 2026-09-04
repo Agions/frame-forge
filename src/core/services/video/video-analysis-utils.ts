@@ -7,6 +7,14 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
+import type {
+  EmotionAnalysis,
+  Keyframe,
+  ObjectDetection,
+  VideoAnalysis,
+  VideoInfo,
+  VideoScene,
+} from '@/shared/types';
 import { formatTime } from '@/shared/utils';
 
 import {
@@ -18,14 +26,6 @@ import {
   SCENE_TYPES,
   UNKNOWN_SCENE_DESCRIPTION,
 } from './video-analysis-constants';
-import type {
-  EmotionAnalysis,
-  Keyframe,
-  ObjectDetection,
-  VideoAnalysis,
-  VideoInfo,
-  VideoScene,
-} from '@/shared/types';
 import type { SceneType } from './video-analysis-types';
 
 // ========== Random generators ==========

@@ -98,7 +98,8 @@ export function ProjectEditProvider({
 
   // 动态同步异步加载的项目数据与指定初始步骤 (Step 0 -> Step 3)
   useEffect(() => {
-    if (initialData) {
+    if (!initialData) return;
+    const timer = setTimeout(() => {
       if (initialData.content) {
         setContent(initialData.content);
       }
@@ -111,7 +112,8 @@ export function ProjectEditProvider({
       if (typeof initialData.initialStep === 'number') {
         setCurrentStep(initialData.initialStep);
       }
-    }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [initialData, setCurrentStep]);
 
   // ─── Actions (extracted) ─────────────────────────────────────────────────

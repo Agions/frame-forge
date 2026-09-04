@@ -17,6 +17,7 @@ import {
   SUGGESTION_BUILDERS,
   type VideoAnalysisConfig,
 } from './video-analysis-constants';
+import { generateSummary } from './video-analysis-summary';
 import {
   calculateStats,
   createEmptyAnalysis,
@@ -25,7 +26,6 @@ import {
   analyzeEmotions,
   extractKeyframes,
 } from './video-analysis-utils';
-import { generateSummary } from './video-analysis-summary';
 
 export {
   DEFAULT_ANALYSIS_CONFIG,

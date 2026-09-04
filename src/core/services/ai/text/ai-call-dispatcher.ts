@@ -5,7 +5,7 @@
  * 的逻辑独立出来，便于未来加新 provider 时只动一个文件。
  */
 
-import { providerRegistry, mockStrategy } from '@/core/ai/providers';
+import { providerRegistry } from '@/core/ai/providers';
 import { logger } from '@/core/utils/logger';
 
 import type { AIResponse, AIModel, AIModelSettings, AIRequestConfig } from './ai-service-types';

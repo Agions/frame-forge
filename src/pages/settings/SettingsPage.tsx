@@ -3,15 +3,13 @@ import {
   FolderOpen,
   Bot,
   Check,
-  Zap,
   ImageIcon,
   Film,
   Volume2,
   Save,
 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { useTheme } from '@/app/providers/ThemeContext';
 import { verifyModelApiKey } from '@/core/config/model-providers';
 import { tauriService } from '@/infrastructure/tauri-bridge/commands';
 import { Button } from '@/shared/components/ui/button';
@@ -115,7 +113,6 @@ const TOP_2_LATEST_PROVIDERS = [
 ];
 
 const SettingsPage = () => {
-  const { setTheme, isDarkMode } = useTheme();
   const [workingDir, setWorkingDir] = useState<string>(() => {
     if (typeof window !== 'undefined') {
       const savedDir = localStorage.getItem('novella_working_dir');
@@ -146,7 +143,7 @@ const SettingsPage = () => {
       } else if (Array.isArray(selected) && selected.length > 0) {
         handleSaveWorkingDir(selected[0]);
       }
-    } catch (e) {
+    } catch (_e) {
       toast.info('可通过文本框直接编辑工作目录路径');
     }
   };
@@ -166,12 +163,12 @@ const SettingsPage = () => {
             try {
               const parsed = JSON.parse(s2);
               if (parsed?.apiKey) keyVal = parsed.apiKey;
-            } catch (e) {
+            } catch (_e) {
               keyVal = s2;
             }
           }
           initial[p.id] = keyVal;
-        } catch (e) {
+        } catch (_e) {
           initial[p.id] = '';
         }
       });

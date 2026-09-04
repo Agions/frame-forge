@@ -49,13 +49,16 @@ function CollapseBase({
     return Array.isArray(defaultActiveKey) ? defaultActiveKey : [defaultActiveKey];
   };
 
-  const [activeKeys, setActiveKeys] = React.useState<Set<string>>(new Set(getDefaultActiveKey()));
+  const [internalActiveKeys, setInternalActiveKeys] = React.useState<Set<string>>(
+    () => new Set(getDefaultActiveKey())
+  );
 
-  React.useEffect(() => {
+  const activeKeys = React.useMemo(() => {
     if (activeKey !== undefined) {
-      setActiveKeys(new Set(Array.isArray(activeKey) ? activeKey : [activeKey]));
+      return new Set(Array.isArray(activeKey) ? activeKey : [activeKey]);
     }
-  }, [activeKey]);
+    return internalActiveKeys;
+  }, [activeKey, internalActiveKeys]);
 
   const toggleKey = (key: string) => {
     let newKeys: Set<string>;
@@ -63,10 +66,16 @@ function CollapseBase({
       newKeys = activeKeys.has(key) ? new Set() : new Set([key]);
     } else {
       newKeys = new Set(activeKeys);
-      if (newKeys.has(key)) newKeys.delete(key);
-      else newKeys.add(key);
+      if (newKeys.has(key)) {
+        newKeys.delete(key);
+      } else {
+        newKeys.add(key);
+      }
     }
-    setActiveKeys(newKeys);
+
+    if (activeKey === undefined) {
+      setInternalActiveKeys(newKeys);
+    }
     const result = accordion ? [...newKeys][0] || '' : [...newKeys];
     const emptyResult: string | string[] = Array.isArray(activeKey) ? [] : '';
     onChange?.(newKeys.size === 0 ? emptyResult : (result as string | string[]));

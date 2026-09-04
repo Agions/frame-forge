@@ -2,21 +2,14 @@ import {
   Users,
   Image as ImageIcon,
   Music,
-  Plus,
-  Sparkles,
-  CheckCircle2,
   Lock,
-  Tag,
   Copy,
-  Sliders,
-  FolderOpen,
 } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
 import { toast } from '@/shared/components/ui/toast';
 
 export interface CharacterAsset {
@@ -89,12 +82,11 @@ const DEFAULT_SCENES: SceneAsset[] = [
 
 export const AssetVaultPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'character' | 'scene' | 'audio'>('character');
-  const [characters, setCharacters] = useState<CharacterAsset[]>(DEFAULT_CHARACTERS);
-  const [scenes, setScenes] = useState<SceneAsset[]>(DEFAULT_SCENES);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [characters] = useState<CharacterAsset[]>(DEFAULT_CHARACTERS);
+  const [scenes] = useState<SceneAsset[]>(DEFAULT_SCENES);
 
   const copyPrompt = (text: string) => {
-    navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(text);
     toast.success('Prompt 与 Seed 参数已复制到剪贴板！');
   };
 

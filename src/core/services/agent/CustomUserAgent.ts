@@ -5,8 +5,6 @@
  * 调度中心自动将其接入 Blackboard 协作大盘中。
  */
 
-import { dispatchAIRequest } from '@/core/services/ai/text/ai-call-dispatcher';
-
 import { BaseAgent, type AgentMetadata } from './BaseAgent';
 import type { ProjectBlackboard } from './ProjectBlackboard';
 
@@ -36,7 +34,11 @@ export class CustomUserAgent extends BaseAgent {
     try {
       // 若包含定制 Prompt，可调起系统 LLM Dispatcher 进行自主增强推演
       if (this.config.systemPrompt) {
-        this.log(blackboard, `执行用户自定义 LLM 规则: ${this.config.systemPrompt.slice(0, 50)}...`, 'info');
+        this.log(
+          blackboard,
+          `执行用户自定义 LLM 规则 (${contextPrompt.slice(0, 30)}...): ${this.config.systemPrompt.slice(0, 50)}...`,
+          'info'
+        );
       }
 
       this.log(blackboard, `🎉 [自定义 Agent] ${this.metadata.name} 执行完成。`, 'success');

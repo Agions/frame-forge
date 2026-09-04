@@ -4,17 +4,8 @@
  */
 import {
   ArrowLeft,
-  DollarSign,
-  Download,
   Edit,
-  FileText,
-  Image,
-  PlayCircle,
-  Plus,
   Trash2,
-  User,
-  Volume2,
-  Zap,
 } from 'lucide-react';
 import React, { Suspense, lazy, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -25,7 +16,6 @@ import { Button } from '@/shared/components/ui/button';
 import Empty from '@/shared/components/ui/empty';
 import { Spin } from '@/shared/components/ui/spin';
 import { Tabs, TabPane } from '@/shared/components/ui/tabs';
-import type { Character } from '@/shared/types/novel';
 import type { VideoSegment } from '@/shared/types/script';
 
 import { useProjectDetail } from './hooks/useProjectDetail';

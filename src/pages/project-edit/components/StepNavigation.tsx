@@ -1,13 +1,7 @@
 import {
-  CheckCircle,
-  Download,
-  Edit,
-  FileText,
   Image,
-  PlayCircle,
   User,
   Volume2,
-  Zap,
   PenTool,
   Palette,
   Film,
@@ -22,8 +16,6 @@ import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardMod
 import { toast } from '@/shared/components/ui/toast';
 import { RoleType, WorkflowEngine } from '@novella/core';
 import { StatusBadge } from '@novella/ui';
-
-import { useStepImportContext } from '../context/selectors';
 
 interface StepDefinition {
   key: string;
@@ -77,7 +69,6 @@ export function StepNavigation({
   onRoleChange,
   projectId,
 }: StepNavigationProps) {
-  const { content } = useStepImportContext();
   const [isModelGuardOpen, setIsModelGuardOpen] = useState(false);
 
   const [checkpointStatuses, setCheckpointStatuses] = useState<Map<string, CheckpointStatus>>(

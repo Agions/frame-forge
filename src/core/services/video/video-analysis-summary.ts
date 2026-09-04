@@ -6,8 +6,8 @@
 
 import { aiService } from '@/core/services/ai/text/ai-service';
 import { logger } from '@/core/utils/logger';
-import { formatTime } from '@/shared/utils';
 import type { VideoAnalysis, VideoInfo } from '@/shared/types';
+import { formatTime } from '@/shared/utils';
 
 import { groupObjectsByCategory } from './video-analysis-utils';
 

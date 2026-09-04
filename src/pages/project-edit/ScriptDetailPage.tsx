@@ -31,38 +31,42 @@ const ScriptDetail = () => {
   useEffect(() => {
     if (!projectId || !scriptId) {
       toast.error('参数错误');
-      navigate('/projects');
+      void navigate('/projects');
       return;
     }
 
-    const currentProject = projects.find((p) => p.id === projectId);
-    if (!currentProject) {
-      toast.error('找不到项目');
-      navigate('/projects');
-      return;
-    }
+    const timer = setTimeout(() => {
+      const currentProject = projects.find((p) => p.id === projectId);
+      if (!currentProject) {
+        toast.error('找不到项目');
+        void navigate('/projects');
+        return;
+      }
 
-    const currentScript = currentProject.scripts?.find((s: Script) => s.id === scriptId);
-    if (!currentScript) {
-      toast.error('找不到脚本');
-      navigate(`/projects/${projectId}`);
-      return;
-    }
+      const currentScript = currentProject.scripts?.find((s: Script) => s.id === scriptId);
+      if (!currentScript) {
+        toast.error('找不到脚本');
+        void navigate(`/projects/${projectId}`);
+        return;
+      }
 
-    setProject(currentProject);
-    setScript(currentScript);
-    // Convert ScriptSegment[] (startTime/endTime) to VideoSegment[] (start/end)
-    const videoSegments: VideoSegment[] = Array.isArray(currentScript.segments)
-      ? currentScript.segments.map((seg) => ({
-          id: seg.id,
-          start: seg.startTime,
-          end: seg.endTime,
-          type: seg.type,
-          content: seg.content,
-        }))
-      : [];
-    setSegments(videoSegments);
-    setLoading(false);
+      setProject(currentProject);
+      setScript(currentScript);
+      // Convert ScriptSegment[] (startTime/endTime) to VideoSegment[] (start/end)
+      const videoSegments: VideoSegment[] = Array.isArray(currentScript.segments)
+        ? currentScript.segments.map((seg) => ({
+            id: seg.id,
+            start: seg.startTime,
+            end: seg.endTime,
+            type: seg.type,
+            content: seg.content,
+          }))
+        : [];
+      setSegments(videoSegments);
+      setLoading(false);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, [projectId, scriptId, projects, navigate]);
 
   const handleSegmentsChange = (newSegments: VideoSegment[]) => {
@@ -152,7 +156,7 @@ const ScriptDetail = () => {
       await tauriService.writeText(updatedProject.id, JSON.stringify(updatedProject));
 
       toast.success('删除成功');
-      navigate(`/projects/${project.id}`);
+      void navigate(`/projects/${project.id}`);
     } catch (error) {
       logger.error('删除脚本失败:', error);
       toast.error('删除失败');

@@ -8,14 +8,16 @@
 import { ttsService } from '@/core/services/audio/tts-service';
 
 import { ensureNotAborted } from './manga-pipeline-stage-images';
-import type { StageProgressEmitter } from './manga-pipeline-types';
 import {
   DEFAULT_TTS_CONFIG,
   STAGE_PROGRESS_START,
   STAGE_PROGRESS_WIDTH,
   TTS_AUDIO_URL_PREFIX,
-  type PipelineConfig,
-  type PipelineScene,
+} from './manga-pipeline-types';
+import type {
+  StageProgressEmitter,
+  PipelineConfig,
+  PipelineScene,
 } from './manga-pipeline-types';
 
 /**

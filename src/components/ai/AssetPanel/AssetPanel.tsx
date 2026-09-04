@@ -11,11 +11,11 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { assetService, Asset } from '@/core/services/project/asset-service';
 import { logger } from '@/core/utils/logger';
 import { EmptyState } from '@/shared/components/ui';
-import { toast } from '@/shared/components/ui/toast';
 import { Button } from '@/shared/components/ui/button';
 import { Dropdown } from '@/shared/components/ui/dropdown';
 import { Input } from '@/shared/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+import { toast } from '@/shared/components/ui/toast';
 import { Upload } from '@/shared/components/ui/upload';
 import { formatDuration, formatSizeMB } from '@/shared/utils';
 import { handleAsyncError } from '@/shared/utils/async';
@@ -46,7 +46,10 @@ function AssetPanel({ projectId }: AssetPanelProps) {
   }, [projectId]);
 
   useEffect(() => {
-    loadAssets();
+    const timer = setTimeout(() => {
+      loadAssets();
+    }, 0);
+    return () => clearTimeout(timer);
   }, [loadAssets]);
 
   // 过滤显示的素材

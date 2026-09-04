@@ -57,7 +57,7 @@ const Upload = ({
           const rcFile: RcFile = Object.assign(file, { uid: crypto.randomUUID() });
           onChange?.({ file: rcFile, fileList: [rcFile] });
           if (beforeUpload) {
-            beforeUpload(file);
+            void beforeUpload(file);
           }
         });
       }

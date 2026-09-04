@@ -9,7 +9,6 @@
  */
 import { useCallback, useEffect, useState } from 'react';
 
-import { toast } from '@/components/ui/toast';
 import type { ProjectData } from '@/core/project/types/project';
 import type { Script, VideoSegment } from '@/core/script/types/script';
 import { collaborationService } from '@/core/services';
@@ -126,38 +125,24 @@ export function useProjectDetail({ projectId }: UseProjectDetailOptions): UsePro
     deleteProject(projectId);
   }, [projectId, deleteProject]);
 
-  // Preload mapping
-  const preloadByTab = {
-    novel: [],
-    'script-edit': [],
-    storyboard: [],
-    character: [],
-    render: [],
-    composition: [],
-    audio: [],
-    cost: [],
-    export: [],
-  } as Record<string, Array<() => Promise<unknown>>>;
-
-  const preloadTabModules = useCallback(
-    (tabKey: string) => {
-      const tasks = preloadByTab[tabKey] || [];
-      tasks.forEach((task) => void task());
-    },
-    [preloadByTab]
-  );
+  const preloadTabModules = useCallback((_tabKey: string) => {
+    // No-op preloader for now
+  }, []);
 
   // ─── Effects ───
 
   // 自动选中第一帧
   useEffect(() => {
-    if (storyboardFrames.length === 0) {
-      setSelectedFrameId(undefined);
-      return;
-    }
-    if (!selectedFrameId || !storyboardFrames.some((frame) => frame.id === selectedFrameId)) {
-      setSelectedFrameId(storyboardFrames[0].id);
-    }
+    const timer = setTimeout(() => {
+      if (storyboardFrames.length === 0) {
+        setSelectedFrameId(undefined);
+        return;
+      }
+      if (!selectedFrameId || !storyboardFrames.some((frame) => frame.id === selectedFrameId)) {
+        setSelectedFrameId(storyboardFrames[0].id);
+      }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [storyboardFrames, selectedFrameId]);
 
   // 从 store 加载项目
@@ -168,33 +153,36 @@ export function useProjectDetail({ projectId }: UseProjectDetailOptions): UsePro
       projects.find((p) => String(p.id) === String(projectId)) ||
       (activeProject && String(activeProject.id) === String(projectId) ? activeProject : null);
 
-    if (targetProject) {
-      setProject(targetProject as ProjectData);
-      if (targetProject.scripts?.length) setActiveScript(targetProject.scripts[0]);
-      if (targetProject.novelMetadata)
-        setNovelMetadata(targetProject.novelMetadata as ScriptImportMetadata);
-      if (
-        Array.isArray(targetProject.storyboardComments) ||
-        Array.isArray(targetProject.storyboardVersions)
-      ) {
-        collaborationService.hydrate(
-          targetProject.id,
-          (targetProject.storyboardComments ?? []) as FrameComment[],
-          (targetProject.storyboardVersions ?? []) as StoryboardVersion[]
-        );
+    const timer = setTimeout(() => {
+      if (targetProject) {
+        setProject(targetProject as ProjectData);
+        if (targetProject.scripts?.length) setActiveScript(targetProject.scripts[0]);
+        if (targetProject.novelMetadata)
+          setNovelMetadata(targetProject.novelMetadata as ScriptImportMetadata);
+        if (
+          Array.isArray(targetProject.storyboardComments) ||
+          Array.isArray(targetProject.storyboardVersions)
+        ) {
+          collaborationService.hydrate(
+            targetProject.id,
+            (targetProject.storyboardComments ?? []) as FrameComment[],
+            (targetProject.storyboardVersions ?? []) as StoryboardVersion[]
+          );
+        }
+      } else {
+        // 提供保底，避免页面挂起为空
+        setProject({
+          id: projectId,
+          name: `漫剧工程 (${projectId.slice(0, 8)})`,
+          description: '自动恢复环境与数据上下文',
+          status: 'processing',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        } as ProjectData);
       }
-    } else {
-      // 提供保底，避免页面挂起为空
-      setProject({
-        id: projectId,
-        name: `漫剧工程 (${projectId.slice(0, 8)})`,
-        description: '自动恢复环境与数据上下文',
-        status: 'processing',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as ProjectData);
-    }
-    setLoading(false);
+      setLoading(false);
+    }, 0);
+    return () => clearTimeout(timer);
   }, [projectId, projects]);
 
   return {

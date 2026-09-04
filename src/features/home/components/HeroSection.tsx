@@ -5,11 +5,8 @@ import {
   Play,
   Sparkles,
   Clapperboard,
-  Users,
   Film,
-  Share2,
   Zap,
-  Bot,
   Activity,
 } from 'lucide-react';
 import React, { useState } from 'react';
@@ -78,7 +75,7 @@ const HeroSection = () => {
 
   const handleSelectSample = (sample: (typeof SAMPLE_SCRIPTS)[0]) => {
     setIsSampleModalOpen(false);
-    navigate('/workflow', { state: { sampleContent: sample.snippet, sampleTitle: sample.title } });
+    void navigate('/workflow', { state: { sampleContent: sample.snippet, sampleTitle: sample.title } });
   };
 
   return (

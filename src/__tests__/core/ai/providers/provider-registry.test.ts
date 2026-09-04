@@ -6,6 +6,7 @@
 
 import type { AIProviderStrategy } from '@/core/ai/providers/base';
 import { providerRegistry } from '@/core/ai/providers/provider-registry';
+
 import type { AIRequestConfig, AIResponse } from '@/types/ai';
 
 // 创建一个 mock strategy 工厂

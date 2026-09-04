@@ -3,11 +3,11 @@
  * (测试真实 Novel 文本解析、角色抽取、分镜 Prompts 组装、音色分配与 Quality Gate 评审)
  */
 
-import { CharacterService } from '@/core/services/domain/character-service';
 import { novelAnalyzer } from '@/core/services/ai/text/novel-analyze-service';
+import { scriptImportService } from '@/core/services/ai/text/script-import-service';
+import { CharacterService } from '@/core/services/domain/character-service';
 import { qualityGateService } from '@/core/services/pipeline/quality-gate-service';
 import { reviewExportService } from '@/core/services/pipeline/review-export-service';
-import { scriptImportService } from '@/core/services/ai/text/script-import-service';
 
 describe('Real Data Pipeline E2E Integration Suite', () => {
   const realNovelContent = `

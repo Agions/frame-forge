@@ -3,7 +3,6 @@
  */
 
 import { aiService } from '@/core/services/ai/text/ai-service';
-import { costService } from '@/core/services/project/cost-service';
 import { novelService } from '@/core/services/ai/text/novel-service';
 import type {
   NovelChapter,
@@ -12,6 +11,7 @@ import type {
   Script,
   Storyboard,
 } from '@/core/services/ai/text/novel-service';
+import { costService } from '@/core/services/project/cost-service';
 
 // Mock AI 服务
 jest.mock('@/core/services/ai/text/ai-service', () => ({

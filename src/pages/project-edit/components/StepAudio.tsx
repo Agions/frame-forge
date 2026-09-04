@@ -4,7 +4,7 @@
  */
 
 import { Volume2, Music, ArrowRight, ArrowLeft } from 'lucide-react';
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 
 import { useProject } from '@/core/hooks/useProject';
 import { Badge } from '@/shared/components/ui/badge';

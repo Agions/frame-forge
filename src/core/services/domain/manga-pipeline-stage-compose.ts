@@ -9,14 +9,16 @@ import type { SubtitleTrack } from '@/core/services/video/ffmpeg-wasm-service';
 import { composeVideo, addSubtitles } from '@/core/services/video/video-compositor-service';
 import type { CompositionScene } from '@/shared/types/video-composition-types';
 
-import type { StageProgressEmitter } from './manga-pipeline-types';
 import {
   MAIN_SUBTITLE_TRACK_ID,
   SCENE_VIDEO_DURATION_SECONDS,
   SCENE_VIDEO_VOLUME,
   STAGE_PROGRESS_START,
-  type PipelineConfig,
-  type PipelineScene,
+} from './manga-pipeline-types';
+import type {
+  StageProgressEmitter,
+  PipelineConfig,
+  PipelineScene,
 } from './manga-pipeline-types';
 
 /**

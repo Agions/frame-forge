@@ -7,21 +7,7 @@
  * @module core/services/domain/manga-pipeline-steps
  */
 
-import type {
-  PipelineConfig,
-  PipelineProgress,
-  PipelineScene,
-  PipelineStage,
-  StageProgressEmitter,
-} from './manga-pipeline-types';
-import { generateSceneImages } from './manga-pipeline-stage-images';
-import { generateSceneAudio } from './manga-pipeline-stage-audio';
-import { applyLipSync } from './manga-pipeline-stage-lipsync';
-import { composePipelineVideo } from './manga-pipeline-stage-compose';
-import {
-  STAGE_PROGRESS_START,
-  STAGE_PROGRESS_WIDTH,
-} from './manga-pipeline-types';
+import { PipelineEngine } from '@/core/pipeline/pipeline-engine';
 import type {
   PipelineStep,
   StepInput,
@@ -30,7 +16,23 @@ import type {
 } from '@/core/pipeline/pipeline-types';
 import { PipelineExecutionMode } from '@/core/pipeline/pipeline-types';
 import { DEFAULT_RETRY_POLICY } from '@/core/pipeline/step-helpers';
-import { PipelineEngine } from '@/core/pipeline/pipeline-engine';
+
+import { generateSceneAudio } from './manga-pipeline-stage-audio';
+import { composePipelineVideo } from './manga-pipeline-stage-compose';
+import { generateSceneImages } from './manga-pipeline-stage-images';
+import { applyLipSync } from './manga-pipeline-stage-lipsync';
+import type {
+  PipelineConfig,
+  PipelineProgress,
+  PipelineScene,
+  PipelineStage,
+  StageProgressEmitter,
+} from './manga-pipeline-types';
+import {
+  STAGE_PROGRESS_START,
+  STAGE_PROGRESS_WIDTH,
+} from './manga-pipeline-types';
+
 
 // ============================================
 // 漫画流水线步骤 ID

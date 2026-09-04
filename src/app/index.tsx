@@ -3,7 +3,7 @@
  * 包含路由、Providers、全局样式、启动依赖检查
  */
 
-import { useEffect, useState, Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, useRouteError } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
@@ -15,7 +15,7 @@ import { logger } from '@/core/utils/logger';
 import { tauriService } from '@/infrastructure/tauri-bridge/commands';
 import HomePage from '@/pages/home/HomePage';
 import { AppLayout } from '@/shared/components/layout';
-import { toast, notify } from '@/shared/components/ui/toast';
+import { notify } from '@/shared/components/ui/toast';
 
 const importers = getPageImporters();
 // 懒加载次要页面组件

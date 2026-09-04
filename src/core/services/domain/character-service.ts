@@ -221,7 +221,7 @@ export class CharacterService {
       this.characters = [...this.characters, ...validCharacters];
       this.commit();
       return validCharacters;
-    } catch (error) {
+    } catch (_error) {
       return [];
     }
   }

@@ -173,7 +173,7 @@ export function useVideoEditor(projectId?: string) {
     if (isPlaying) {
       videoRef.current.pause();
     } else {
-      videoRef.current.play();
+      void videoRef.current.play().catch(() => {});
     }
     setIsPlaying(!isPlaying);
   }, [isPlaying]);

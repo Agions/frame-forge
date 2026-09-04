@@ -3,7 +3,7 @@
  * Master Reference Protocol 一致性注入与 IP-Adapter 生成器
  */
 
-import { ShieldCheck, UserCheck, ArrowRight, ArrowLeft, Lock } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Lock } from 'lucide-react';
 import React, { Suspense, lazy } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';

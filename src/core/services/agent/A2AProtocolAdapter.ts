@@ -7,6 +7,7 @@
  */
 
 import { logger } from '@/core/utils/logger';
+
 import { agentRegistry } from './AgentRegistry';
 
 export type A2AMessageType = 'handshake' | 'query' | 'command' | 'event' | 'response';

@@ -506,3 +506,7 @@ export function initializeCoreTemplates(): void {
     });
   }
 }
+
+import { configureRenderStepHooks } from '@/core/pipeline/step-render';
+configureRenderStepHooks({ assetService: assetLibraryService });
+

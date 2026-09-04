@@ -3,7 +3,7 @@
  * Cyber Midnight Zoom/Pan Keyframe 运镜与转场 Filter 选择
  */
 
-import { Video, Sliders, ArrowRight, ArrowLeft, PlayCircle } from 'lucide-react';
+import { Video, Sliders, ArrowRight, ArrowLeft } from 'lucide-react';
 import React, { Suspense, lazy } from 'react';
 
 import { useProject } from '@/core/hooks/useProject';

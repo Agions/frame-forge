@@ -6,7 +6,6 @@ import { Upload, Undo, Redo, Download, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dropdown } from '@/components/ui/dropdown';
 import { Modal } from '@/components/ui/modal';
-import { Progress } from '@/components/ui/progress';
 import { Text } from '@/components/ui/typography';
 
 import styles from '../VideoEditorPage.module.less';
@@ -55,7 +54,7 @@ function SettingDropdown({
 function ExportProgressModal({
   isExporting,
   exportProgress,
-  exportStatus,
+  exportStatus: _exportStatus,
   outputFormat,
   videoQuality,
 }: {

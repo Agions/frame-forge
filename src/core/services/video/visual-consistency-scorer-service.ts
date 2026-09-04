@@ -19,13 +19,13 @@
 import type { AIProvider } from '@/core/ai/providers/ai-provider-interface';
 
 import { evaluateWithHeuristic } from './visual-consistency-heuristic';
-import { evaluateWithVLM } from './visual-consistency-vlm';
 import {
   DEFAULT_VLM_MODEL,
   createEmptyResult,
   type VisualConsistencyInput,
   type VisualConsistencyResult,
 } from './visual-consistency-types';
+import { evaluateWithVLM } from './visual-consistency-vlm';
 
 // 重导出公共类型，保持 `@/core/services/video/visual-consistency-scorer-service` 一站式导入
 export type {

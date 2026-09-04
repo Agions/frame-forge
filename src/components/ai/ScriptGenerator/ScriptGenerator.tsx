@@ -136,7 +136,7 @@ export function ScriptGenerator({
 
   useEffect(() => {
     let cancelled = false;
-    import('framer-motion').then((mod) => {
+    void import('framer-motion').then((mod) => {
       if (!cancelled) setFramerMotion(mod);
     });
     return () => {

@@ -1,66 +1,27 @@
-import {
-  ArrowLeft,
-  Save,
-  AlertTriangle,
-  Sparkles,
-  Send,
-  Zap,
-  X,
-  Wand2,
-  ChevronDown,
-  ChevronUp,
-} from 'lucide-react';
-import React, { Suspense, useMemo, useState } from 'react';
+import { ArrowLeft, Save } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useProject } from '@/core/hooks/useProject';
-import { AuditReviewPanel } from '@/features/audit/AuditReviewPanel';
-import CostDashboard from '@/features/cost/components/CostDashboard';
-import {
-  HOT_MANGA_TEMPLATES,
-  generateAiCustomTemplate,
-  MangaTemplate,
-} from '@/features/storyboard/constants/manga-templates';
 import { Button } from '@/shared/components/ui/button';
-import { Card } from '@/shared/components/ui/card';
-import { Input } from '@/shared/components/ui/input';
 import { toast } from '@/shared/components/ui/toast';
-import { RoleType, WorkflowStage, AuditReviewRecord, WorkflowEngine } from '@novella/core';
-import { MangaButton } from '@novella/ui';
+import type { RoleType } from '@novella/core';
 
 import { StepContentSwitcher } from './components/StepContentSwitcher';
 import { StepNavigation } from './components/StepNavigation';
 import { ProjectEditProvider } from './context/ProjectEditContext';
-import { useProjectExport } from './hooks/useProjectExport';
 import { useProjectLoader } from './hooks/useProjectLoader';
 
 const ProjectEdit = () => {
   const { projectId } = useParams();
   const navigate = useNavigate();
 
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [selectedGenre, setSelectedGenre] = useState<string>('');
-  const [aiKeyword, setAiKeyword] = useState<string>('');
-  const [showCostModal, setShowCostModal] = useState(false);
-  const [showAuditPanel, setShowAuditPanel] = useState(false);
-
   const [activeRole, setActiveRole] = useState<RoleType>('writer');
-  const [stage, setStage] = useState<WorkflowStage>('Draft');
-  const [auditHistory, setAuditHistory] = useState<AuditReviewRecord[]>([]);
 
-  const { project, error, currentStep, setCurrentStep } = useProject();
-  const { exportPreset, exportSettings } = useProjectExport();
+  const { currentStep, setCurrentStep } = useProject();
   const { data: loaderData } = useProjectLoader(projectId);
 
   const handleBack = () => navigate(-1);
-
-  const handleApplyTemplate = (tpl: MangaTemplate) => {
-    setSelectedGenre(tpl.key);
-    setName(tpl.defaultName);
-    setDescription(tpl.defaultDesc);
-    toast.success(`已应用「${tpl.title}」热门模板！`);
-  };
 
   return (
     <div className="space-y-4">
@@ -78,7 +39,7 @@ const ProjectEdit = () => {
           </Button>
           <div className="h-4 w-[1px] bg-[var(--border)]" />
           <h2 className="text-base font-bold text-[var(--foreground)]">
-            {name || loaderData?.name || 'Novella 视听分镜 Studio 工作台'}
+            {loaderData?.name || 'Novella 视听分镜 Studio 工作台'}
           </h2>
           <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono font-bold">
             Multi-Agent 联通中

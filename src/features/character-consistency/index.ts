@@ -61,16 +61,7 @@ export interface CharacterTemplateOutput {
 
 import { v4 as uuidv4 } from 'uuid';
 
-import type { VisualConsistencyInput, VisualConsistencyResult } from '@/core/services/video/visual-consistency-types';
 
-import { getCharacterService } from '@/core/services/domain/character-service';
-import { createCharacter } from '@/core/services/domain/character-factory';
-import {
-  buildCharacterFromTemplate,
-  listTemplates,
-  validateCharacter,
-} from '@/core/services/domain/character-template';
-import { visualConsistencyScorer } from '@/core/services/video/visual-consistency-scorer-service';
 
 // ========== 角色 DNA 管理 ==========
 
@@ -269,3 +260,16 @@ export const characterConsistencyService = {
 };
 
 export default characterConsistencyService;
+
+import { configureRenderStepHooks } from '@/core/pipeline/step-render';
+import { createCharacter } from '@/core/services/domain/character-factory';
+import { getCharacterService } from '@/core/services/domain/character-service';
+import {
+  buildCharacterFromTemplate,
+  listTemplates,
+  validateCharacter,
+} from '@/core/services/domain/character-template';
+import { visualConsistencyScorer } from '@/core/services/video/visual-consistency-scorer-service';
+import type { VisualConsistencyInput, VisualConsistencyResult } from '@/core/services/video/visual-consistency-types';
+configureRenderStepHooks({ checkBatchConsistency });
+

@@ -7,21 +7,12 @@
 
 import {
   Bot,
-  Sparkles,
   Zap,
   Plus,
-  Play,
-  CheckCircle2,
   FileText,
-  Users,
-  Film,
-  Volume2,
-  Share2,
   Clapperboard,
   Terminal,
   Activity,
-  Layers,
-  Settings,
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +22,7 @@ import { agentRegistry } from '@/core/services/agent/AgentRegistry';
 import type { BaseAgent } from '@/core/services/agent/BaseAgent';
 import { MasterDirectorAgent } from '@/core/services/agent/MasterDirectorAgent';
 import type { BlackboardData, InputContentType } from '@/core/services/agent/ProjectBlackboard';
-import AgentConfigModal from '@/shared/components/agent/AgentConfigModal';
+import AgentConfigModal from '@/shared/components/business/AgentConfigModal';
 import ModelConfigGuardModal from '@/shared/components/model/ModelConfigGuardModal';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
@@ -143,7 +134,7 @@ export const MultiAgentStudio: React.FC = () => {
     const targetProject = store.createProject(projectPayload as any);
     store.setCurrentProject(targetProject);
     toast.success('🎉 已无缝打通多智能体推导数据，直接进入分镜编辑器！');
-    navigate(`/project/edit/${targetProject.id}?step=1`);
+    void navigate(`/project/edit/${targetProject.id}?step=1`);
   };
 
   return (
