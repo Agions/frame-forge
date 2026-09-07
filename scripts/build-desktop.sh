@@ -38,13 +38,18 @@ log_info "[2/4] 编译 Rust 后端 Crates (novella-core, novella-ai, novella-med
 cargo check -p novella-ipc -p novella-ai -p novella-media -p novella-core -p novella-plugin -p novella-updater --offline
 log_success "Rust Crates 编译校验通过 (0 Errors)"
 
-# 3. 前端 Packages & 主应用构建
-log_info "[3/4] 编译前端 Packages & Vite bundle..."
+# 3. 生成安装包使用文档与离线手册 (PDF / Markdown / TXT)
+log_info "[3/5] 生成离线用户手册与安装包配套文档..."
+pnpm run build:docs
+log_success "安装包使用文档编译同步完成"
+
+# 4. 前端 Packages & 主应用构建
+log_info "[4/5] 编译前端 Packages & Vite bundle..."
 pnpm build:check || pnpm build
 log_success "前端应用程序打包完成"
 
-# 4. Tauri v2 桌面原生打包
-log_info "[4/4] 启动 Tauri v2 原生桌面端构建..."
+# 5. Tauri v2 桌面原生打包
+log_info "[5/5] 启动 Tauri v2 原生桌面端构建..."
 pnpm tauri build
 
 BUNDLE_PATH="${ROOT_DIR}/src-tauri/target/release/bundle"

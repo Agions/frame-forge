@@ -16,6 +16,7 @@
     "check": "pnpm exec tsc --noEmit && pnpm run lint",
     "preview": "vite preview",
     "build:desktop": "bash scripts/build-desktop.sh",
+    "build:docs": "node scripts/generate-installer-docs.js",
     "tauri": "tauri",
     "docs": "pnpm run docs:api && ts-node scripts/generate-docs.ts",
     "docs:api": "typedoc --out docs/api src/",

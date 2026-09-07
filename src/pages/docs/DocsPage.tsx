@@ -22,6 +22,7 @@ import {
   UserCheck,
   FileText,
   Settings,
+  Download,
 } from 'lucide-react';
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +48,14 @@ export const DocsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeArticleId, setActiveArticleId] = useState<string>('getting-started');
+
+  const handleOpenManual = () => {
+    window.open('/docs/Novella_User_Manual.pdf', '_blank');
+  };
+
+  const handleOpenQuickStart = () => {
+    window.open('/docs/Novella_Quick_Start.md', '_blank');
+  };
 
   // 完整桌面端内置文档数据 (支持主题色入参)
   const docArticles: DocArticle[] = useMemo(
@@ -693,7 +702,20 @@ export const DocsPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
+            <Button
+              onClick={handleOpenManual}
+              variant="outline"
+              className={
+                isDarkMode
+                  ? 'border-purple-500/40 bg-purple-950/40 hover:bg-purple-900/60 text-purple-200 text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-sm'
+                  : 'border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs px-3.5 py-2 rounded-xl flex items-center gap-2 cursor-pointer shadow-sm'
+              }
+              title="打开出版级离线 PDF 使用手册"
+            >
+              <FileText className="w-4 h-4 text-purple-400" />
+              离线 PDF 说明书
+            </Button>
             <Button
               onClick={() => navigate('/workflow')}
               className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 shadow-lg shadow-purple-900/30 cursor-pointer"
@@ -916,16 +938,39 @@ export const DocsPage: React.FC = () => {
 
             {/* 文章底部 Action Footer */}
             <div
-              className={`mt-8 pt-4 border-t flex items-center justify-between text-xs ${
+              className={`mt-8 pt-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3 text-xs ${
                 isDarkMode ? 'border-slate-800/80 text-slate-400' : 'border-slate-200 text-slate-600'
               }`}
             >
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck
-                  className={`w-4 h-4 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}
-                />
-                Novella AI 桌面官方使用指南
-              </span>
+              <div className="flex items-center gap-4 flex-wrap">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck
+                    className={`w-4 h-4 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}
+                  />
+                  Novella AI 桌面官方使用指南
+                </span>
+                <span className={isDarkMode ? 'text-slate-700' : 'text-slate-300'}>|</span>
+                <button
+                  onClick={handleOpenManual}
+                  className={`flex items-center gap-1 cursor-pointer transition-colors ${
+                    isDarkMode ? 'text-cyan-400 hover:text-cyan-300' : 'text-purple-600 hover:text-purple-800 font-medium'
+                  }`}
+                  title="下载或在浏览器打开出版级 PDF 使用手册"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  下载 PDF 说明书
+                </button>
+                <button
+                  onClick={handleOpenQuickStart}
+                  className={`flex items-center gap-1 cursor-pointer transition-colors ${
+                    isDarkMode ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                  title="打开 Markdown 快速上手指引"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  快速上手 (MD)
+                </button>
+              </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => navigate('/workflow')}
